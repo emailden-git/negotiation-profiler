@@ -289,13 +289,12 @@ const shadowLevels = [
 ];
 
 const styleMeta = {
-  dominator:{label:'Dominator',color:'#DC2626',tw:'text-red-600',bg:'bg-red-600',light:'bg-red-50',border:'border-red-200',barColor:'#DC2626'},
-  integrator:{label:'Integrator',color:'#9333EA',tw:'text-purple-600',bg:'bg-purple-600',light:'bg-purple-50',border:'border-purple-200',barColor:'#9333EA'},
-  yielder:{label:'Yielder',color:'#16A34A',tw:'text-green-600',bg:'bg-green-600',light:'bg-green-50',border:'border-green-200',barColor:'#16A34A'},
-  calculator:{label:'Calculator',color:'#2563EB',tw:'text-blue-600',bg:'bg-blue-600',light:'bg-blue-50',border:'border-blue-200',barColor:'#2563EB'},
+  dominator:{label:'Dominator',color:'#DC2626',tw:'text-white',bg:'bg-red-600',light:'bg-red-600',border:'border-red-600',barColor:'#DC2626'},
+  integrator:{label:'Integrator',color:'#9333EA',tw:'text-white',bg:'bg-purple-600',light:'bg-purple-600',border:'border-purple-600',barColor:'#9333EA'},
+  yielder:{label:'Yielder',color:'#16A34A',tw:'text-white',bg:'bg-green-600',light:'bg-green-600',border:'border-green-600',barColor:'#16A34A'},
+  calculator:{label:'Calculator',color:'#2563EB',tw:'text-white',bg:'bg-blue-600',light:'bg-blue-600',border:'border-blue-600',barColor:'#2563EB'},
 };
 
-const cap = s => s.charAt(0).toUpperCase()+s.slice(1);
 
 function calcResults(answers){
   const sc={dominator:0,integrator:0,yielder:0,calculator:0};
@@ -396,14 +395,14 @@ export default function NegotiationAssessment(){
   if(phase==='intro') return(
     <div className="min-h-screen bg-white text-gray-900 flex items-center justify-center p-4">
       <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} className="max-w-2xl w-full text-center">
-        <h1 className="text-4xl font-bold text-blue-800 mb-2">Negotiation Style Profiler</h1>
-        <p className="text-gray-500 mb-8 text-lg">Discover your negotiation archetype in 20 scenario based questions</p>
-        <div className="grid grid-cols-2 gap-3 mb-6 text-left">
+        <h1 className="text-4xl font-bold text-blue-800 mb-2">Discover Your Negotiation Style</h1>
+        <p className="text-gray-500 mb-8 text-lg">Take the 7 minute assessment</p>
+       <div className="grid grid-cols-2 gap-3 mb-6 text-center max-w-md mx-auto">
           {[
-            {n:'Dominator',d:'Assertive, direct, wins through conviction',c:'border-red-600 bg-red-50',tc:'text-red-600'},
-            {n:'Integrator',d:'Strategic, collaborative, finds mutual wins',c:'border-purple-600 bg-purple-50',tc:'text-purple-600'},
-            {n:'Yielder',d:'Harmonious, relationship focused, peacekeeper',c:'border-green-600 bg-green-50',tc:'text-green-600'},
-            {n:'Calculator',d:'Analytical, patient, evidence driven',c:'border-blue-600 bg-blue-50',tc:'text-blue-600'},
+      {n:'Dominator',d:'',c:'border-red-600 bg-red-600 text-center',tc:'text-white'},
+{n:'Integrator',d:'',c:'border-purple-600 bg-purple-600 text-center',tc:'text-white'},
+{n:'Yielder',d:'',c:'border-green-600 bg-green-600 text-center',tc:'text-white'},
+{n:'Calculator',d:'',c:'border-blue-600 bg-blue-600 text-center',tc:'text-white'},
           ].map(a=>(
             <div key={a.n} className={`border-2 rounded-lg p-4 ${a.c}`}>
               <div className={`font-bold text-lg ${a.tc}`}>{a.n}</div>
@@ -412,13 +411,13 @@ export default function NegotiationAssessment(){
           ))}
         </div>
         <div className="border border-gray-200 rounded-lg p-4 mb-6 bg-gray-50">
-          <p className="text-sm text-gray-500">Plus a <span className="text-gray-800 font-semibold">hidden shadow assessment</span> running in the background to detect deceptive tendencies you might not even know you have.</p>
+          <p className="text-sm text-gray-500"> <span className="text-gray-800 font-semibold">Discover hidden tendencies</span> that work for you and against you</p>
         </div>
         <div className="mb-6">
           <label className="block text-sm text-gray-500 mb-2">Your name (optional)</label>
           <input type="text" value={userName} onChange={e=>setUserName(e.target.value)} placeholder="Enter your name" className="w-64 px-4 py-2 border border-gray-300 rounded-lg text-center text-gray-800 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"/>
         </div>
-        <p className="text-xs text-gray-400 mb-6">Go with your gut. Do not overthink. Your first instinct is your truest answer.</p>
+        <p className="text-xs text-gray-400 mb-6">Don't overthink it. Your first instinct is your truest answer.</p>
         <button onClick={()=>setPhase('quiz')} className="bg-blue-700 hover:bg-blue-800 text-white font-bold px-8 py-3 rounded-lg text-lg transition-colors">
           Begin Assessment <ChevronRight className="inline w-5 h-5 ml-1"/>
         </button>
@@ -553,10 +552,10 @@ export default function NegotiationAssessment(){
 
           <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.3}} className="grid grid-cols-4 gap-3 mb-6">
             {[
-              {k:'dominator',label:'Dominator',c:'border-red-600 text-red-600'},
-              {k:'integrator',label:'Integrator',c:'border-purple-600 text-purple-600'},
-              {k:'yielder',label:'Yielder',c:'border-green-600 text-green-600'},
-              {k:'calculator',label:'Calculator',c:'border-blue-600 text-blue-600'},
+{k:'dominator',label:'Dominator',c:'bg-red-600 text-white border-red-600'},
+{k:'integrator',label:'Integrator',c:'bg-purple-600 text-white border-purple-600'},
+{k:'yielder',label:'Yielder',c:'bg-green-600 text-white border-green-600'},
+{k:'calculator',label:'Calculator',c:'bg-blue-600 text-white border-blue-600'},
             ].map(a=>(
               <div key={a.k} className={`text-center bg-white border-2 rounded-xl p-3 ${a.c}`}>
                 <div className="text-2xl font-bold">{pct(a.k)}%</div>
