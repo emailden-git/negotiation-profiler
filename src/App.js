@@ -407,7 +407,7 @@ if(phase==='intro') return(
           <h1 className="text-5xl font-bold mb-4 leading-tight tracking-tight">
             Discover Your<br/>Negotiation Style
           </h1>
-          <p className="text-blue-200/50 text-lg mb-14">7‑minute assessment</p>
+          <p className="text-blue-200/50 text-lg mb-14">Take the 7‑minute assessment below</p>
 
         <div className="grid grid-cols-4 gap-3 max-w-sm mx-auto mb-14">
   {[
