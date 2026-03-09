@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, ChevronLeft, Download, RotateCcw } from 'lucide-react';
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from 'recharts';
-import './LandingPage.css';
+
 
 const questions = [
   { type:'style', text:"A customer rejects your proposal outright. Your first instinct:", options:[
@@ -394,55 +394,74 @@ export default function NegotiationAssessment(){
   const download=()=>{if(!results)return;const blob=new Blob([genHTML(results,userName)],{type:'text/html'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Negotiation-Profile-'+results.archetype.name.replace(/\s/g,'-')+'.html';a.click();URL.revokeObjectURL(url);};
 
 if(phase==='intro') return(
-    <div className="landing-wrapper">
-      <div className="hero-section">
-        <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}}>
-          <h1 className="hero-title">Discover Your Negotiation Style</h1>
-          <p className="hero-subtitle">Take the 7 minute assessment</p>
+    <div className="min-h-screen flex flex-col">
+      <div className="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white flex-1 flex flex-col items-center justify-center px-6 py-20 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 left-1/4 w-96 h-96 bg-blue-500 rounded-full blur-3xl"/>
+          <div className="absolute bottom-10 right-1/4 w-96 h-96 bg-purple-500 rounded-full blur-3xl"/>
+        </div>
 
-          <div className="styles-grid">
+        <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:0.8}} className="relative z-10 text-center max-w-xl">
+          <p className="text-blue-300/80 text-xs font-semibold tracking-widest uppercase mb-8">The Buckingham Academy</p>
+
+          <h1 className="text-5xl font-bold mb-4 leading-tight tracking-tight">
+            Discover Your<br/>Negotiation Style
+          </h1>
+          <p className="text-blue-200/50 text-lg mb-14">A 7‑minute assessment</p>
+
+         <div className="grid grid-cols-4 gap-3 max-w-sm mx-auto mb-14">
             {[
-              {name:'Dominator', color:'#DC2626'},
-              {name:'Integrator', color:'#9333EA'},
-              {name:'Yielder', color:'#16A34A'},
-              {name:'Calculator', color:'#2563EB'},
+              {n:'Dominator', bg:'bg-red-600'},
+              {n:'Integrator', bg:'bg-purple-600'},
+              {n:'Yielder', bg:'bg-green-600'},
+              {n:'Calculator', bg:'bg-blue-600'},
             ].map(s=>(
-              <div key={s.name} className="style-card" style={{backgroundColor:s.color}}>
-                {s.name}
+              <div key={s.n} className={`${s.bg} text-white rounded-lg py-2.5 text-xs font-semibold tracking-wide shadow-lg`}>
+                {s.n}
               </div>
             ))}
+          </div>
+
+         <div className="flex items-center justify-center gap-6 text-xs text-blue-100/70">
+            <span>20 scenarios</span>
+            <span className="w-1 h-1 bg-blue-100/50 rounded-full"/>
+            <span>4 negotiation styles</span>
+            <span className="w-1 h-1 bg-blue-100/50 rounded-full"/>
+            <span>12 archetypes</span>
           </div>
         </motion.div>
       </div>
 
-      <div className="divider-bar"/>
+      <div className="bg-white px-6 py-14 flex flex-col items-center">
+        <motion.div initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} transition={{delay:0.4}} className="text-center max-w-md w-full">
+          <p className="text-gray-500 text-sm mb-8">
+            <span className="font-bold text-gray-800">Discover hidden tendencies</span>{' '}
+            that work for you, and against you
+          </p>
 
-      <div className="lower-section">
-        <p className="discover-text">
-          <strong>Discover hidden tendencies</strong> that work for you and against you
-        </p>
+          <div className="mb-8">
+            <label className="block text-xs text-gray-400 mb-2 uppercase tracking-widest">Your name (optional)</label>
+            <input
+              type="text"
+              value={userName}
+              onChange={e=>setUserName(e.target.value)}
+              placeholder="Enter your name"
+              className="w-72 px-5 py-3 border border-gray-200 rounded-lg text-center text-gray-700 bg-gray-50 focus:outline-none focus:border-blue-700 focus:ring-2 focus:ring-blue-50 focus:bg-white transition-all text-sm"
+            />
+          </div>
 
-        <label className="name-label">Your name (optional)</label>
-        <input
-          type="text"
-          className="name-input"
-          placeholder="Enter your name"
-          value={userName}
-          onChange={e=>setUserName(e.target.value)}
-        />
+          <p className="text-xs text-gray-400 italic mb-8">Don't overthink it. Your first instinct is your truest answer.</p>
 
-        <p className="instinct-text">
-          Don't overthink it. Your first instinct is your truest answer.
-        </p>
+          <button
+            onClick={()=>setPhase('quiz')}
+            className="bg-gradient-to-r from-blue-800 to-blue-900 hover:from-blue-900 hover:to-slate-900 text-white font-bold px-12 py-4 rounded-xl text-lg transition-all shadow-lg hover:shadow-2xl transform hover:-translate-y-0.5"
+          >
+            Begin Assessment <ChevronRight className="inline w-5 h-5 ml-1"/>
+          </button>
 
-        <button className="cta-button" onClick={()=>setPhase('quiz')}>
-          Begin Assessment <span className="arrow">›</span>
-        </button>
+          <p className="text-xs text-gray-300 mt-12">&copy; 2026 The Buckingham Academy Limited</p>
+        </motion.div>
       </div>
-
-      <footer className="landing-footer">
-        © 2026 The Buckingham Academy Limited
-      </footer>
     </div>
   );
 
