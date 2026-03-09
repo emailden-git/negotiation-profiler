@@ -72,7 +72,7 @@ const questions = [
     {text:"Still focus on getting the best deal right now",map:'dominator'},
   ]},
   { type:'style', text:"A colleague asks for advice before their negotiation. You say:", options:[
-    {text:"Do your homework — know every detail before you walk in",map:'calculator'},
+    {text:"Do your homework, know every detail before you walk in",map:'calculator'},
     {text:"Go in strong and don't back down",map:'dominator'},
     {text:"Be friendly and focus on finding common ground",map:'yielder'},
     {text:"Find out what the other side really needs and get creative",map:'integrator'},
@@ -80,7 +80,7 @@ const questions = [
   { type:'style', text:"You're offered a deal that's good but not great. You:", options:[
     {text:"Reject it and demand better",map:'dominator'},
     {text:"Explore whether small tweaks could work for both sides",map:'integrator'},
-    {text:"Accept it — good enough, don't risk losing it",map:'yielder'},
+    {text:"Accept it, it's good enough, don't risk losing it",map:'yielder'},
     {text:"Ask for time to compare it against your benchmarks",map:'calculator'},
   ]},
   { type:'shadow', text:"You find out the other party is under serious time pressure to close. You:", options:[
@@ -108,21 +108,21 @@ const questions = [
     {text:"Test whether it's truly final by exploring alternatives",map:'integrator'},
   ]},
   { type:'shadow', text:"You got a great deal but the other party looks disappointed. You:", options:[
-    {text:"Not your problem — a deal is a deal",shadow:false},
+    {text:"Think, its not your problem, a deal is a deal",shadow:false},
     {text:"Feel genuinely bad and wonder if you pushed too hard",shadow:false},
-    {text:"Reassure them they got a great deal too — even though you know they didn't",shadow:true},
+    {text:"Reassure them they got a great deal too; even though you know they didn't",shadow:true},
     {text:"Review the facts to check whether the outcome was fair",shadow:false},
   ]},
   { type:'style', text:"Your counterpart is clearly inexperienced. You:", options:[
-    {text:"Negotiate fairly but firmly — you still have goals",map:'integrator'},
-    {text:"Take advantage — their lack of prep isn't your problem",map:'dominator'},
-    {text:"Go easy on them — wouldn't feel right to push hard",map:'yielder'},
+    {text:"Negotiate fairly but firmly because you still have goals",map:'integrator'},
+    {text:"Take advantage because their lack of experience isn't your problem",map:'dominator'},
+    {text:"Go easy on them, it wouldn't feel right to push them hard",map:'yielder'},
     {text:"Stick to your prepared plan regardless of who's across the table",map:'calculator'},
   ]},
   { type:'style', text:"You discover the other party has been dishonest about something. You:", options:[
     {text:"Call them out directly and use it as leverage",map:'dominator'},
     {text:"Raise it calmly and reset on honest terms",map:'integrator'},
-    {text:"Feel betrayed but avoid confrontation",map:'yielder'},
+    {text:"Feel betrayed but keep quiet to avoid confrontation",map:'yielder'},
     {text:"Document it and completely reassess your position",map:'calculator'},
   ]},
 ];
@@ -407,57 +407,61 @@ if(phase==='intro') return(
           <h1 className="text-5xl font-bold mb-4 leading-tight tracking-tight">
             Discover Your<br/>Negotiation Style
           </h1>
-          <p className="text-blue-200/50 text-lg mb-14">A 7‑minute assessment</p>
+          <p className="text-blue-200/50 text-lg mb-14">7‑minute assessment</p>
 
-         <div className="grid grid-cols-4 gap-3 max-w-sm mx-auto mb-14">
-            {[
-              {n:'Dominator', bg:'bg-red-600'},
-              {n:'Integrator', bg:'bg-purple-600'},
-              {n:'Yielder', bg:'bg-green-600'},
-              {n:'Calculator', bg:'bg-blue-600'},
-            ].map(s=>(
-              <div key={s.n} className={`${s.bg} text-white rounded-lg py-2.5 text-xs font-semibold tracking-wide shadow-lg`}>
-                {s.n}
-              </div>
-            ))}
-          </div>
+        <div className="grid grid-cols-4 gap-3 max-w-sm mx-auto mb-14">
+  {[
+    {n:'Dominator', bg:'bg-red-600'},
+    {n:'Integrator', bg:'bg-purple-600'},
+    {n:'Yielder', bg:'bg-green-600'},
+    {n:'Calculator', bg:'bg-blue-600'},
+  ].map(s=>(
+    <div key={s.n} className={`${s.bg} text-white rounded-lg py-2.5 text-xs font-semibold tracking-wide shadow-lg`}>
+      {s.n}
+    </div>
+  ))}
+</div>
 
-         <div className="flex items-center justify-center gap-6 text-xs text-blue-100/70">
-            <span>20 scenarios</span>
-            <span className="w-1 h-1 bg-blue-100/50 rounded-full"/>
-            <span>4 negotiation styles</span>
-            <span className="w-1 h-1 bg-blue-100/50 rounded-full"/>
-            <span>12 archetypes</span>
-          </div>
-        </motion.div>
-      </div>
+<div className="flex items-center justify-center gap-6 text-xs text-blue-100/70">
+  <span>20 questions</span>
+  <span className="w-1 h-1 bg-blue-100/50 rounded-full"/>
+  <span>4 negotiation styles</span>
+  <span className="w-1 h-1 bg-blue-100/50 rounded-full"/>
+  <span>12 archetypes</span>
+</div>
 
-      <div className="bg-white px-6 py-14 flex flex-col items-center">
-        <motion.div initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} transition={{delay:0.4}} className="text-center max-w-md w-full">
-          <p className="text-gray-500 text-sm mb-8">
-            <span className="font-bold text-gray-800">Discover hidden tendencies</span>{' '}
-            that work for you, and against you
-          </p>
+<p className="text-sm text-blue-100/70 mt-6 mb-4">
+  <span className="font-semibold text-white">Discover hidden tendencies</span>{' '}
+  that win or kill deals.
+</p>
 
-          <div className="mb-8">
-            <label className="block text-xs text-gray-400 mb-2 uppercase tracking-widest">Your name (optional)</label>
-            <input
-              type="text"
-              value={userName}
-              onChange={e=>setUserName(e.target.value)}
-              placeholder="Enter your name"
-              className="w-72 px-5 py-3 border border-gray-200 rounded-lg text-center text-gray-700 bg-gray-50 focus:outline-none focus:border-blue-700 focus:ring-2 focus:ring-blue-50 focus:bg-white transition-all text-sm"
-            />
-          </div>
+</motion.div>
+</div>
 
-          <p className="text-xs text-gray-400 italic mb-8">Don't overthink it. Your first instinct is your truest answer.</p>
+<div className="bg-white px-6 py-14 flex flex-col items-center">
+  <motion.div initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} transition={{delay:0.4}} className="text-center max-w-md w-full">
+
+    <div className="mb-8">
+      <label className="block text-xs text-gray-400 mb-2 uppercase tracking-widest">Your name (optional)</label>
+      <input
+        type="text"
+        value={userName}
+        onChange={e=>setUserName(e.target.value)}
+        placeholder="Enter your name"
+        className="w-72 px-5 py-3 border border-gray-200 rounded-lg text-center text-gray-700 bg-gray-50 focus:outline-none focus:border-blue-700 focus:ring-2 focus:ring-blue-50 focus:bg-white transition-all text-sm"
+      />
+    </div>
+
+    
 
           <button
-            onClick={()=>setPhase('quiz')}
-            className="bg-gradient-to-r from-blue-800 to-blue-900 hover:from-blue-900 hover:to-slate-900 text-white font-bold px-12 py-4 rounded-xl text-lg transition-all shadow-lg hover:shadow-2xl transform hover:-translate-y-0.5"
-          >
-            Begin Assessment <ChevronRight className="inline w-5 h-5 ml-1"/>
-          </button>
+  onClick={()=>setPhase('quiz')}
+  className="mb-6 bg-gradient-to-r from-blue-800 to-blue-900 hover:from-blue-900 hover:to-slate-900 text-white font-bold px-12 py-4 rounded-xl text-lg transition-all shadow-lg hover:shadow-2xl transform hover:-translate-y-0.5"
+>
+  Begin Assessment <ChevronRight className="inline w-5 h-5 ml-1"/>
+</button>
+
+ <p className="text-xs text-gray-400 italic mb-8">Don't overthink it. Your first instinct is your truest answer.</p>
 
           <p className="text-xs text-gray-300 mt-12">&copy; 2026 The Buckingham Academy Limited</p>
         </motion.div>
