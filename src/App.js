@@ -12,15 +12,15 @@ const questions = [
     {text:"Step back and review the data before responding",map:'calculator'},
   ]},
   { type:'style', text:"You're about to walk into a tough negotiation. Your first thought:", options:[
-    {text:"I'm going to dominate this conversation",map:'dominator'},
+    {text:"I'm going to get what I want",map:'dominator'},
     {text:"I need to find out what both sides really need",map:'integrator'},
-    {text:"I hope this stays friendly and doesn't get heated",map:'yielder'},
+    {text:"I hope this stays friendly and doesn't get confrontational",map:'yielder'},
     {text:"Let me go through my notes one more time",map:'calculator'},
   ]},
   { type:'style', text:"The other party makes an unexpected demand. You:", options:[
     {text:"Ask for time to assess the full impact",map:'calculator'},
     {text:"Fire back with a bigger counter-demand",map:'dominator'},
-    {text:"Consider giving in to keep things moving",map:'yielder'},
+    {text:"Consider giving it to them to keep things moving",map:'yielder'},
     {text:"Stay calm and ask why that matters to them",map:'integrator'},
   ]},
   { type:'shadow', text:"Your counterpart shares something personal before the meeting. You:", options:[
@@ -31,7 +31,7 @@ const questions = [
   ]},
   { type:'style', text:"You've been negotiating for hours with no progress. You:", options:[
     {text:"Suggest splitting the difference so everyone can move on",map:'yielder'},
-    {text:"Increase the pressure — someone needs to break first",map:'dominator'},
+    {text:"Increase the pressure; someone needs to break first",map:'dominator'},
     {text:"Suggest a creative alternative nobody has considered",map:'integrator'},
     {text:"Summarise everything on the table and look for patterns",map:'calculator'},
   ]},
@@ -44,18 +44,18 @@ const questions = [
   { type:'style', text:"You realise you have significantly more leverage. You:", options:[
     {text:"Note it as a variable but don't change your approach",map:'calculator'},
     {text:"Use it to push for the maximum possible deal",map:'dominator'},
-    {text:"Don't want to use it — feels unfair",map:'yielder'},
+    {text:"Don't want to use it because it feels unfair",map:'yielder'},
     {text:"Use it to steer toward a deal that works long-term for both",map:'integrator'},
   ]},
   { type:'style', text:"Your boss says to get a better price from a supplier you like. You:", options:[
-    {text:"Go in hard — business is business",map:'dominator'},
+    {text:"Go in hard because business is business",map:'dominator'},
     {text:"Explain the situation honestly and work together on a solution",map:'integrator'},
     {text:"Feel awkward and hope they offer a discount first",map:'yielder'},
     {text:"Build a detailed business case with data to justify the request",map:'calculator'},
   ]},
   { type:'shadow', text:"You discover the other party made a calculation error that benefits you. You:", options:[
-    {text:"Point it out immediately — you want a clean deal",shadow:false},
-    {text:"Say nothing — it's their job to check their own numbers",shadow:false},
+    {text:"Point it out immediately, you want a clean deal",shadow:false},
+    {text:"Say nothing because it's their job to check their own numbers",shadow:false},
     {text:"Mention it to build trust and bank goodwill for later",shadow:false},
     {text:"Keep quiet and act surprised if they ever raise it",shadow:true},
   ]},
@@ -84,7 +84,7 @@ const questions = [
     {text:"Ask for time to compare it against your benchmarks",map:'calculator'},
   ]},
   { type:'shadow', text:"You find out the other party is under serious time pressure to close. You:", options:[
-    {text:"Use it openly to push for better terms — leverage is leverage",shadow:false},
+    {text:"Use it openly to push for better terms; leverage is leverage",shadow:false},
     {text:"Pretend you don't know while quietly using their urgency to extract more",shadow:true},
     {text:"Acknowledge it and offer to help find a fast solution",shadow:false},
     {text:"Factor it into your analysis without changing your approach",shadow:false},
@@ -97,14 +97,14 @@ const questions = [
   ]},
   { type:'style', text:"You've just closed a deal. Your first thought:", options:[
     {text:"Could I have pushed for more?",map:'dominator'},
-    {text:"Both sides got value — solid deal",map:'integrator'},
+    {text:"Both sides got value so it's a solid deal",map:'integrator'},
     {text:"Thank goodness it's over and nobody was upset",map:'yielder'},
     {text:"Time to review what worked and what didn't",map:'calculator'},
   ]},
   { type:'style', text:"The other party says 'take it or leave it.' You:", options:[
     {text:"Analyse whether the offer meets your minimum requirements",map:'calculator'},
     {text:"Feel pressured and seriously consider just taking it",map:'yielder'},
-    {text:"Call their bluff and hold your ground",map:'dominator'},
+    {text:"Call their bluff and stand your ground",map:'dominator'},
     {text:"Test whether it's truly final by exploring alternatives",map:'integrator'},
   ]},
   { type:'shadow', text:"You got a great deal but the other party looks disappointed. You:", options:[
