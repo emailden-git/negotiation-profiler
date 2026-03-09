@@ -6,7 +6,7 @@ import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Responsi
 
 const questions = [
   { type:'style', text:"A customer rejects your proposal outright. Your first instinct:", options:[
-    {text:"Push back firmly — they need to hear why they're wrong",map:'dominator'},
+    {text:"Push back firmly, they need to understand why they're wrong",map:'dominator'},
     {text:"Ask what specifically doesn't work for them",map:'integrator'},
     {text:"Apologise and ask what they'd prefer instead",map:'yielder'},
     {text:"Step back and review the data before responding",map:'calculator'},
@@ -25,9 +25,9 @@ const questions = [
   ]},
   { type:'shadow', text:"Your counterpart shares something personal before the meeting. You:", options:[
     {text:"Listen politely but keep your mind on business",shadow:false},
-    {text:"Share something personal back — real connection matters",shadow:false},
-    {text:"Make a mental note — personal details can be useful leverage later",shadow:true},
-    {text:"Enjoy the moment but steer back to the agenda",shadow:false},
+    {text:"Share something personal back because a real connection matters",shadow:false},
+    {text:"Make a mental note of it because personal details can be useful leverage later",shadow:true},
+    {text:"Enjoy the moment but steer them back to the agenda",shadow:false},
   ]},
   { type:'style', text:"You've been negotiating for hours with no progress. You:", options:[
     {text:"Suggest splitting the difference so everyone can move on",map:'yielder'},
@@ -111,7 +111,7 @@ const questions = [
     {text:"Think, its not your problem, a deal is a deal",shadow:false},
     {text:"Feel genuinely bad and wonder if you pushed too hard",shadow:false},
     {text:"Reassure them they got a great deal too; even though you know they didn't",shadow:true},
-    {text:"Review the facts to check whether the outcome was fair",shadow:false},
+    {text:"Go through your detailed notes to check whether the outcome was fair",shadow:false},
   ]},
   { type:'style', text:"Your counterpart is clearly inexperienced. You:", options:[
     {text:"Negotiate fairly but firmly because you still have goals",map:'integrator'},
