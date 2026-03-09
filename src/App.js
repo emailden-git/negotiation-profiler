@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, ChevronLeft, Download, RotateCcw } from 'lucide-react';
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from 'recharts';
+import './LandingPage.css';
 
 const questions = [
   { type:'style', text:"A customer rejects your proposal outright. Your first instinct:", options:[
@@ -392,37 +393,56 @@ export default function NegotiationAssessment(){
   const restart=()=>{setPhase('intro');setQi(0);setAnswers([]);setSel(null);setResults(null);setUserName('');};
   const download=()=>{if(!results)return;const blob=new Blob([genHTML(results,userName)],{type:'text/html'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Negotiation-Profile-'+results.archetype.name.replace(/\s/g,'-')+'.html';a.click();URL.revokeObjectURL(url);};
 
-  if(phase==='intro') return(
-    <div className="min-h-screen bg-white text-gray-900 flex items-center justify-center p-4">
-      <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} className="max-w-2xl w-full text-center">
-        <h1 className="text-4xl font-bold text-blue-800 mb-2">Discover Your Negotiation Style</h1>
-        <p className="text-gray-500 mb-8 text-lg">Take the 7 minute assessment</p>
-       <div className="grid grid-cols-2 gap-3 mb-6 text-center max-w-md mx-auto">
-          {[
-      {n:'Dominator',d:'',c:'border-red-600 bg-red-600 text-center',tc:'text-white'},
-{n:'Integrator',d:'',c:'border-purple-600 bg-purple-600 text-center',tc:'text-white'},
-{n:'Yielder',d:'',c:'border-green-600 bg-green-600 text-center',tc:'text-white'},
-{n:'Calculator',d:'',c:'border-blue-600 bg-blue-600 text-center',tc:'text-white'},
-          ].map(a=>(
-            <div key={a.n} className={`border-2 rounded-lg p-4 ${a.c}`}>
-              <div className={`font-bold text-lg ${a.tc}`}>{a.n}</div>
-              <div className="text-sm text-gray-600 mt-1">{a.d}</div>
-            </div>
-          ))}
-        </div>
-        <div className="border border-gray-200 rounded-lg p-4 mb-6 bg-gray-50">
-          <p className="text-sm text-gray-500"> <span className="text-gray-800 font-semibold">Discover hidden tendencies</span> that work for you and against you</p>
-        </div>
-        <div className="mb-6">
-          <label className="block text-sm text-gray-500 mb-2">Your name (optional)</label>
-          <input type="text" value={userName} onChange={e=>setUserName(e.target.value)} placeholder="Enter your name" className="w-64 px-4 py-2 border border-gray-300 rounded-lg text-center text-gray-800 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"/>
-        </div>
-        <p className="text-xs text-gray-400 mb-6">Don't overthink it. Your first instinct is your truest answer.</p>
-        <button onClick={()=>setPhase('quiz')} className="bg-blue-700 hover:bg-blue-800 text-white font-bold px-8 py-3 rounded-lg text-lg transition-colors">
-          Begin Assessment <ChevronRight className="inline w-5 h-5 ml-1"/>
+if(phase==='intro') return(
+    <div className="landing-wrapper">
+      <div className="hero-section">
+        <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}}>
+          <h1 className="hero-title">Discover Your Negotiation Style</h1>
+          <p className="hero-subtitle">Take the 7 minute assessment</p>
+
+          <div className="styles-grid">
+            {[
+              {name:'Dominator', color:'#DC2626'},
+              {name:'Integrator', color:'#9333EA'},
+              {name:'Yielder', color:'#16A34A'},
+              {name:'Calculator', color:'#2563EB'},
+            ].map(s=>(
+              <div key={s.name} className="style-card" style={{backgroundColor:s.color}}>
+                {s.name}
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+
+      <div className="divider-bar"/>
+
+      <div className="lower-section">
+        <p className="discover-text">
+          <strong>Discover hidden tendencies</strong> that work for you and against you
+        </p>
+
+        <label className="name-label">Your name (optional)</label>
+        <input
+          type="text"
+          className="name-input"
+          placeholder="Enter your name"
+          value={userName}
+          onChange={e=>setUserName(e.target.value)}
+        />
+
+        <p className="instinct-text">
+          Don't overthink it. Your first instinct is your truest answer.
+        </p>
+
+        <button className="cta-button" onClick={()=>setPhase('quiz')}>
+          Begin Assessment <span className="arrow">›</span>
         </button>
-        <p className="text-xs text-gray-400 mt-8">&copy; 2026 The Buckingham Academy Limited</p>
-      </motion.div>
+      </div>
+
+      <footer className="landing-footer">
+        © 2026 The Buckingham Academy Limited
+      </footer>
     </div>
   );
 
