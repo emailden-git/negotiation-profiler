@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, ChevronLeft, Download, RotateCcw } from 'lucide-react';
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from 'recharts';
-
+import { supabase } from './supabaseClient'
 
 const questions = [
   { type:'style', text:"A customer rejects your proposal outright. Your first instinct:", options:[
     {text:"Push back firmly, they need to understand why they're wrong",map:'dominator'},
     {text:"Ask what specifically doesn't work for them",map:'integrator'},
     {text:"Apologise and ask what they'd prefer instead",map:'yielder'},
-    {text:"Step back and review the data before responding",map:'calculator'},
+    {text:"Step back and review your notes and data before responding",map:'calculator'},
   ]},
   { type:'style', text:"You're about to walk into a tough negotiation. Your first thought:", options:[
     {text:"I'm going to get what I want",map:'dominator'},
@@ -60,7 +60,7 @@ const questions = [
     {text:"Keep quiet and act surprised if they ever raise it",shadow:true},
   ]},
   { type:'style', text:"The other party makes a small concession. You:", options:[
-    {text:"Thank them warmly and give back something of equal value",map:'yielder'},
+    {text:"Thank them and give back something of equal value",map:'yielder'},
     {text:"Note it and calculate how it changes the overall deal",map:'calculator'},
     {text:"Pocket it and push for more",map:'dominator'},
     {text:"Acknowledge it and offer a smaller concession in return",map:'integrator'},
@@ -92,7 +92,7 @@ const questions = [
   { type:'style', text:"The other party brings a team of four to the table. You:", options:[
     {text:"Feel outnumbered and worry about the pressure",map:'yielder'},
     {text:"Observe the group dynamics carefully before engaging",map:'calculator'},
-    {text:"See it as a challenge and match their energy",map:'dominator'},
+    {text:"Think, good! now I know they're intimidated enough to need backup",map:'dominator'},
     {text:"Identify the decision-maker and focus on building rapport",map:'integrator'},
   ]},
   { type:'style', text:"You've just closed a deal. Your first thought:", options:[
@@ -109,7 +109,7 @@ const questions = [
   ]},
   { type:'shadow', text:"You got a great deal but the other party looks disappointed. You:", options:[
     {text:"Think, its not your problem, a deal is a deal",shadow:false},
-    {text:"Feel genuinely bad and wonder if you pushed too hard",shadow:false},
+    {text:"Feel genuinely bad for them and wonder if you pushed too hard",shadow:false},
     {text:"Reassure them they got a great deal too; even though you know they didn't",shadow:true},
     {text:"Go through your detailed notes to check whether the outcome was fair",shadow:false},
   ]},
@@ -306,6 +306,9 @@ function calcResults(answers){
     else if(q.options[oi].shadow) sh++;
   });
   const sorted=Object.entries(sc).sort((a,b)=>b[1]-a[1]);
+  const topScore=sorted[0][1];
+  const tied=sorted.filter(([_,v])=>v===topScore).map(([k])=>k);
+  if(tied.length>1) return {scores:sc,shadow:sh,tied};
   const p=sorted[0][0], s=sorted[1][0];
   return {scores:sc,shadow:sh,primary:p,secondary:s,archetype:archetypes[p+'-'+s]};
 }
@@ -387,9 +390,29 @@ export default function NegotiationAssessment(){
   const[sel,setSel]=useState(null);
   const[results,setResults]=useState(null);
   const[userName,setUserName]=useState('');
+const[tieData,setTieData]=useState(null); 
 
-  const next=()=>{if(sel===null)return;const na=[...answers,sel];setAnswers(na);setSel(null);if(qi<questions.length-1)setQi(qi+1);else{const r=calcResults(na);setResults(r);setPhase('results');}};
-  const back=()=>{if(qi>0){const na=[...answers];const prev=na.pop();setAnswers(na);setSel(prev);setQi(qi-1);}};
+useEffect(() => {
+  if (phase === 'results' && results) {
+    
+    const saveResult = async () => {
+      const { error } = await supabase
+        .from('results')
+        .insert([{
+          archetype: results.archetype.name,
+          style: results.primary,
+          name: userName || 'Anonymous'
+        }])
+
+      if (error) console.error('Save failed:', error)
+    }
+    saveResult()
+  }
+}, [phase, results, userName])
+
+
+
+const next=()=>{if(sel===null)return;const na=[...answers,sel];setAnswers(na);setSel(null);if(qi<questions.length-1)setQi(qi+1);else{const r=calcResults(na);if(r.tied){setTieData(r);setPhase('tiebreak');}else{setResults(r);setPhase('results');}}};  const back=()=>{if(qi>0){const na=[...answers];const prev=na.pop();setAnswers(na);setSel(prev);setQi(qi-1);}};
   const restart=()=>{setPhase('intro');setQi(0);setAnswers([]);setSel(null);setResults(null);setUserName('');};
   const download=()=>{if(!results)return;const blob=new Blob([genHTML(results,userName)],{type:'text/html'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Negotiation-Profile-'+results.archetype.name.replace(/\s/g,'-')+'.html';a.click();URL.revokeObjectURL(url);};
 
@@ -520,6 +543,34 @@ if(phase==='intro') return(
       </div>
     );
   }
+if(phase==='tiebreak'&&tieData) return(
+  <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6">
+    <h2 className="text-2xl font-bold text-gray-900 mb-2">One more question</h2>
+    <p className="text-gray-500 mb-8">Your results are evenly split. Which description fits you best?</p>
+    <div className="space-y-3 max-w-lg w-full">
+      {tieData.tied.map(style=>(
+        <button key={style} onClick={()=>{
+          const sorted=Object.entries(tieData.scores).sort((a,b)=>
+            b[1]-a[1] || (a[0]===style?-1:b[0]===style?1:0)
+          );
+          const p=sorted[0][0], s=sorted[1][0];
+          const r={scores:tieData.scores,shadow:tieData.shadow,primary:p,secondary:s,archetype:archetypes[p+'-'+s]};
+          setResults(r);
+          setPhase('results');
+        }}
+          className="w-full text-left p-5 rounded-lg border-2 border-gray-200 hover:border-blue-700 hover:bg-blue-50 transition-all">
+          <span className="font-bold" style={{color:styleMeta[style].color}}>{styleMeta[style].label}</span>
+          <span className="text-gray-500 text-sm ml-2">
+            {style==='dominator'&&'— I lead with directness and competitive drive'}
+            {style==='integrator'&&'— I lead with collaboration and creative problem-solving'}
+            {style==='yielder'&&'— I lead with empathy and relationship-building'}
+            {style==='calculator'&&'— I lead with analysis and thorough preparation'}
+          </span>
+        </button>
+      ))}
+    </div>
+  </div>
+);
 
   if(phase==='results'&&results){
     const{scores:sc,shadow:sh,primary:p,secondary:s,archetype:arch}=results;
