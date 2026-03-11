@@ -6,22 +6,22 @@ import { supabase } from './supabaseClient'
 
 const questions = [
   { type:'style', text:"A customer rejects your proposal outright. Your first instinct:", options:[
-    {text:"Push back firmly, they need to understand why they're wrong",map:'dominator'},
-    {text:"Ask what specifically doesn't work for them",map:'integrator'},
-    {text:"Apologise and ask what they'd prefer instead",map:'yielder'},
-    {text:"Step back and review your notes and data before responding",map:'calculator'},
+    {text:"Stand your ground and explain exactly why your proposal makes sense",map:'dominator'},
+    {text:"Ask what specifically is not working so you can find a better angle",map:'integrator'},
+    {text:"Soften your position and ask what would work better for them",map:'yielder'},
+    {text:"Step back and review your data before responding",map:'calculator'},
   ]},
   { type:'style', text:"You're about to walk into a tough negotiation. Your first thought:", options:[
-    {text:"I'm going to get what I want",map:'dominator'},
-    {text:"I need to find out what both sides really need",map:'integrator'},
-    {text:"I hope this stays friendly and doesn't get confrontational",map:'yielder'},
-    {text:"Let me go through my notes one more time",map:'calculator'},
+    {text:"I know what I need and I am going to make it happen",map:'dominator'},
+    {text:"I need to understand what both sides actually want",map:'integrator'},
+    {text:"I want to keep things constructive and avoid unnecessary conflict",map:'yielder'},
+    {text:"Let me review my preparation one more time",map:'calculator'},
   ]},
   { type:'style', text:"The other party makes an unexpected demand. You:", options:[
-    {text:"Ask for time to assess the full impact",map:'calculator'},
-    {text:"Fire back with a bigger counter-demand",map:'dominator'},
-    {text:"Consider giving it to them to keep things moving",map:'yielder'},
-    {text:"Stay calm and ask why that matters to them",map:'integrator'},
+    {text:"Ask for time to assess the full impact before responding",map:'calculator'},
+    {text:"Counter immediately with a strong position of your own",map:'dominator'},
+    {text:"Consider whether meeting them halfway would move things forward",map:'yielder'},
+    {text:"Ask questions to understand what is really driving the request",map:'integrator'},
   ]},
   { type:'shadow', text:"Your counterpart shares something personal before the meeting. You:", options:[
     {text:"Listen politely but keep your mind on business",shadow:false},
@@ -30,28 +30,28 @@ const questions = [
     {text:"Enjoy the moment but steer them back to the agenda",shadow:false},
   ]},
   { type:'style', text:"You've been negotiating for hours with no progress. You:", options:[
-    {text:"Suggest splitting the difference so everyone can move on",map:'yielder'},
-    {text:"Increase the pressure; someone needs to break first",map:'dominator'},
-    {text:"Suggest a creative alternative nobody has considered",map:'integrator'},
-    {text:"Summarise everything on the table and look for patterns",map:'calculator'},
+    {text:"Suggest a compromise so both sides can walk away with something",map:'yielder'},
+    {text:"Turn up the heat because someone needs to make a decision",map:'dominator'},
+    {text:"Reframe the problem and propose an approach neither side has tried",map:'integrator'},
+    {text:"Step back and map out everything that has been discussed so far",map:'calculator'},
   ]},
   { type:'style', text:"The other party gets emotional during the negotiation. You:", options:[
-    {text:"See it as weakness and push harder",map:'dominator'},
-    {text:"Acknowledge their feelings then refocus on the problem",map:'integrator'},
-    {text:"Feel uncomfortable and try to make them feel better",map:'yielder'},
-    {text:"Stay detached and wait for them to settle down",map:'calculator'},
+    {text:"Hold steady because emotions are their responsibility to manage, not yours",map:'dominator'},
+    {text:"Use the shift in energy to steer the conversation toward what really matters",map:'integrator'},
+    {text:"Ease off the topic that triggered it and find more comfortable ground",map:'yielder'},
+    {text:"Pause and suggest continuing once everyone has had time to regroup",map:'calculator'},
   ]},
   { type:'style', text:"You realise you have significantly more leverage. You:", options:[
-    {text:"Note it as a variable but don't change your approach",map:'calculator'},
-    {text:"Use it to push for the maximum possible deal",map:'dominator'},
-    {text:"Don't want to use it because it feels unfair",map:'yielder'},
-    {text:"Use it to steer toward a deal that works long-term for both",map:'integrator'},
+    {text:"Factor it into your analysis but keep your approach consistent",map:'calculator'},
+    {text:"Press the advantage because leverage exists to be used",map:'dominator'},
+    {text:"Set it aside because using it feels like it would damage the relationship",map:'yielder'},
+    {text:"Use it to guide the conversation toward a deal that benefits both sides long term",map:'integrator'},
   ]},
   { type:'style', text:"Your boss says to get a better price from a supplier you like. You:", options:[
-    {text:"Go in hard because business is business",map:'dominator'},
-    {text:"Explain the situation honestly and work together on a solution",map:'integrator'},
-    {text:"Feel awkward and hope they offer a discount first",map:'yielder'},
-    {text:"Build a detailed business case with data to justify the request",map:'calculator'},
+    {text:"Go in direct and make the ask because a negotiation is a negotiation",map:'dominator'},
+    {text:"Be upfront about the situation and look for a solution together",map:'integrator'},
+    {text:"Raise it gently and hope the conversation stays comfortable",map:'yielder'},
+    {text:"Prepare a detailed case with numbers to support the request",map:'calculator'},
   ]},
   { type:'shadow', text:"You discover the other party made a calculation error that benefits you. You:", options:[
     {text:"Point it out immediately, you want a clean deal",shadow:false},
@@ -60,28 +60,34 @@ const questions = [
     {text:"Keep quiet and act surprised if they ever raise it",shadow:true},
   ]},
   { type:'style', text:"The other party makes a small concession. You:", options:[
-    {text:"Thank them and give back something of equal value",map:'yielder'},
-    {text:"Note it and calculate how it changes the overall deal",map:'calculator'},
-    {text:"Pocket it and push for more",map:'dominator'},
-    {text:"Acknowledge it and offer a smaller concession in return",map:'integrator'},
+    {text:"Show appreciation and offer something of similar value in return",map:'yielder'},
+    {text:"Log it and assess how it shifts the overall structure of the deal",map:'calculator'},
+    {text:"Accept it and continue pushing for the next item on your list",map:'dominator'},
+    {text:"Acknowledge it and respond with a measured concession of your own",map:'integrator'},
   ]},
   { type:'style', text:"You're negotiating with someone you'll work with for years. You:", options:[
-    {text:"Balance today's result with the long-term relationship",map:'integrator'},
-    {text:"Prioritise the relationship above everything",map:'yielder'},
-    {text:"Map out long-term implications before deciding your approach",map:'calculator'},
-    {text:"Still focus on getting the best deal right now",map:'dominator'},
+    {text:"Weigh today's result against the value of the long term relationship",map:'integrator'},
+    {text:"Put the relationship first because the ongoing partnership matters most",map:'yielder'},
+    {text:"Analyse the long term implications before committing to any position",map:'calculator'},
+    {text:"Negotiate just as hard because setting the tone early matters",map:'dominator'},
+  ]},
+  { type:'shadow', text:"You are negotiating with someone who clearly trusts you completely. You:", options:[
+    {text:"Use that trust to move the conversation toward a deal that genuinely works for both sides",shadow:false},
+    {text:"Appreciate the trust and make sure you do not take advantage of it",shadow:false},
+    {text:"Recognise that their trust gives you room to steer the outcome more in your favour without them noticing",shadow:true},
+    {text:"Treat the negotiation the same way you would regardless of how much they trust you",shadow:false},
   ]},
   { type:'style', text:"A colleague asks for advice before their negotiation. You say:", options:[
-    {text:"Do your homework, know every detail before you walk in",map:'calculator'},
-    {text:"Go in strong and don't back down",map:'dominator'},
-    {text:"Be friendly and focus on finding common ground",map:'yielder'},
-    {text:"Find out what the other side really needs and get creative",map:'integrator'},
+    {text:"Make sure you know every detail before you walk in the door",map:'calculator'},
+    {text:"Be clear about what you want and do not let them push you around",map:'dominator'},
+    {text:"Build rapport first and focus on finding things you both agree on",map:'yielder'},
+    {text:"Understand what the other side really needs and look for creative trades",map:'integrator'},
   ]},
   { type:'style', text:"You're offered a deal that's good but not great. You:", options:[
-    {text:"Reject it and demand better",map:'dominator'},
-    {text:"Explore whether small tweaks could work for both sides",map:'integrator'},
-    {text:"Accept it, it's good enough, don't risk losing it",map:'yielder'},
-    {text:"Ask for time to compare it against your benchmarks",map:'calculator'},
+    {text:"Push it back and make clear you expect better",map:'dominator'},
+    {text:"Suggest specific adjustments that could improve it for both sides",map:'integrator'},
+    {text:"Take it because a good deal in hand is better than risking everything",map:'yielder'},
+    {text:"Request time to evaluate it properly against your benchmarks",map:'calculator'},
   ]},
   { type:'shadow', text:"You find out the other party is under serious time pressure to close. You:", options:[
     {text:"Use it openly to push for better terms; leverage is leverage",shadow:false},
@@ -90,22 +96,28 @@ const questions = [
     {text:"Factor it into your analysis without changing your approach",shadow:false},
   ]},
   { type:'style', text:"The other party brings a team of four to the table. You:", options:[
-    {text:"Feel outnumbered and worry about the pressure",map:'yielder'},
-    {text:"Observe the group dynamics carefully before engaging",map:'calculator'},
-    {text:"Think, good! now I know they're intimidated enough to need backup",map:'dominator'},
-    {text:"Identify the decision-maker and focus on building rapport",map:'integrator'},
+    {text:"Notice the imbalance and adjust your approach to stay comfortable",map:'yielder'},
+    {text:"Watch their team dynamics carefully before deciding how to engage",map:'calculator'},
+    {text:"Take it as a compliment and focus on commanding the room yourself",map:'dominator'},
+    {text:"Work out who holds the real authority and direct your energy there",map:'integrator'},
   ]},
   { type:'style', text:"You've just closed a deal. Your first thought:", options:[
-    {text:"Could I have pushed for more?",map:'dominator'},
-    {text:"Both sides got value so it's a solid deal",map:'integrator'},
-    {text:"Thank goodness it's over and nobody was upset",map:'yielder'},
-    {text:"Time to review what worked and what didn't",map:'calculator'},
+    {text:"I wonder whether I could have pushed for even more",map:'dominator'},
+    {text:"Both sides walked away with real value so that is a solid outcome",map:'integrator'},
+    {text:"I am glad it is done and the relationship is still in good shape",map:'yielder'},
+    {text:"Time to review the process and note what worked and what did not",map:'calculator'},
+  ]},
+  { type:'shadow', text:"You are close to agreement but you know the other party would accept even less than what is currently on the table. You:", options:[
+    {text:"Close the deal at the current terms because they are already good for you",shadow:false},
+    {text:"See how much further you can move them before they push back",shadow:false},
+    {text:"Lock in the current terms quickly before anything changes",shadow:false},
+    {text:"Hint that you have other options to see if they will sweeten the deal, even though you do not",shadow:true},
   ]},
   { type:'style', text:"The other party says 'take it or leave it.' You:", options:[
-    {text:"Analyse whether the offer meets your minimum requirements",map:'calculator'},
-    {text:"Feel pressured and seriously consider just taking it",map:'yielder'},
-    {text:"Call their bluff and stand your ground",map:'dominator'},
-    {text:"Test whether it's truly final by exploring alternatives",map:'integrator'},
+    {text:"Assess calmly whether the offer meets your minimum requirements",map:'calculator'},
+    {text:"Weigh up the risk of losing it entirely and lean toward accepting",map:'yielder'},
+    {text:"Stand firm because you do not respond well to ultimatums",map:'dominator'},
+    {text:"Test whether it is truly final by exploring alternative structures",map:'integrator'},
   ]},
   { type:'shadow', text:"You got a great deal but the other party looks disappointed. You:", options:[
     {text:"Think, its not your problem, a deal is a deal",shadow:false},
@@ -114,16 +126,22 @@ const questions = [
     {text:"Go through your detailed notes to check whether the outcome was fair",shadow:false},
   ]},
   { type:'style', text:"Your counterpart is clearly inexperienced. You:", options:[
-    {text:"Negotiate fairly but firmly because you still have goals",map:'integrator'},
-    {text:"Take advantage because their lack of experience isn't your problem",map:'dominator'},
-    {text:"Go easy on them, it wouldn't feel right to push them hard",map:'yielder'},
-    {text:"Stick to your prepared plan regardless of who's across the table",map:'calculator'},
+    {text:"Adapt your approach to find value that works for both sides",map:'integrator'},
+    {text:"Focus on your own goals because their preparation level is their responsibility",map:'dominator'},
+    {text:"Naturally ease off because pushing hard here feels unnecessary",map:'yielder'},
+    {text:"Follow your process the same way regardless of who is across the table",map:'calculator'},
+  ]},
+  { type:'shadow', text:"A colleague who is negotiating against someone you recently dealt with asks you about that person's approach. You:", options:[
+    {text:"Share what you know openly because it helps your colleague",shadow:false},
+    {text:"Give a general overview but keep the specific details to yourself",shadow:false},
+    {text:"Share enough to look generous but not enough for them to match the deal you got",shadow:true},
+    {text:"Decline to share because it feels like a breach of confidence",shadow:false},
   ]},
   { type:'style', text:"You discover the other party has been dishonest about something. You:", options:[
-    {text:"Call them out directly and use it as leverage",map:'dominator'},
-    {text:"Raise it calmly and reset on honest terms",map:'integrator'},
-    {text:"Feel betrayed but keep quiet to avoid confrontation",map:'yielder'},
-    {text:"Document it and completely reassess your position",map:'calculator'},
+    {text:"Confront them directly and make clear it changes the terms",map:'dominator'},
+    {text:"Raise it openly and work to reset the conversation on honest ground",map:'integrator'},
+    {text:"Feel disappointed but avoid bringing it up to keep things from escalating",map:'yielder'},
+    {text:"Record it, reassess your entire position, and adjust your strategy",map:'calculator'},
   ]},
 ];
 
@@ -278,15 +296,21 @@ const archetypes = {
 
 const shadowLevels = [
   {title:'Clean Conscience',sub:'No shadow detected',color:'green',
-    msg:"You negotiate with authenticity and transparency, and that is a genuine competitive advantage in the modern business environment. What people see is what they get when they deal with you. This builds the kind of deep, structural trust that compounds over time into better deals, stronger relationships, and a reputation that opens doors before you even walk through them. In a world full of people playing games and hiding their true intentions, your straightforwardness is rarer and more valuable than you might think. Protect this quality fiercely, because once lost it is almost impossible to rebuild."},
-  {title:'Faint Shadow',sub:'A slight tendency to mask your true intentions',color:'yellow',
-    msg:"You are mostly authentic, but there are moments where you bend the truth, withhold key information, or hide your real agenda when it feels convenient to do so. It is subtle enough that most people will not notice the pattern yet, but you should be aware that this tendency grows under pressure when your defences are down. What starts as a small omission becomes a pattern of strategic dishonesty over time, and patterns eventually become visible to those who pay attention. The most dangerous negotiation habit is the one you do not know you have, because you cannot manage what you do not acknowledge. Pay close attention to the moments where you choose convenience over transparency, because those are the moments that define your long term reputation."},
-  {title:'The Mask Slips',sub:'A noticeable pattern of strategic deception',color:'amber',
-    msg:"You have a pattern of presenting one face while operating with a different agenda underneath, and it is more visible to others than you probably assume. You are likely winning short term gains from this approach through hiding information, feigning friendliness to extract concessions, or using people's trust against them without their immediate awareness. But people talk to each other, and reputations travel faster than you do in every industry. The moment someone compares notes and figures out your approach, and experienced negotiators always compare notes eventually, every future negotiation becomes significantly harder. The trust you burn today is leverage you will not have access to tomorrow, so consider carefully whether the short term wins are truly worth the long term cost."},
+    msg:"You answered every shadow question with transparency and integrity. What people see is what they get when they deal with you, and that is a genuine competitive advantage. This builds the kind of deep, structural trust that compounds over time into better deals, stronger relationships, and a reputation that opens doors before you even walk through them. In a world full of people playing games, your straightforwardness is rarer and more valuable than you might think. Protect this quality fiercely, because once lost it is almost impossible to rebuild."},
+  {title:'Faint Shadow',sub:'A slight tendency detected',color:'green',
+    msg:"You are overwhelmingly honest and transparent, but there was one moment where a less straightforward option appealed to you. This is entirely human and does not indicate a problem. Almost everyone has situations where the expedient path tempts them briefly. What matters is the overall pattern, and yours is strongly weighted toward integrity. Stay aware of the moments where convenience whispers louder than principle, because those are the moments that define your long term reputation."},
+  {title:'Minor Shadow',sub:'Occasional strategic flexibility with the truth',color:'yellow',
+    msg:"You are mostly authentic, but there are moments where you bend the truth, withhold key information, or mask your real agenda when it feels convenient. It is subtle enough that most people will not notice the pattern yet, but you should be aware that these tendencies grow stronger under pressure. What starts as a small omission or a harmless misdirection becomes a pattern of strategic dishonesty over time, and patterns eventually become visible to those who pay attention. The most dangerous negotiation habit is the one you do not acknowledge, because you cannot manage what you refuse to see."},
+  {title:'Emerging Pattern',sub:'A noticeable tendency toward strategic deception',color:'yellow',
+    msg:"A clear pattern is forming. You are comfortable using information selectively, presenting a carefully managed version of yourself, and allowing others to operate on assumptions you know to be incomplete or incorrect. You probably tell yourself this is just smart negotiation, and in isolated instances you might be right. But three out of seven shadow indicators suggest this is becoming a default approach rather than a situational choice. The gap between who you present yourself as and how you actually operate is wide enough that perceptive counterparts will eventually notice it. The question is whether you close that gap voluntarily or wait until someone closes it for you."},
+  {title:'The Mask Slips',sub:'A significant pattern of manipulation',color:'amber',
+    msg:"You have a well developed pattern of presenting one face while operating with a different agenda underneath. You are likely winning short term gains through this approach, whether by hiding information, feigning warmth to extract concessions, or engineering situations where others act on incomplete or misleading information you have provided. But people talk, and reputations travel faster than you do in every industry. Four out of seven shadow indicators is not a grey area. It is a clear pattern that experienced negotiators will recognise, discuss with colleagues, and prepare defences against. The trust you burn today is leverage you will never have access to tomorrow."},
   {title:'The Shadow Deepens',sub:'Strong manipulative tendencies detected',color:'red',
-    msg:"Your results show a consistent pattern of deception disguised as friendliness, including fake rapport building, strategic dishonesty, emotional manipulation, and a willingness to exploit others' vulnerability for personal gain. Here is the difficult truth that you need to hear. Experienced negotiators have met people who operate this way before, and they have well developed defences ready for exactly this approach. They share less information, verify everything more carefully, and build protective clauses into agreements specifically because of people who negotiate the way you do. When you are exposed, and it is a matter of when rather than if, the reputational damage will far outweigh anything you have gained through manipulation. This is your opportunity to change direction, because the skills behind this pattern are real and could be redirected toward building genuine trust that would make you formidable for all the right reasons."},
-  {title:'Deep Shadow',sub:'Deeply ingrained manipulative pattern',color:'red',
-    msg:"You consistently choose manipulation over authenticity, deception over honesty, and fake rapport over real connection in your negotiations. Every shadow question pointed to the same pattern. You see other people's openness as an opportunity to exploit rather than a gift to reciprocate with your own honesty. This approach has an expiry date that is closer than you think. Senior negotiators, experienced buyers, and anyone who has been burned before will see through this approach, often faster than you expect them to. They will share nothing of real value, protect everything carefully, and build contingencies specifically designed to guard against exactly your style. The question is not whether this catches up with you, because it will. The question is how much damage it does to your career and your relationships when it does. Rebuilding trust is ten times harder than building it in the first place, so start the rebuilding process now before the cost becomes unrecoverable."},
+    msg:"Your results reveal a consistent and deliberate approach to manipulation. You exploit trust, fabricate or distort information, and manage perceptions in ways designed to extract advantage while maintaining a surface appearance of fairness. This is not occasional or situational. Five of seven shadow indicators pointed to the same pattern. Here is the difficult truth. Experienced negotiators have met people who operate this way before, and they have defences ready. They share less, verify more, and build protective clauses into agreements specifically because of people who negotiate the way you do. Your approach has an expiry date, and it is closer than you think."},
+  {title:'Dark Pattern',sub:'Deeply ingrained deceptive approach',color:'red',
+    msg:"Six out of seven shadow questions revealed a pattern of deliberate deception, trust exploitation, and strategic manipulation. You consistently choose the path that extracts maximum advantage while maintaining plausible deniability, and you have likely been doing it long enough that it feels normal to you. It is not normal. It is a deeply ingrained habit that is costing you far more than you realise in lost trust, damaged relationships, and opportunities that never materialise because people warn each other about working with you. Senior negotiators, experienced buyers, and anyone who has been burned before will see through this approach faster than you expect. The question is not whether this catches up with you. It already has, in ways you probably cannot see from your current vantage point."},
+  {title:'Deep Shadow',sub:'Pervasive manipulation across every indicator',color:'red',
+    msg:"Every single shadow question pointed to the same pattern. You consistently choose manipulation over authenticity, deception over honesty, and the appearance of fairness over the reality of it. You see other people's openness as opportunity, their trust as a tool, and their goodwill as something to be harvested rather than reciprocated. This is not strategy. It is a fundamental orientation toward other people that will eventually isolate you professionally and personally. Every relationship you build on this foundation has a fracture line running through it, and the pressure required to break it gets smaller over time. Rebuilding trust is ten times harder than building it, so start now before the cost becomes unrecoverable. The skills behind this pattern are real and could be redirected toward building genuine influence that would make you formidable for all the right reasons."},
 ];
 
 const styleMeta = {
@@ -339,9 +363,9 @@ function genHTML(r,name){
   const total=16;
   const pct=k=>Math.round((sc[k]/total)*100);
   const nl=t=>t.replace(/\n\n/g,'</p><p style="margin-top:14px;">');
-  const shBg=r.shadow>=3?'#FEF2F2':r.shadow>=2?'#FFFBEB':r.shadow>=1?'#FEFCE8':'#F0FDF4';
-  const shBd=r.shadow>=3?'#FECACA':r.shadow>=2?'#FDE68A':r.shadow>=1?'#FEF08A':'#BBF7D0';
-  const shTx=r.shadow>=3?'#DC2626':r.shadow>=2?'#D97706':r.shadow>=1?'#CA8A04':'#16A34A';
+ const shBg=r.shadow>=5?'#FEF2F2':r.shadow>=3?'#FFFBEB':r.shadow>=2?'#FEFCE8':'#F0FDF4';
+const shBd=r.shadow>=5?'#FECACA':r.shadow>=3?'#FDE68A':r.shadow>=2?'#FEF08A':'#BBF7D0';
+const shTx=r.shadow>=5?'#DC2626':r.shadow>=3?'#D97706':r.shadow>=2?'#CA8A04':'#16A34A';
   const greeting=name?`<p style="font-size:18px;color:#6B7280;margin-bottom:8px;">Prepared for: <strong style="color:#1F2937;">${name}</strong></p>`:'';
   const svg=genSVGRadar(sc);
   return `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Negotiation Profile Report</title>
@@ -446,7 +470,7 @@ if(phase==='intro') return(
 </div>
 
 <div className="flex items-center justify-center gap-6 text-xs text-blue-100/70">
-  <span>20 questions</span>
+  <span>23 questions</span>
   <span className="w-1 h-1 bg-blue-100/50 rounded-full"/>
   <span>4 negotiation styles</span>
   <span className="w-1 h-1 bg-blue-100/50 rounded-full"/>
@@ -670,7 +694,7 @@ if(phase==='tiebreak'&&tieData) return(
           <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:1.2}}
             className={`border-2 rounded-xl p-6 mb-6 ${shC}`}>
             <h3 className={`font-bold text-lg mb-1 ${shT}`}>Shadow Assessment: {sl.title}</h3>
-            <p className={`font-semibold text-sm mb-3 ${shT}`}>{sl.sub} — Shadow Score: {sh}/4</p>
+            <p className={`font-semibold text-sm mb-3 ${shT}`}>{sl.sub} — Shadow Score: {sh}/7</p>
             {renderParagraphs(sl.msg)}
           </motion.div>
 
