@@ -320,6 +320,327 @@ const styleMeta = {
   calculator:{label:'Calculator',color:'#2563EB',tw:'text-white',bg:'bg-blue-600',light:'bg-blue-600',border:'border-blue-600',barColor:'#2563EB'},
 };
 
+const spottingGuide = {
+  dominator: {
+    pace:'Fast',
+    tone:'Direct and assertive',
+    focus:'Winning the outcome',
+    phrases:['"Bottom line"','"I need"','"Let\'s close this"'],
+    behaviours:['Anchors high','Pushes deadlines','Interrupts often']
+  },
+  integrator: {
+    pace:'Moderate',
+    tone:'Curious and collaborative',
+    focus:'Creative solutions',
+    phrases:['"What if we"','"Both sides"','"How about"'],
+    behaviours:['Asks about interests','Proposes packages','Seeks common ground']
+  },
+  yielder: {
+    pace:'Slow',
+    tone:'Gentle and agreeable',
+    focus:'Harmony and rapport',
+    phrases:['"That\'s fair"','"Whatever works"','"I understand"'],
+    behaviours:['Concedes early','Avoids silence','Apologises often']
+  },
+  calculator: {
+    pace:'Deliberate',
+    tone:'Measured and precise',
+    focus:'Evidence and analysis',
+    phrases:['"The data shows"','"I need to check"','"Based on this"'],
+    behaviours:['Requests time','Cites benchmarks','Brings documents']
+  }
+};
+
+const matchupAdvice = {
+  'dominator-integrator': {
+    tells:[
+      'They ask lots of questions before committing to anything',
+      'They propose packages and creative trades rather than single item demands',
+      'They use phrases like "what if" and "how about" frequently',
+      'They focus on underlying interests rather than stated positions'
+    ],
+    advantages:[
+      'Your decisiveness cuts through their lengthy exploration process',
+      'You set the pace and they often follow your energy',
+      'You are not afraid to push when the moment calls for it'
+    ],
+    risks:[
+      'Dismissing their ideas too quickly and missing options that could benefit you',
+      'Appearing unreasonable by refusing to explore alternatives',
+      'Mistaking their patience for weakness when it is actually strategy'
+    ],
+    playbook:[
+      'Let them explore options but set a clear deadline for decisions',
+      'Treat their questions as information gathering, not stalling',
+      'Propose your own packages rather than just rejecting theirs'
+    ],
+    fakeWarning:'If their proposals consistently favour them despite collaborative language, they are using integration as a cover for extraction. Watch whether the "creative solutions" actually improve your position or just repackage their demands in friendlier terms.'
+  },
+  'dominator-yielder': {
+    tells:[
+      'They speak softly and concede points early in the conversation',
+      'They check whether you are comfortable and whether things feel fair',
+      'They avoid silence and fill gaps with concessions or apologies',
+      'They use phrases like "that\'s fair" and "whatever works for you"'
+    ],
+    advantages:[
+      'You naturally control the pace and direction of the conversation',
+      'They share information freely because they want to build trust',
+      'You can anchor strongly and they are unlikely to push back hard'
+    ],
+    risks:[
+      'Pushing so hard they agree to things they cannot actually deliver',
+      'Destroying a relationship you might need for future deals',
+      'Gaining a reputation as someone who exploits weaker counterparts'
+    ],
+    playbook:[
+      'Moderate your intensity because they will likely give you what you want anyway',
+      'Ask what they need rather than simply taking everything on the table',
+      'A slightly softer approach here gets you a more durable and implementable deal'
+    ],
+    fakeWarning:'If a yielder suddenly stands firm on one specific point after giving everything else away, that point may be the real prize they were protecting all along. Their earlier concessions may have been strategic, designed to make you feel satisfied before the real negotiation begins.'
+  },
+  'dominator-calculator': {
+    tells:[
+      'They speak at a deliberate pace and pause before responding',
+      'They reference data, benchmarks, and precedents frequently',
+      'They request adjournments or additional time to review',
+      'They bring documents and show minimal emotional expression'
+    ],
+    advantages:[
+      'Your speed pressures their process and forces faster decisions',
+      'Your confidence can shift momentum when their analysis is inconclusive',
+      'You make decisions faster which lets you control the agenda'
+    ],
+    risks:[
+      'Making claims they will fact check and disprove, damaging your credibility',
+      'Losing respect if your numbers are wrong or your preparation is thin',
+      'Underestimating how thoroughly they have prepared for this conversation'
+    ],
+    playbook:[
+      'Bring solid data because they will challenge every claim that lacks evidence',
+      'Respect their need for time or they will dig in harder out of principle',
+      'Use their own analysis to support your position whenever possible'
+    ],
+    fakeWarning:'If they present data that perfectly supports only their position without acknowledging any counterpoints, their objectivity is a performance. Genuine analysis includes uncertainty. If theirs has none, it has been curated to persuade, not to inform.'
+  },
+  'integrator-dominator': {
+    tells:[
+      'They speak fast, interrupt, and push for quick decisions',
+      'They use direct language like "I need" and "bottom line"',
+      'They anchor high and make the first offer confidently',
+      'They maintain strong eye contact and take up physical space'
+    ],
+    advantages:[
+      'You see creative options they miss because they are focused only on winning',
+      'You read the room better and notice dynamics they overlook entirely',
+      'You can reframe their demands into opportunities that serve both sides'
+    ],
+    risks:[
+      'Getting bulldozed while you are still exploring options',
+      'Overthinking while they act decisively and claim the value on the table',
+      'Confusing their confidence with being right about the substance'
+    ],
+    playbook:[
+      'Acknowledge their position first before redirecting the conversation',
+      'Ask "why" to slow their pace and uncover the interests behind their demands',
+      'Propose packages that give them a visible win while protecting your priorities'
+    ],
+    fakeWarning:'If they suddenly turn warm and collaborative after being aggressive, check whether their proposals match their new tone. Real collaboration shows up in the deal structure, not just the conversation. Words are cheap. Numbers are honest.'
+  },
+  'integrator-yielder': {
+    tells:[
+      'They agree quickly and avoid pushing back on your proposals',
+      'They use gentle language and check frequently if you are happy',
+      'They concede early and often to maintain a positive atmosphere',
+      'They apologise unnecessarily and fill silences with soft concessions'
+    ],
+    advantages:[
+      'They trust you naturally and share information willingly',
+      'They genuinely want to find common ground which aligns with your approach',
+      'Your creative proposals will be received openly and without resistance'
+    ],
+    risks:[
+      'Reaching agreement too easily without testing whether the deal is truly optimal',
+      'Letting their accommodation mask unexplored value that both sides could share',
+      'Mistaking their quick agreement for genuine satisfaction with the terms'
+    ],
+    playbook:[
+      'Gently push past their first offer because they almost always have more room',
+      'Ask what would make this deal great for them, not just acceptable',
+      'Protect them from over conceding because it will damage the deal long term'
+    ],
+    fakeWarning:'If their constant agreeableness comes with subtle guilt trips or obligations attached, they may be using warmth as a tool to create debt you will be expected to repay. Genuine yielders give freely. Strategic ones keep a ledger.'
+  },
+  'integrator-calculator': {
+    tells:[
+      'They respond slowly and ask for time to review your proposals',
+      'They reference benchmarks, market rates, and historical data',
+      'They show minimal emotional reaction to your ideas',
+      'They arrive with documents and want to work through details methodically'
+    ],
+    advantages:[
+      'Your creativity complements their analytical rigour beautifully',
+      'You bring warmth and rapport that they lack naturally',
+      'You can build trust while they are still processing the numbers'
+    ],
+    risks:[
+      'Frustrating them by moving too fast or proposing ideas without supporting evidence',
+      'Dismissing their need for data as excessive caution or stalling',
+      'Proposing solutions before they are ready to evaluate them properly'
+    ],
+    playbook:[
+      'Lead with data before leading with ideas to earn their respect first',
+      'Give them time to process your proposals rather than expecting immediate responses',
+      'Frame creative options with supporting evidence and they will become your strongest allies'
+    ],
+    fakeWarning:'If they use complexity and data volume to overwhelm rather than clarify, they may be using analysis as a weapon to confuse you into accepting unfavourable terms. Genuine analysis simplifies decisions. Strategic analysis complicates them.'
+  },
+  'yielder-dominator': {
+    tells:[
+      'They speak fast, interrupt, and push the conversation toward quick decisions',
+      'They use direct and sometimes blunt language without softening it',
+      'They anchor high and make demands early and confidently',
+      'They maintain intense eye contact and dominate the physical space'
+    ],
+    advantages:[
+      'Your warmth disarms them and they may reveal more than they intended',
+      'They underestimate you which means they prepare less carefully for you',
+      'You read their emotional state better than they read yours'
+    ],
+    risks:[
+      'Folding under pressure and agreeing to terms you will regret later',
+      'Mistaking their confidence for authority they do not actually have',
+      'Allowing their pace to override your own needs and boundaries'
+    ],
+    playbook:[
+      'Write your non negotiables down before you walk in and do not move from them',
+      'Let them push first, then respond with a calm but firm position',
+      'Remember that their aggression is a style, not reality. The deal is rarely as urgent as they claim'
+    ],
+    fakeWarning:'If a dominator suddenly becomes your friend, complimenting you and asking personal questions, they are likely softening you up before a significant demand. When the shift comes, return to your written boundaries and do not let flattery move your position.'
+  },
+  'yielder-integrator': {
+    tells:[
+      'They ask lots of questions and explore multiple angles before committing',
+      'They propose creative solutions and use "we" language naturally',
+      'They focus on interests and underlying needs rather than stated positions',
+      'They maintain a moderate pace and seem genuinely curious about your perspective'
+    ],
+    advantages:[
+      'You build trust faster than they expect which opens doors to real information',
+      'They genuinely value the relationship and will invest in maintaining it',
+      'They will share information willingly because they believe in open exchange'
+    ],
+    risks:[
+      'Over trusting their collaborative approach without verifying the deal serves your interests',
+      'Agreeing to complex structures you do not fully understand',
+      'Deferring to their expertise when you should be advocating for yourself'
+    ],
+    playbook:[
+      'Ask them to explain every element of complex proposals until you fully understand',
+      'Check whether their creative solutions actually give you what you need, not just what sounds fair',
+      'Your warmth plus their strategy can produce excellent outcomes so stay engaged rather than deferring'
+    ],
+    fakeWarning:'If they consistently propose "win win" solutions where the wins are unequal and always in their favour, their collaboration is a negotiation technique, not a genuine value. Trust the numbers in the deal, not the language around it.'
+  },
+  'yielder-calculator': {
+    tells:[
+      'They respond at a deliberate pace and think carefully before speaking',
+      'They reference data and ask detailed questions about specifics',
+      'They show little emotional engagement and stay neutral throughout',
+      'They request time to review and bring prepared documents to every meeting'
+    ],
+    advantages:[
+      'Your warmth helps them relax and they open up more than usual',
+      'You notice emotional cues they miss in themselves and others',
+      'You create a comfortable atmosphere that draws out better information'
+    ],
+    risks:[
+      'Feeling dismissed by their lack of emotional engagement with you',
+      'Interpreting their analytical detachment as disinterest or disrespect',
+      'Conceding on points where your own data would support a stronger position'
+    ],
+    playbook:[
+      'Prepare your own data because they take you more seriously when you speak their language',
+      'Do not fill silences with concessions. Their pauses are for processing, not pressuring you',
+      'Ask them to walk you through their analysis so you can spot where to negotiate'
+    ],
+    fakeWarning:'If they present mountains of data that always supports their position, ask to see the assumptions behind the numbers. Selective data is a powerful form of manipulation disguised as objectivity. Fair analysis includes data that challenges their own position too.'
+  },
+  'calculator-dominator': {
+    tells:[
+      'They speak fast and push for quick decisions before you feel ready',
+      'They use direct language, make demands, and apply time pressure',
+      'They anchor high and lead with confident assertions about what they need',
+      'They show impatience with detailed analysis and want to move forward immediately'
+    ],
+    advantages:[
+      'Your preparation exposes gaps in their arguments they cannot bluff through',
+      'Your data gives you solid ground to stand on when they apply pressure',
+      'Your patience outlasts their intensity if you hold your nerve'
+    ],
+    risks:[
+      'Retreating into analysis when you need to engage and respond directly',
+      'Being too slow to respond to their quick tactical moves',
+      'Winning the logical argument but losing the room emotionally'
+    ],
+    playbook:[
+      'Present your strongest data point early to establish credibility and earn their respect',
+      'Match their decisiveness with confident positions backed by solid evidence',
+      'When they apply pressure, respond with facts not emotions. They respect substance over style'
+    ],
+    fakeWarning:'If their aggression spikes after you present strong evidence, they are likely bluffing because your data has weakened their position. Hold firm and let the silence work. A dominator who gets louder is usually a dominator who is losing ground.'
+  },
+  'calculator-integrator': {
+    tells:[
+      'They ask about your interests and underlying needs, not just your stated position',
+      'They propose creative packages and multi item trades',
+      'They use collaborative language and invite joint problem solving',
+      'They maintain a moderate pace and seem genuinely curious about your perspective'
+    ],
+    advantages:[
+      'Your analysis grounds their creativity in reality and prevents wishful thinking',
+      'You spot risks in their proposals that others miss entirely',
+      'Your rigour ensures any agreement is implementable and durable over time'
+    ],
+    risks:[
+      'Dismissing creative options because they lack immediate data support',
+      'Being too rigid about process while they build relationships around you',
+      'Appearing cold and disengaged while they connect with everyone else in the room'
+    ],
+    playbook:[
+      'Evaluate their proposals on merit rather than dismissing what you cannot immediately quantify',
+      'Combine your analytical strength with their creative ideas for solutions that are both innovative and robust',
+      'Let them handle the relationship building while you ensure the deal structure is sound'
+    ],
+    fakeWarning:'If they frame every concession they want as a "creative solution" or "mutual benefit," run the numbers independently. Genuine integration improves both positions. Strategic integration improves only theirs while sounding like it helps everyone.'
+  },
+  'calculator-yielder': {
+    tells:[
+      'They speak softly and agree quickly without challenging your points',
+      'They defer to your expertise and rarely question your data or conclusions',
+      'They avoid confrontation and fill silences with soft concessions',
+      'They apologise unnecessarily and check frequently whether things feel fair'
+    ],
+    advantages:[
+      'They respect your preparation and take your analysis seriously from the start',
+      'They share information freely because they want to build a trusting relationship',
+      'They will defer to well presented evidence based arguments without resistance'
+    ],
+    risks:[
+      'Steamrolling them with data and getting a deal they cannot actually implement',
+      'Mistaking their agreement for genuine understanding and commitment to the terms',
+      'Overlooking their concerns because they are too polite to raise them directly'
+    ],
+    playbook:[
+      'Slow your analysis down and check they understand and genuinely agree, not just comply',
+      'Ask what concerns they have rather than waiting for objections they will never volunteer',
+      'A deal they fully understand and support will be implemented far better than one they simply accepted'
+    ],
+    fakeWarning:'If they agree with everything but the deal stalls during implementation, they may have agreed to end the discomfort of negotiating rather than because they genuinely supported the terms. Silence from a yielder does not mean satisfaction. It often means suppression.'
+  }
+};
 
 function calcResults(answers){
   const sc={dominator:0,integrator:0,yielder:0,calculator:0};
@@ -368,6 +689,73 @@ const shBd=r.shadow>=5?'#FECACA':r.shadow>=3?'#FDE68A':r.shadow>=2?'#FEF08A':'#B
 const shTx=r.shadow>=5?'#DC2626':r.shadow>=3?'#D97706':r.shadow>=2?'#CA8A04':'#16A34A';
   const greeting=name?`<p style="font-size:18px;color:#6B7280;margin-bottom:8px;">Prepared for: <strong style="color:#1F2937;">${name}</strong></p>`:'';
   const svg=genSVGRadar(sc);
+  const spotStyles=['dominator','integrator','yielder','calculator'];
+const spotGrid=spotStyles.map(style=>{
+  const sg=spottingGuide[style];
+  const col=styleMeta[style].color;
+  const lab=styleMeta[style].label;
+  return `<div style="border:2px solid ${col}30;border-radius:8px;padding:16px;background:${col}08;break-inside:avoid;">
+<div style="font-weight:bold;color:${col};font-size:15px;margin-bottom:10px;">${lab}</div>
+<div style="font-size:12px;color:#374151;line-height:1.8;">
+<p><strong style="color:#6B7280;">Pace:</strong> ${sg.pace}</p>
+<p><strong style="color:#6B7280;">Tone:</strong> ${sg.tone}</p>
+<p><strong style="color:#6B7280;">Focus:</strong> ${sg.focus}</p>
+<p style="margin-top:8px;"><strong style="color:#6B7280;">You will hear:</strong> ${sg.phrases.join(' · ')}</p>
+<p style="margin-top:8px;"><strong style="color:#6B7280;">They will:</strong></p>
+${sg.behaviours.map(b=>`<p style="margin-left:8px;">• ${b}</p>`).join('')}
+</div></div>`;
+}).join('');
+
+const opponents=spotStyles.filter(st=>st!==p);
+const matchupCards=opponents.map(opp=>{
+  const key=p+'-'+opp;
+  const m=matchupAdvice[key];
+  const oppCol=styleMeta[opp].color;
+  const oppLab=styleMeta[opp].label;
+  const myCol=styleMeta[p].color;
+  const myLab=styleMeta[p].label;
+  return `<div style="border:1px solid #E5E7EB;border-radius:8px;margin-bottom:16px;overflow:hidden;break-inside:avoid;">
+<div style="padding:12px 20px;background:${myCol}10;">
+<span style="font-weight:bold;color:${myCol};">You (${myLab})</span>
+<span style="color:#9CA3AF;margin:0 8px;">vs</span>
+<span style="font-weight:bold;color:${oppCol};">${oppLab}</span>
+</div>
+<div style="padding:20px;">
+<h4 style="font-size:11px;font-weight:bold;color:#9CA3AF;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Their Tells</h4>
+${m.tells.map(t=>`<p style="font-size:13px;color:#374151;margin-bottom:4px;">• ${t}</p>`).join('')}
+<div style="display:flex;gap:20px;margin-top:16px;">
+<div style="flex:1;">
+<h4 style="font-size:11px;font-weight:bold;color:#16A34A;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Your Advantages</h4>
+${m.advantages.map(av=>`<p style="font-size:13px;color:#374151;margin-bottom:4px;">✓ ${av}</p>`).join('')}
+</div>
+<div style="flex:1;">
+<h4 style="font-size:11px;font-weight:bold;color:#DC2626;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Your Risks</h4>
+${m.risks.map(ri=>`<p style="font-size:13px;color:#374151;margin-bottom:4px;">✗ ${ri}</p>`).join('')}
+</div>
+</div>
+<h4 style="font-size:11px;font-weight:bold;color:#1E40AF;text-transform:uppercase;letter-spacing:1px;margin-top:16px;margin-bottom:8px;">Your Playbook</h4>
+${m.playbook.map((step,i)=>`<p style="font-size:13px;color:#374151;margin-bottom:4px;"><strong style="color:#1E40AF;">${i+1}.</strong> ${step}</p>`).join('')}
+<div style="margin-top:16px;padding:14px;background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;">
+<h4 style="font-size:11px;font-weight:bold;color:#B45309;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">⚠️ Watch For The Fake</h4>
+<p style="font-size:13px;color:#92400E;">${m.fakeWarning}</p>
+</div>
+</div></div>`;
+}).join('');
+
+const readingRoom=`<div class="sec" style="margin-top:32px;">
+<h2 style="color:#1E40AF;font-size:20px;border-bottom:2px solid #1E40AF;padding-bottom:6px;">Reading The Room</h2>
+<p style="color:#6B7280;font-size:14px;margin-top:8px;margin-bottom:20px;">How to spot each negotiation style and what to do when you are sitting across from them.</p>
+<h3 style="font-size:12px;font-weight:bold;color:#9CA3AF;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Spot Their Style</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;">
+${spotGrid}
+</div>
+<h3 style="font-size:12px;font-weight:bold;color:#9CA3AF;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Your Tactical Playbook</h3>
+${matchupCards}
+<div style="margin-top:20px;padding:20px;background:#111827;color:white;border-radius:8px;">
+<h4 style="font-weight:bold;font-size:14px;margin-bottom:8px;">The Most Important Rule</h4>
+<p style="font-size:13px;color:#D1D5DB;">The most dangerous negotiator is not the one who is aggressive. It is the one who is pretending to be something they are not. If someone's words say collaboration but their proposals say competition, trust the proposals. If their warmth appeared suddenly and conveniently, question what it is designed to achieve. Behaviour reveals intention far more reliably than language ever will.</p>
+</div>
+</div>`;
   return `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Negotiation Profile Report</title>
 <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:Georgia,'Times New Roman',serif;max-width:760px;margin:0 auto;padding:48px 28px;color:#1F2937;line-height:1.75;background:#fff}
 .hdr{text-align:center;margin-bottom:36px;padding-bottom:24px;border-bottom:3px solid #1E40AF}
@@ -402,6 +790,8 @@ const shTx=r.shadow>=5?'#DC2626':r.shadow>=3?'#D97706':r.shadow>=2?'#CA8A04':'#1
 <div class="sec"><h2 style="color:#D97706;">Under Pressure</h2><p>${nl(a.underPressure)}</p></div>
 <div class="sec"><h2 style="color:#DC2626;">Watch Out</h2><p>${nl(a.watchOut)}</p></div>
 <div class="sec"><h2 style="color:#16A34A;">Your Growth Edge</h2><p>${nl(a.growthEdge)}</p></div>
+${readingRoom}
+<div class="sh" style="background:${shBg};border-color:${shBd};">
 <div class="sh" style="background:${shBg};border-color:${shBd};"><h2 style="color:${shTx};">Shadow Assessment: ${sl.title}</h2><div class="sub" style="color:${shTx};">${sl.sub}</div><p>${nl(sl.msg)}</p></div>
 <div class="ft"><p style="font-weight:600;">The Buckingham Academy Negotiation Profile Assessment</p><p>&copy; 2026 The Buckingham Academy Limited. All rights reserved.</p>
 <p style="margin-top:8px;">To book a custom negotiation programme: admin@bucademy.com</p></div></body></html>`;
@@ -690,6 +1080,98 @@ if(phase==='tiebreak'&&tieData) return(
               {renderParagraphs(sec.text)}
             </motion.div>
           ))}
+
+{/* Reading The Room */}
+          <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:1.0}}
+            className="bg-white border border-gray-200 rounded-xl p-6 mb-4">
+            <h3 className="font-bold text-lg mb-2 text-blue-800">Reading The Room</h3>
+            <p className="text-gray-500 text-sm mb-6">How to spot each negotiation style and what to do when you are sitting across from them.</p>
+
+            {/* 2x2 Spotting Grid */}
+            <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Spot Their Style</h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+              {['dominator','integrator','yielder','calculator'].map(style=>{
+                const sg=spottingGuide[style];
+                const sm=styleMeta[style];
+                return(
+                  <div key={style} className="border rounded-lg p-4" style={{borderColor:sm.color+'40',backgroundColor:sm.color+'08'}}>
+                    <div className="font-bold text-sm mb-3" style={{color:sm.color}}>{sm.label}</div>
+                    <div className="space-y-2 text-xs text-gray-700">
+                      <div className="flex gap-2"><span className="font-semibold text-gray-500 w-12 shrink-0">Pace:</span><span>{sg.pace}</span></div>
+                      <div className="flex gap-2"><span className="font-semibold text-gray-500 w-12 shrink-0">Tone:</span><span>{sg.tone}</span></div>
+                      <div className="flex gap-2"><span className="font-semibold text-gray-500 w-12 shrink-0">Focus:</span><span>{sg.focus}</span></div>
+                      <div className="mt-2">
+                        <span className="font-semibold text-gray-500">You will hear:</span>
+                        <div className="mt-1 flex flex-wrap gap-1">
+                          {sg.phrases.map((ph,i)=><span key={i} className="px-2 py-0.5 rounded text-xs font-medium" style={{backgroundColor:sm.color+'15',color:sm.color}}>{ph}</span>)}
+                        </div>
+                      </div>
+                      <div>
+                        <span className="font-semibold text-gray-500">They will:</span>
+                        <div className="mt-1">{sg.behaviours.map((b,i)=><div key={i}>• {b}</div>)}</div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Matchup Cards */}
+            <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Your Tactical Playbook</h4>
+            <div className="space-y-4">
+              {['dominator','integrator','yielder','calculator']
+                .filter(style=>style!==p)
+                .map(opponent=>{
+                  const key=p+'-'+opponent;
+                  const m=matchupAdvice[key];
+                  const oppMeta=styleMeta[opponent];
+                  const myMeta=styleMeta[p];
+                  return(
+                    <div key={key} className="border border-gray-200 rounded-lg overflow-hidden">
+                      <div className="px-5 py-3 flex items-center gap-3" style={{backgroundColor:myMeta.color+'10'}}>
+                        <span className="font-bold text-sm" style={{color:myMeta.color}}>You ({myMeta.label})</span>
+                        <span className="text-gray-400 text-sm">vs</span>
+                        <span className="font-bold text-sm" style={{color:oppMeta.color}}>{oppMeta.label}</span>
+                      </div>
+
+                      <div className="p-5 space-y-4">
+                        <div>
+                          <h5 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Their Tells</h5>
+                          <div className="space-y-1">{m.tells.map((t,i)=><div key={i} className="text-sm text-gray-700 flex gap-2"><span className="text-gray-300">•</span><span>{t}</span></div>)}</div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <div>
+                            <h5 className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">Your Advantages</h5>
+                            <div className="space-y-1">{m.advantages.map((a,i)=><div key={i} className="text-sm text-gray-700 flex gap-2"><span className="text-green-500">✓</span><span>{a}</span></div>)}</div>
+                          </div>
+                          <div>
+                            <h5 className="text-xs font-bold text-red-600 uppercase tracking-wider mb-2">Your Risks</h5>
+                            <div className="space-y-1">{m.risks.map((r,i)=><div key={i} className="text-sm text-gray-700 flex gap-2"><span className="text-red-500">✗</span><span>{r}</span></div>)}</div>
+                          </div>
+                        </div>
+
+                        <div>
+                          <h5 className="text-xs font-bold text-blue-700 uppercase tracking-wider mb-2">Your Playbook</h5>
+                          <div className="space-y-1">{m.playbook.map((step,i)=><div key={i} className="text-sm text-gray-700 flex gap-2"><span className="font-bold text-blue-700">{i+1}.</span><span>{step}</span></div>)}</div>
+                        </div>
+
+                        <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                          <h5 className="text-xs font-bold text-amber-700 uppercase tracking-wider mb-1">⚠️ Watch For The Fake</h5>
+                          <p className="text-sm text-amber-800">{m.fakeWarning}</p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+
+            {/* General Shadow Warning */}
+            <div className="mt-6 bg-gray-900 text-white rounded-lg p-5">
+              <h5 className="font-bold text-sm mb-2">The Most Important Rule</h5>
+              <p className="text-sm text-gray-300">The most dangerous negotiator is not the one who is aggressive. It is the one who is pretending to be something they are not. If someone's words say collaboration but their proposals say competition, trust the proposals. If their warmth appeared suddenly and conveniently, question what it is designed to achieve. Behaviour reveals intention far more reliably than language ever will.</p>
+            </div>
+          </motion.div>
 
           <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:1.2}}
             className={`border-2 rounded-xl p-6 mb-6 ${shC}`}>
