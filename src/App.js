@@ -913,29 +913,33 @@ if(phase==='intro') return(
       <div className="min-h-screen bg-white text-gray-900 flex flex-col p-4">
         <div className="max-w-2xl w-full mx-auto flex-1 flex flex-col">
           <div className="mb-6">
-            <div className="flex justify-between text-sm text-gray-500 mb-2">
-              <span>Question {qi+1} of {questions.length}</span>
-              <span>{Math.round(pct)}%</span>
-            </div>
-            <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-              <motion.div className="h-full bg-blue-700 rounded-full" initial={{width:0}} animate={{width:`${pct}%`}} transition={{duration:0.3}}/>
-            </div>
-          </div>
+  <div className="flex justify-between text-sm text-gray-500 mb-2">
+    <span>Question {qi+1} of {questions.length}</span>
+    <span>{Math.round(pct)}%</span>
+  </div>
+  <div className="h-4 bg-gray-200 rounded-full overflow-hidden">
+    <motion.div className="h-full bg-blue-700 rounded-full" initial={{width:0}} animate={{width:`${pct}%`}} transition={{duration:0.3}}/>
+  </div>
+<p className="text-sm text-gray-600 mt-3 text-center leading-relaxed">
+  Pick the answer closest to how you would actually behave.<br/>
+  <span className="font-bold text-gray-900">NOT</span> how you think you should.
+</p>
+</div>
           <div className="flex-1 flex flex-col justify-center">
             <AnimatePresence mode="wait">
               <motion.div key={qi} initial={{opacity:0,x:30}} animate={{opacity:1,x:0}} exit={{opacity:0,x:-30}} transition={{duration:0.2}}>
-                <h2 className="text-xl font-semibold mb-6 text-gray-900 leading-relaxed">{q.text}</h2>
+                <h2 className="text-lg sm:text-xl font-semibold mb-6 text-gray-900 leading-relaxed">{q.text}</h2>
                 <div className="space-y-3">
                   {q.options.map((o,i)=>(
                     <button key={i} onClick={()=>setSel(i)}
-                      className={`w-full text-left p-4 rounded-lg border-2 transition-all duration-150 ${
-                        sel===i?'border-blue-700 bg-blue-50 text-blue-900':'border-gray-200 bg-white hover:border-gray-400 text-gray-700 hover:text-gray-900'
-                      }`}>
-                      <span className={`inline-flex items-center justify-center w-7 h-7 rounded-full text-sm font-bold mr-3 ${
-                        sel===i?'bg-blue-700 text-white':'bg-gray-200 text-gray-500'
-                      }`}>{String.fromCharCode(65+i)}</span>
-                      {o.text}
-                    </button>
+  className={`w-full text-left p-3 sm:p-4 rounded-lg border-2 transition-all duration-150 flex items-start gap-3 ${
+    sel===i?'border-blue-700 bg-blue-50 text-blue-900':'border-gray-200 bg-white hover:border-gray-400 text-gray-700 hover:text-gray-900'
+  }`}>
+  <span className={`shrink-0 inline-flex items-center justify-center w-7 h-7 rounded-full text-sm font-bold ${
+    sel===i?'bg-blue-700 text-white':'bg-gray-200 text-gray-500'
+  }`}>{String.fromCharCode(65+i)}</span>
+  <span className="text-sm sm:text-base">{o.text}</span>
+</button>
                   ))}
                 </div>
               </motion.div>
