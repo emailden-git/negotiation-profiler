@@ -678,7 +678,9 @@ function genSVGRadar(sc){
   const lbls=labels.map((l,i)=>`<text x="${lPos[i].x}" y="${lPos[i].y}" text-anchor="${lPos[i].a}" fill="${cols[i]}" font-size="14" font-weight="bold" font-family="Arial,sans-serif">${l}: ${vals[i]}</text>`).join('');
   return `<svg viewBox="0 0 400 400" width="400" height="400" xmlns="http://www.w3.org/2000/svg">${grid}${axes}<polygon points="${poly}" fill="rgba(37,99,235,0.15)" stroke="#2563EB" stroke-width="2.5"/>${dots}${lbls}</svg>`;
 }
-
+const sanitize = (str) => str.replace(/[<>&"']/g, c => ({
+  '<':'&lt;', '>':'&gt;', '&':'&amp;', '"':'&quot;', "'":'&#39;'
+}[c]));
 function genHTML(r,name){
   const a=r.archetype,sc=r.scores,sl=shadowLevels[r.shadow],p=r.primary,s=r.secondary;
   const total=16;
@@ -687,8 +689,8 @@ function genHTML(r,name){
  const shBg=r.shadow>=5?'#FEF2F2':r.shadow>=3?'#FFFBEB':r.shadow>=2?'#FEFCE8':'#F0FDF4';
 const shBd=r.shadow>=5?'#FECACA':r.shadow>=3?'#FDE68A':r.shadow>=2?'#FEF08A':'#BBF7D0';
 const shTx=r.shadow>=5?'#DC2626':r.shadow>=3?'#D97706':r.shadow>=2?'#CA8A04':'#16A34A';
-  const greeting=name?`<p style="font-size:18px;color:#6B7280;margin-bottom:8px;">Prepared for: <strong style="color:#1F2937;">${name}</strong></p>`:'';
-  const svg=genSVGRadar(sc);
+const safeName=name?sanitize(name):'';
+const greeting=safeName?`<p style="font-size:18px;color:#6B7280;margin-bottom:8px;">Prepared for: <strong style="color:#1F2937;">${safeName}</strong></p>`:'';  const svg=genSVGRadar(sc);
   const spotStyles=['dominator','integrator','yielder','calculator'];
 const spotGrid=spotStyles.map(style=>{
   const sg=spottingGuide[style];
@@ -791,7 +793,7 @@ ${matchupCards}
 <div class="sec"><h2 style="color:#DC2626;">Watch Out</h2><p>${nl(a.watchOut)}</p></div>
 <div class="sec"><h2 style="color:#16A34A;">Your Growth Edge</h2><p>${nl(a.growthEdge)}</p></div>
 ${readingRoom}
-<div class="sh" style="background:${shBg};border-color:${shBd};">
+
 <div class="sh" style="background:${shBg};border-color:${shBd};"><h2 style="color:${shTx};">Shadow Assessment: ${sl.title}</h2><div class="sub" style="color:${shTx};">${sl.sub}</div><p>${nl(sl.msg)}</p></div>
 <div class="ft"><p style="font-weight:600;">The Buckingham Academy Negotiation Profile Assessment</p><p>&copy; 2026 The Buckingham Academy Limited. All rights reserved.</p>
 <p style="margin-top:8px;">To book a custom negotiation programme: admin@bucademy.com</p></div></body></html>`;
@@ -805,10 +807,10 @@ export default function NegotiationAssessment(){
   const[results,setResults]=useState(null);
   const[userName,setUserName]=useState('');
 const[tieData,setTieData]=useState(null); 
+const[saved,setSaved]=useState(false);
 
 useEffect(() => {
-  if (phase === 'results' && results) {
-    
+  if (phase === 'results' && results && !saved) {
     const saveResult = async () => {
       const { error } = await supabase
         .from('results')
@@ -817,18 +819,18 @@ useEffect(() => {
           style: results.primary,
           name: userName || 'Anonymous'
         }])
-
       if (error) console.error('Save failed:', error)
+      else setSaved(true)
     }
     saveResult()
   }
-}, [phase, results, userName])
+}, [phase, results, userName, saved])
 
 
 
 const next=()=>{if(sel===null)return;const na=[...answers,sel];setAnswers(na);setSel(null);if(qi<questions.length-1)setQi(qi+1);else{const r=calcResults(na);if(r.tied){setTieData(r);setPhase('tiebreak');}else{setResults(r);setPhase('results');}}};  const back=()=>{if(qi>0){const na=[...answers];const prev=na.pop();setAnswers(na);setSel(prev);setQi(qi-1);}};
-  const restart=()=>{setPhase('intro');setQi(0);setAnswers([]);setSel(null);setResults(null);setUserName('');};
-  const download=()=>{if(!results)return;const blob=new Blob([genHTML(results,userName)],{type:'text/html'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Negotiation-Profile-'+results.archetype.name.replace(/\s/g,'-')+'.html';a.click();URL.revokeObjectURL(url);};
+const restart=()=>{setPhase('intro');setQi(0);setAnswers([]);setSel(null);setResults(null);setUserName('');setSaved(false);};
+const download=()=>{if(!results)return;const blob=new Blob([genHTML(results,userName)],{type:'text/html'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Negotiation-Profile-'+results.archetype.name.replace(/\s/g,'-')+'.html';a.click();URL.revokeObjectURL(url);};
 
 if(phase==='intro') return(
     <div className="min-h-screen flex flex-col">
@@ -879,15 +881,16 @@ if(phase==='intro') return(
   <motion.div initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} transition={{delay:0.4}} className="text-center max-w-md w-full">
 
     <div className="mb-8">
-      <label className="block text-xs text-gray-400 mb-2 uppercase tracking-widest">Your name (optional)</label>
-      <input
-        type="text"
-        value={userName}
-        onChange={e=>setUserName(e.target.value)}
-        placeholder="Enter your name"
-        className="w-72 px-5 py-3 border border-gray-200 rounded-lg text-center text-gray-700 bg-gray-50 focus:outline-none focus:border-blue-700 focus:ring-2 focus:ring-blue-50 focus:bg-white transition-all text-sm"
-      />
-    </div>
+  <label className="block text-xs text-gray-400 mb-2 uppercase tracking-widest">Your initials (optional)</label>
+  <input
+    type="text"
+    value={userName}
+    onChange={e=>setUserName(e.target.value.toUpperCase().replace(/[^A-Z]/g,'').slice(0,5))}
+    maxLength={5}
+    placeholder="e.g. JDS"
+    className="w-72 px-5 py-3 border border-gray-200 rounded-lg text-center text-gray-700 bg-gray-50 focus:outline-none focus:border-blue-700 focus:ring-2 focus:ring-blue-50 focus:bg-white transition-all text-sm tracking-widest uppercase"
+  />
+</div>
 
     
 
