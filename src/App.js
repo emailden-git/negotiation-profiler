@@ -830,84 +830,219 @@ useEffect(() => {
 
 const next=()=>{if(sel===null)return;const na=[...answers,sel];setAnswers(na);setSel(null);if(qi<questions.length-1)setQi(qi+1);else{const r=calcResults(na);if(r.tied){setTieData(r);setPhase('tiebreak');}else{setResults(r);setPhase('results');}}};  const back=()=>{if(qi>0){const na=[...answers];const prev=na.pop();setAnswers(na);setSel(prev);setQi(qi-1);}};
 const restart=()=>{setPhase('intro');setQi(0);setAnswers([]);setSel(null);setResults(null);setUserName('');setSaved(false);};
-const download=()=>{if(!results)return;const blob=new Blob([genHTML(results,userName)],{type:'text/html'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Negotiation-Profile-'+results.archetype.name.replace(/\s/g,'-')+'.html';a.click();URL.revokeObjectURL(url);};
+  const download=()=>{if(!results)return;const blob=new Blob([genHTML(results,userName)],{type:'text/html'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Negotiation-Profile-'+results.archetype.name.replace(/\s/g,'-')+'.html';a.click();URL.revokeObjectURL(url);};
 
 if(phase==='intro') return(
-    <div className="min-h-screen flex flex-col">
-      <div className="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white flex-1 flex flex-col items-center justify-center px-6 py-20 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-1/4 w-96 h-96 bg-blue-500 rounded-full blur-3xl"/>
-          <div className="absolute bottom-10 right-1/4 w-96 h-96 bg-purple-500 rounded-full blur-3xl"/>
+  <div className="min-h-screen flex flex-col min-w-0 overflow-x-hidden">
+
+    {/* ═══ HERO ═══ */}
+    <div className="relative min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 flex flex-col items-center justify-center px-6 overflow-hidden">
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
+
+      <motion.div initial={{opacity:0,y:30}} animate={{opacity:1,y:0}} transition={{duration:1}} className="relative z-10 text-center max-w-2xl">
+        <p className="text-blue-400/80 text-xs font-semibold tracking-widest uppercase mb-10">The Buckingham Academy</p>
+
+        <h1 className="text-4xl sm:text-5xl font-bold mb-6 leading-tight tracking-tight text-white">
+          You're Leaving Value<br/>on the Table.{' '}
+          <span className="bg-gradient-to-r from-blue-400 to-blue-300 bg-clip-text text-transparent">Let's Fix That.</span>
+        </h1>
+
+        <p className="text-blue-200/50 text-lg mb-12 max-w-lg mx-auto leading-relaxed">
+          Take the 7‑minute Negotiation Style Assessment and uncover the hidden patterns shaping every deal you walk into.
+        </p>
+
+        <div className="flex items-center justify-center gap-6 sm:gap-8 text-xs text-blue-100/60 mb-10">
+          {[['23','Questions'],['4','Styles'],['12','Archetypes'],['7','Minutes']].map(([num,label],i)=>(
+            <div key={i} className="flex flex-col items-center gap-1">
+              <span className="text-2xl font-bold text-white">{num}</span>
+              <span className="uppercase tracking-widest text-xs opacity-60">{label}</span>
+            </div>
+          ))}
         </div>
 
-        <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:0.8}} className="relative z-10 text-center max-w-xl">
-          <p className="text-blue-300/80 text-xs font-semibold tracking-widest uppercase mb-8">The Buckingham Academy</p>
-
-          <h1 className="text-5xl font-bold mb-4 leading-tight tracking-tight">
-            Discover Your<br/>Negotiation Style
-          </h1>
-          <p className="text-blue-200/50 text-lg mb-14">Take the 7‑minute assessment below</p>
-
-        <div className="grid grid-cols-4 gap-3 max-w-sm mx-auto mb-14">
-  {[
-    {n:'Dominator', bg:'bg-red-600'},
-    {n:'Integrator', bg:'bg-purple-600'},
-    {n:'Yielder', bg:'bg-green-600'},
-    {n:'Calculator', bg:'bg-blue-600'},
-  ].map(s=>(
-    <div key={s.n} className={`${s.bg} text-white rounded-lg py-2.5 text-xs font-semibold tracking-wide shadow-lg`}>
-      {s.n}
-    </div>
-  ))}
-</div>
-
-<div className="flex items-center justify-center gap-6 text-xs text-blue-100/70">
-  <span>23 questions</span>
-  <span className="w-1 h-1 bg-blue-100/50 rounded-full"/>
-  <span>4 negotiation styles</span>
-  <span className="w-1 h-1 bg-blue-100/50 rounded-full"/>
-  <span>12 archetypes</span>
-</div>
-
-<p className="text-sm text-blue-100/70 mt-6 mb-4">
-  <span className="font-semibold text-white">Discover hidden tendencies</span>{' '}
-  that win or kill deals.
-</p>
-
-</motion.div>
-</div>
-
-<div className="bg-white px-6 py-14 flex flex-col items-center">
-  <motion.div initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} transition={{delay:0.4}} className="text-center max-w-md w-full">
-
-    <div className="mb-8">
-  <label className="block text-xs text-gray-400 mb-2 uppercase tracking-widest">Your initials (optional)</label>
-  <input
-    type="text"
-    value={userName}
-    onChange={e=>setUserName(e.target.value.toUpperCase().replace(/[^A-Z]/g,'').slice(0,5))}
-    maxLength={5}
-    placeholder="e.g. JDS"
-    className="w-72 px-5 py-3 border border-gray-200 rounded-lg text-center text-gray-700 bg-gray-50 focus:outline-none focus:border-blue-700 focus:ring-2 focus:ring-blue-50 focus:bg-white transition-all text-sm tracking-widest uppercase"
-  />
-</div>
-
-    
-
-          <button
-  onClick={()=>setPhase('quiz')}
-  className="mb-6 bg-gradient-to-r from-blue-800 to-blue-900 hover:from-blue-900 hover:to-slate-900 text-white font-bold px-12 py-4 rounded-xl text-lg transition-all shadow-lg hover:shadow-2xl transform hover:-translate-y-0.5"
->
-  Begin Assessment <ChevronRight className="inline w-5 h-5 ml-1"/>
-</button>
-
- <p className="text-xs text-gray-400 italic mb-8">Don't overthink it. Your first instinct is your truest answer.</p>
-
-          <p className="text-xs text-gray-300 mt-12">&copy; 2026 The Buckingham Academy Limited</p>
+        <motion.div animate={{y:[0,8,0]}} transition={{repeat:Infinity,duration:2}} className="text-blue-300/40 text-sm">
+          ↓ Scroll to learn more
         </motion.div>
-      </div>
+      </motion.div>
     </div>
-  );
+
+    {/* ═══ PROBLEM ═══ */}
+    <div className="bg-slate-950 px-6 py-24">
+      <motion.div initial={{opacity:0,y:30}} whileInView={{opacity:1,y:0}} viewport={{once:true,margin:'-100px'}} transition={{duration:0.8}} className="max-w-2xl mx-auto text-center">
+        <p className="text-red-400/80 text-xs font-semibold tracking-widest uppercase mb-6">The Problem</p>
+        <h2 className="text-3xl sm:text-4xl font-bold mb-8 leading-tight text-white">Most Professionals Negotiate<br/>on Autopilot</h2>
+        <div className="space-y-5 text-blue-100/60 text-base leading-relaxed max-w-xl mx-auto">
+          <p>You've developed habits over years — ways you handle pushback, make concessions, build (or avoid) tension. Most of it is <span className="text-white font-medium">invisible to you</span>.</p>
+          <p>Some of those instincts give you a genuine edge. Others are <span className="text-white font-medium">quietly costing you</span> — in margin, in trust, in outcomes you never realise you missed.</p>
+          <p className="text-white/80 font-medium text-lg pt-4">You can't fix what you can't see.</p>
+        </div>
+      </motion.div>
+    </div>
+
+    {/* ═══ 4 STYLES ═══ */}
+    <div className="bg-gradient-to-b from-slate-950 to-slate-900 px-6 py-24">
+      <motion.div initial={{opacity:0,y:30}} whileInView={{opacity:1,y:0}} viewport={{once:true,margin:'-100px'}} transition={{duration:0.8}} className="max-w-3xl mx-auto text-center">
+        <p className="text-blue-400/80 text-xs font-semibold tracking-widest uppercase mb-6">Four Distinct Styles</p>
+        <h2 className="text-3xl sm:text-4xl font-bold mb-4 leading-tight text-white">Which One Drives You?</h2>
+        <p className="text-blue-200/50 mb-14 text-base max-w-md mx-auto">Everyone leans towards one dominant style — often without knowing it.</p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
+          {[
+            {name:'Dominator',bg:'from-red-600 to-red-700',border:'border-red-500/30',desc:'Drives hard for results. Decisive under pressure — but may leave value on the table by moving too fast.',icon:'⚡'},
+            {name:'Integrator',bg:'from-purple-600 to-purple-700',border:'border-purple-500/30',desc:'Builds relationships and consensus. Creates trust — but may concede too much to keep the peace.',icon:'🤝'},
+            {name:'Yielder',bg:'from-green-600 to-green-700',border:'border-green-500/30',desc:'Accommodating and patient. Keeps doors open — but risks being overlooked or outmanoeuvred.',icon:'🌿'},
+            {name:'Calculator',bg:'from-blue-600 to-blue-700',border:'border-blue-500/30',desc:'Analytical and methodical. Masters the detail — but may stall momentum or miss the human dynamic.',icon:'📐'},
+          ].map((s,i)=>(
+            <motion.div key={s.name} initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{delay:i*0.1,duration:0.6}}
+              className={`bg-slate-800/50 ${s.border} border rounded-2xl p-6 text-left hover:bg-slate-800/80 transition-all`}>
+              <div className="flex items-center gap-3 mb-3">
+                <div className={`bg-gradient-to-r ${s.bg} w-10 h-10 rounded-lg flex items-center justify-center text-lg shadow-lg`}>{s.icon}</div>
+                <h3 className="text-white font-bold text-lg">{s.name}</h3>
+              </div>
+              <p className="text-blue-100/50 text-sm leading-relaxed">{s.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+
+        <p className="text-blue-200/40 text-sm mt-10 italic">Your style is only the starting point — your unique archetype goes much deeper.</p>
+      </motion.div>
+    </div>
+
+    {/* ═══ BENEFITS ═══ */}
+    <div className="bg-slate-900 px-6 py-24">
+      <motion.div initial={{opacity:0,y:30}} whileInView={{opacity:1,y:0}} viewport={{once:true,margin:'-100px'}} transition={{duration:0.8}} className="max-w-3xl mx-auto text-center">
+        <p className="text-blue-400/80 text-xs font-semibold tracking-widest uppercase mb-6">Your Personalised Diagnostic</p>
+        <h2 className="text-3xl sm:text-4xl font-bold mb-4 leading-tight text-white">This Isn't a Quiz.<br/>It's a Strategic Mirror.</h2>
+        <p className="text-blue-200/50 mb-16 max-w-lg mx-auto">In 7 minutes you'll receive a detailed profile that most negotiators never get access to — about themselves.</p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left max-w-2xl mx-auto">
+          {[
+            {title:'Your Negotiation DNA',desc:'Understand your dominant style, your secondary tendencies, and the archetype that makes you unique among the 12 profiles.',icon:'🧬'},
+            {title:'Your Natural Edge',desc:"See exactly where your instincts serve you — the advantages most people in your style never consciously leverage.",icon:'🎯'},
+            {title:'Your Blind Spots',desc:'Uncover the patterns that quietly erode trust, margin, or momentum — before your next high‑stakes conversation.',icon:'🔍'},
+            {title:'How to Read Others',desc:'Learn to identify each style across the table and adapt your approach in real time to create better outcomes — for everyone.',icon:'🧭'},
+          ].map((b,i)=>(
+            <motion.div key={b.title} initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{delay:i*0.1,duration:0.6}}
+              className="bg-slate-800/40 border border-slate-700/50 rounded-2xl p-6 hover:border-blue-500/30 transition-all">
+              <div className="text-2xl mb-3">{b.icon}</div>
+              <h3 className="text-white font-bold text-base mb-2">{b.title}</h3>
+              <p className="text-blue-100/50 text-sm leading-relaxed">{b.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+    </div>
+
+    {/* ═══ RESULTS PREVIEW / TEASER ═══ */}
+    <div className="bg-gradient-to-b from-slate-900 to-slate-950 px-6 py-24">
+      <motion.div initial={{opacity:0,y:30}} whileInView={{opacity:1,y:0}} viewport={{once:true,margin:'-100px'}} transition={{duration:0.8}} className="max-w-2xl mx-auto text-center">
+        <p className="text-blue-400/80 text-xs font-semibold tracking-widest uppercase mb-6">What You'll Receive</p>
+        <h2 className="text-3xl sm:text-4xl font-bold mb-12 leading-tight text-white">A Profile Built Around You</h2>
+
+        <div className="bg-slate-800/60 border border-slate-700/50 rounded-2xl p-8 relative overflow-hidden">
+          <div className="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-slate-800 via-slate-800/95 to-transparent z-10 flex items-end justify-center pb-8">
+            <p className="text-blue-300/70 text-sm font-medium">Complete the assessment to unlock your full profile →</p>
+          </div>
+          <div className="text-left space-y-5">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="bg-gradient-to-r from-red-600 to-red-700 w-12 h-12 rounded-xl flex items-center justify-center text-xl shadow-lg">⚡</div>
+              <div>
+                <p className="text-white font-bold text-lg">Primary: Dominator</p>
+                <p className="text-blue-200/40 text-xs">Secondary: Calculator • Archetype: The Strategist</p>
+              </div>
+            </div>
+            {[
+              {label:'Dominator',pct:82,color:'bg-red-500'},
+              {label:'Calculator',pct:64,color:'bg-blue-500'},
+              {label:'Integrator',pct:41,color:'bg-purple-500'},
+              {label:'Yielder',pct:23,color:'bg-green-500'},
+            ].map((bar)=>(
+              <div key={bar.label}>
+                <div className="flex justify-between text-xs mb-1">
+                  <span className="text-blue-100/60">{bar.label}</span>
+                  <span className="text-blue-100/40">{bar.pct}%</span>
+                </div>
+                <div className="w-full bg-slate-700/50 rounded-full h-2">
+                  <div className={`${bar.color} h-2 rounded-full`} style={{width:`${bar.pct}%`}}/>
+                </div>
+              </div>
+            ))}
+            <div className="pt-4">
+              <p className="text-white font-semibold text-sm mb-2">Your Natural Edge</p>
+              <p className="text-blue-100/40 text-sm">You bring decisiveness and momentum to negotiations that others often lack. Your instinct to...</p>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+
+    {/* ═══ CREDIBILITY ═══ */}
+    <div className="bg-slate-950 px-6 py-20">
+      <motion.div initial={{opacity:0}} whileInView={{opacity:1}} viewport={{once:true}} transition={{duration:0.8}} className="max-w-2xl mx-auto text-center">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-14 text-blue-100/40 text-sm">
+          <div className="flex flex-col items-center gap-1">
+            <span className="text-3xl font-bold text-white">30+</span>
+            <span className="text-xs uppercase tracking-widest">Years of Research</span>
+          </div>
+          <div className="hidden sm:block w-px h-12 bg-slate-700"/>
+          <div className="flex flex-col items-center gap-1">
+            <span className="text-3xl font-bold text-white">12</span>
+            <span className="text-xs uppercase tracking-widest">Unique Archetypes</span>
+          </div>
+          <div className="hidden sm:block w-px h-12 bg-slate-700"/>
+          <div className="flex flex-col items-center gap-1">
+            <span className="text-3xl font-bold text-white">Free</span>
+            <span className="text-xs uppercase tracking-widest">No Email Required</span>
+          </div>
+        </div>
+        <p className="text-blue-200/30 text-xs mt-8 max-w-md mx-auto leading-relaxed">
+          Grounded in established behavioural science frameworks used by negotiation professionals worldwide.
+        </p>
+      </motion.div>
+    </div>
+
+    {/* ═══ CTA — YOUR EXISTING BUTTON & INPUT ═══ */}
+    <div className="bg-white px-6 py-14 flex flex-col items-center">
+      <motion.div initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} transition={{delay:0.4}} className="text-center max-w-md w-full">
+
+        <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">Ready to See Yourself Clearly?</h2>
+        <p className="text-slate-500 text-sm mb-10 max-w-xs mx-auto">7 minutes. 23 questions. A profile you'll reference before every important conversation.</p>
+
+        <div className="mb-8">
+          <label className="block text-xs text-gray-400 mb-2 uppercase tracking-widest">Your initials (optional)</label>
+          <input
+            type="text"
+            value={userName}
+            onChange={e=>setUserName(e.target.value.toUpperCase().replace(/[^A-Z]/g,'').slice(0,5))}
+            maxLength={5}
+            placeholder="e.g. JDS"
+            className="w-72 px-5 py-3 border border-gray-200 rounded-lg text-center text-gray-700 bg-gray-50 focus:outline-none focus:border-blue-700 focus:ring-2 focus:ring-blue-50 focus:bg-white transition-all text-sm tracking-widest uppercase"
+          />
+        </div>
+
+        <button
+          onClick={()=>setPhase('quiz')}
+          className="mb-6 bg-gradient-to-r from-blue-800 to-blue-900 hover:from-blue-900 hover:to-slate-900 text-white font-bold px-12 py-4 rounded-xl text-lg transition-all shadow-lg hover:shadow-2xl transform hover:-translate-y-0.5"
+        >
+          Begin Assessment <ChevronRight className="inline w-5 h-5 ml-1"/>
+        </button>
+
+        <p className="text-xs text-gray-400 italic mb-8">Don't overthink it. Your first instinct is your truest answer.</p>
+
+        <div className="flex items-center justify-center gap-4 text-xs text-slate-400 uppercase tracking-widest">
+          <span>Free</span>
+          <span className="w-1 h-1 bg-slate-300 rounded-full"/>
+          <span>No email</span>
+          <span className="w-1 h-1 bg-slate-300 rounded-full"/>
+          <span>Instant results</span>
+        </div>
+
+        <p className="text-xs text-gray-300 mt-12">&copy; 2026 The Buckingham Academy Limited</p>
+      </motion.div>
+    </div>
+
+  </div>
+);
 
   if(phase==='quiz'){
     const q=questions[qi];
