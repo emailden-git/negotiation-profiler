@@ -872,8 +872,8 @@ if(phase==='intro') return(
         <p className="text-red-400/80 text-xs font-semibold tracking-widest uppercase mb-6">The Problem</p>
         <h2 className="text-3xl sm:text-4xl font-bold mb-8 leading-tight text-white">Most Professionals Negotiate<br/>on Autopilot</h2>
         <div className="space-y-5 text-blue-100/60 text-base leading-relaxed max-w-xl mx-auto">
-          <p>You've developed habits over years — ways you handle pushback, make concessions, build (or avoid) tension. Most of it is <span className="text-white font-medium">invisible to you</span>.</p>
-          <p>Some of those instincts give you a genuine edge. Others are <span className="text-white font-medium">quietly costing you</span> — in margin, in trust, in outcomes you never realise you missed.</p>
+          <p>You've developed habits over years, ways you handle pushback, make concessions, build (or avoid) tension. Most of it is <span className="text-white font-medium">invisible to you</span>.</p>
+          <p>Some of those instincts give you a genuine edge. Others are <span className="text-white font-medium">quietly costing you</span> in margin, in trust, in outcomes you never realise you missed.</p>
           <p className="text-white/80 font-medium text-lg pt-4">You can't fix what you can't see.</p>
         </div>
       </motion.div>
@@ -884,7 +884,7 @@ if(phase==='intro') return(
       <motion.div initial={{opacity:0,y:30}} whileInView={{opacity:1,y:0}} viewport={{once:true,margin:'-100px'}} transition={{duration:0.8}} className="max-w-3xl mx-auto text-center">
         <p className="text-blue-400/80 text-xs font-semibold tracking-widest uppercase mb-6">Four Distinct Styles</p>
         <h2 className="text-3xl sm:text-4xl font-bold mb-4 leading-tight text-white">Which One Drives You?</h2>
-        <p className="text-blue-200/50 mb-14 text-base max-w-md mx-auto">Everyone leans towards one dominant style — often without knowing it.</p>
+        <p className="text-blue-200/50 mb-14 text-base max-w-md mx-auto">Everyone leans towards one dominant style, often without knowing it.</p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
           {[
@@ -904,7 +904,7 @@ if(phase==='intro') return(
           ))}
         </div>
 
-        <p className="text-blue-200/40 text-sm mt-10 italic">Your style is only the starting point — your unique archetype goes much deeper.</p>
+        <p className="text-blue-200/40 text-sm mt-10 italic">Your style is only the starting point, your unique archetype goes much deeper.</p>
       </motion.div>
     </div>
 
@@ -913,7 +913,7 @@ if(phase==='intro') return(
       <motion.div initial={{opacity:0,y:30}} whileInView={{opacity:1,y:0}} viewport={{once:true,margin:'-100px'}} transition={{duration:0.8}} className="max-w-3xl mx-auto text-center">
         <p className="text-blue-400/80 text-xs font-semibold tracking-widest uppercase mb-6">Your Personalised Diagnostic</p>
         <h2 className="text-3xl sm:text-4xl font-bold mb-4 leading-tight text-white">This Isn't a Quiz.<br/>It's a Strategic Mirror.</h2>
-        <p className="text-blue-200/50 mb-16 max-w-lg mx-auto">In 7 minutes you'll receive a detailed profile that most negotiators never get access to — about themselves.</p>
+        <p className="text-blue-200/50 mb-16 max-w-lg mx-auto">In 7 minutes you'll receive a detailed profile that most negotiators never get access to, giving you the EDGE.</p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left max-w-2xl mx-auto">
           {[
@@ -981,7 +981,7 @@ if(phase==='intro') return(
       <motion.div initial={{opacity:0}} whileInView={{opacity:1}} viewport={{once:true}} transition={{duration:0.8}} className="max-w-2xl mx-auto text-center">
         <div className="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-14 text-blue-100/40 text-sm">
           <div className="flex flex-col items-center gap-1">
-            <span className="text-3xl font-bold text-white">30+</span>
+            <span className="text-3xl font-bold text-white">12+</span>
             <span className="text-xs uppercase tracking-widest">Years of Research</span>
           </div>
           <div className="hidden sm:block w-px h-12 bg-slate-700"/>
@@ -992,7 +992,7 @@ if(phase==='intro') return(
           <div className="hidden sm:block w-px h-12 bg-slate-700"/>
           <div className="flex flex-col items-center gap-1">
             <span className="text-3xl font-bold text-white">Free</span>
-            <span className="text-xs uppercase tracking-widest">No Email Required</span>
+            <span className="text-xs uppercase tracking-widest">until 27 April 2026</span>
           </div>
         </div>
         <p className="text-blue-200/30 text-xs mt-8 max-w-md mx-auto leading-relaxed">
@@ -1030,11 +1030,6 @@ if(phase==='intro') return(
         <p className="text-xs text-gray-400 italic mb-8">Don't overthink it. Your first instinct is your truest answer.</p>
 
         <div className="flex items-center justify-center gap-4 text-xs text-slate-400 uppercase tracking-widest">
-          <span>Free</span>
-          <span className="w-1 h-1 bg-slate-300 rounded-full"/>
-          <span>No email</span>
-          <span className="w-1 h-1 bg-slate-300 rounded-full"/>
-          <span>Instant results</span>
         </div>
 
         <p className="text-xs text-gray-300 mt-12">&copy; 2026 The Buckingham Academy Limited</p>
