@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, ChevronLeft, Download, RotateCcw } from 'lucide-react';
-import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ResponsiveContainer } from 'recharts';
 import { supabase } from './supabaseClient'
 
 const questions = [
@@ -658,26 +657,110 @@ function calcResults(answers){
   return {scores:sc,shadow:sh,primary:p,secondary:s,archetype:archetypes[p+'-'+s]};
 }
 
-function genSVGRadar(sc){
-  const cx=200,cy=200,R=130;
-  const keys=['dominator','integrator','yielder','calculator'];
-  const cols=['#DC2626','#9333EA','#16A34A','#2563EB'];
-  const labels=['Dominator','Integrator','Yielder','Calculator'];
-  const vals=keys.map(k=>sc[k]);
-  const angles=keys.map((_,i)=>(Math.PI*2*i/4)-Math.PI/2);
-  let grid='';
-  [0.25,0.5,0.75,1].forEach(f=>{
-    const pts=angles.map(a=>`${cx+R*f*Math.cos(a)},${cy+R*f*Math.sin(a)}`).join(' ');
-    grid+=`<polygon points="${pts}" fill="none" stroke="#E5E7EB" stroke-width="1"/>`;
+function genSVGPetal(sc){
+  const cx=200,cy=200,maxR=120,ringOuterR=158,ringInnerR=134,total=16;
+  const styles=[
+    {key:'dominator',label:'DOMINATOR',color:'#DC2626',light:'#FEE2E2',mid:'#FECACA',angle:-Math.PI/2},
+    {key:'integrator',label:'INTEGRATOR',color:'#9333EA',light:'#F3E8FF',mid:'#E9D5FF',angle:0},
+    {key:'yielder',label:'YIELDER',color:'#16A34A',light:'#DCFCE7',mid:'#BBF7D0',angle:Math.PI/2},
+    {key:'calculator',label:'CALCULATOR',color:'#2563EB',light:'#DBEAFE',mid:'#BFDBFE',angle:Math.PI},
+  ];
+
+  const petalPath=(score,angle)=>{
+    const L=Math.max((score/total)*maxR,28);
+    const w=Math.max(L*0.42,12);
+    const cos=Math.cos(angle),sin=Math.sin(angle);
+    const r=(x,y)=>[cx+x*cos-y*sin,cy+x*sin+y*cos];
+    const[sx,sy]=r(0,0);const[c1x,c1y]=r(L*0.25,-w);const[c2x,c2y]=r(L*0.7,-w*0.55);
+    const[tx,ty]=r(L,0);const[c3x,c3y]=r(L*0.7,w*0.55);const[c4x,c4y]=r(L*0.25,w);
+    return `M${sx},${sy} C${c1x},${c1y} ${c2x},${c2y} ${tx},${ty} C${c3x},${c3y} ${c4x},${c4y} ${sx},${sy}Z`;
+  };
+
+  const arcPath=(sa,ea,iR,oR)=>{
+    const sx=cx+oR*Math.cos(sa),sy=cy+oR*Math.sin(sa);
+    const ex=cx+oR*Math.cos(ea),ey=cy+oR*Math.sin(ea);
+    const ix=cx+iR*Math.cos(ea),iy=cy+iR*Math.sin(ea);
+    const jx=cx+iR*Math.cos(sa),jy=cy+iR*Math.sin(sa);
+    return `M${sx},${sy} A${oR},${oR} 0 0 1 ${ex},${ey} L${ix},${iy} A${iR},${iR} 0 0 0 ${jx},${jy}Z`;
+  };
+
+  const wedgePath=(sa,ea,r)=>{
+    const sx=cx+r*Math.cos(sa),sy=cy+r*Math.sin(sa);
+    const ex=cx+r*Math.cos(ea),ey=cy+r*Math.sin(ea);
+    return `M${cx},${cy} L${sx},${sy} A${r},${r} 0 0 1 ${ex},${ey} Z`;
+  };
+
+  let defs='';
+  styles.forEach(s=>{
+    defs+=`<radialGradient id="qbg-${s.key}" cx="50%" cy="50%" r="60%"><stop offset="0%" stop-color="${s.light}" stop-opacity="0.3"/><stop offset="100%" stop-color="${s.mid}" stop-opacity="0.7"/></radialGradient>`;
+    defs+=`<radialGradient id="pg-${s.key}" cx="50%" cy="50%" r="65%"><stop offset="0%" stop-color="${s.color}" stop-opacity="1"/><stop offset="70%" stop-color="${s.color}" stop-opacity="0.7"/><stop offset="100%" stop-color="${s.color}" stop-opacity="0.4"/></radialGradient>`;
+    defs+=`<radialGradient id="glow-${s.key}" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="${s.color}" stop-opacity="0.35"/><stop offset="100%" stop-color="${s.color}" stop-opacity="0"/></radialGradient>`;
   });
-  let axes=angles.map(a=>`<line x1="${cx}" y1="${cy}" x2="${cx+R*Math.cos(a)}" y2="${cy+R*Math.sin(a)}" stroke="#E5E7EB" stroke-width="1"/>`).join('');
-  const dataPts=vals.map((v,i)=>{const r=(v/16)*R;return{x:cx+r*Math.cos(angles[i]),y:cy+r*Math.sin(angles[i])};});
-  const poly=dataPts.map(p=>`${p.x},${p.y}`).join(' ');
-  const dots=dataPts.map((p,i)=>`<circle cx="${p.x}" cy="${p.y}" r="5" fill="${cols[i]}"/>`).join('');
-  const lPos=[{x:cx,y:cy-R-20,a:'middle'},{x:cx+R+15,y:cy+5,a:'start'},{x:cx,y:cy+R+25,a:'middle'},{x:cx-R-15,y:cy+5,a:'end'}];
-  const lbls=labels.map((l,i)=>`<text x="${lPos[i].x}" y="${lPos[i].y}" text-anchor="${lPos[i].a}" fill="${cols[i]}" font-size="14" font-weight="bold" font-family="Arial,sans-serif">${l}: ${vals[i]}</text>`).join('');
-  return `<svg viewBox="0 0 400 400" width="400" height="400" xmlns="http://www.w3.org/2000/svg">${grid}${axes}<polygon points="${poly}" fill="rgba(37,99,235,0.15)" stroke="#2563EB" stroke-width="2.5"/>${dots}${lbls}</svg>`;
+  defs+=`<filter id="pglow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>`;
+  defs+=`<filter id="bigglow"><feGaussianBlur stdDeviation="12"/></filter>`;
+
+  styles.forEach(s=>{
+    const r=(ringOuterR+ringInnerR)/2;
+    const spread=Math.PI/4.5;
+    if(s.angle===Math.PI){
+      const sa=s.angle+spread,ea=s.angle-spread;
+      const sx=cx+r*Math.cos(sa),sy=cy+r*Math.sin(sa);
+      const ex=cx+r*Math.cos(ea),ey=cy+r*Math.sin(ea);
+      defs+=`<path id="tp-${s.key}" d="M${sx},${sy} A${r},${r} 0 0 0 ${ex},${ey}"/>`;
+    } else if(s.angle===-Math.PI/2){
+      const sa=s.angle-spread,ea=s.angle+spread;
+      const sx=cx+r*Math.cos(sa),sy=cy+r*Math.sin(sa);
+      const ex=cx+r*Math.cos(ea),ey=cy+r*Math.sin(ea);
+      defs+=`<path id="tp-${s.key}" d="M${sx},${sy} A${r},${r} 0 0 1 ${ex},${ey}"/>`;
+    } else {
+      const sa=s.angle-spread,ea=s.angle+spread;
+      const sx=cx+r*Math.cos(sa),sy=cy+r*Math.sin(sa);
+      const ex=cx+r*Math.cos(ea),ey=cy+r*Math.sin(ea);
+      defs+=`<path id="tp-${s.key}" d="M${sx},${sy} A${r},${r} 0 0 1 ${ex},${ey}"/>`;
+    }
+  });
+
+  let bg=`<circle cx="${cx}" cy="${cy}" r="${ringOuterR}" fill="#FAFAFA"/>`;
+
+  let wedges=styles.map(s=>`<path d="${wedgePath(s.angle-Math.PI/4,s.angle+Math.PI/4,ringInnerR)}" fill="url(#qbg-${s.key})"/>`).join('');
+
+  let guides=[0.33,0.66,1].map(f=>`<circle cx="${cx}" cy="${cy}" r="${maxR*f}" fill="none" stroke="white" stroke-width="1.5" opacity="0.6"/>`).join('');
+
+  let dividers=styles.map(s=>{
+    const a=s.angle-Math.PI/4;
+    return `<line x1="${cx}" y1="${cy}" x2="${cx+ringInnerR*Math.cos(a)}" y2="${cy+ringInnerR*Math.sin(a)}" stroke="white" stroke-width="2" opacity="0.5"/>`;
+  }).join('');
+
+  let glows=styles.map(s=>{
+    const L=Math.max((sc[s.key]/total)*maxR,28);
+    const gx=cx+(L*0.5)*Math.cos(s.angle),gy=cy+(L*0.5)*Math.sin(s.angle);
+    return `<circle cx="${gx}" cy="${gy}" r="${L*0.7}" fill="url(#glow-${s.key})" filter="url(#bigglow)"/>`;
+  }).join('');
+
+  let petals=styles.map(s=>`<path d="${petalPath(sc[s.key],s.angle)}" fill="url(#pg-${s.key})" stroke="${s.color}" stroke-width="2" stroke-opacity="0.8" filter="url(#pglow)"/>`).join('');
+
+  let dots=styles.map(s=>{
+    const L=Math.max((sc[s.key]/total)*maxR,28);
+    const tx=cx+L*Math.cos(s.angle),ty=cy+L*Math.sin(s.angle);
+    return `<circle cx="${tx}" cy="${ty}" r="5" fill="${s.color}" stroke="white" stroke-width="2.5"/>`;
+  }).join('');
+
+  let center=`<circle cx="${cx}" cy="${cy}" r="14" fill="white" stroke="#E5E7EB" stroke-width="2"/><circle cx="${cx}" cy="${cy}" r="6" fill="#1E40AF" opacity="0.3"/>`;
+
+  let rings=styles.map(s=>`<path d="${arcPath(s.angle-Math.PI/4+0.02,s.angle+Math.PI/4-0.02,ringInnerR,ringOuterR)}" fill="${s.color}" opacity="0.85" stroke="white" stroke-width="2"/>`).join('');
+
+  let labels=styles.map(s=>`<text><textPath href="#tp-${s.key}" startOffset="50%" text-anchor="middle" fill="white" font-size="11" font-weight="bold" font-family="system-ui,sans-serif" letter-spacing="2">${s.label}</textPath></text>`).join('');
+
+  let scoreLabels=styles.map(s=>{
+    const lR=ringOuterR+18;
+    const lx=cx+lR*Math.cos(s.angle),ly=cy+lR*Math.sin(s.angle);
+    const pct=Math.round((sc[s.key]/total)*100);
+    return `<text x="${lx}" y="${ly+4}" text-anchor="middle" fill="${s.color}" font-size="12" font-weight="bold" font-family="system-ui,sans-serif">${pct}%</text>`;
+  }).join('');
+
+  return `<svg viewBox="0 0 400 400" width="400" height="400" xmlns="http://www.w3.org/2000/svg"><defs>${defs}</defs>${bg}${wedges}${guides}${dividers}${glows}${petals}${dots}${center}${rings}${labels}${scoreLabels}</svg>`;
 }
+
 const sanitize = (str) => str.replace(/[<>&"']/g, c => ({
   '<':'&lt;', '>':'&gt;', '&':'&amp;', '"':'&quot;', "'":'&#39;'
 }[c]));
@@ -690,7 +773,7 @@ function genHTML(r,name){
 const shBd=r.shadow>=5?'#FECACA':r.shadow>=3?'#FDE68A':r.shadow>=2?'#FEF08A':'#BBF7D0';
 const shTx=r.shadow>=5?'#DC2626':r.shadow>=3?'#D97706':r.shadow>=2?'#CA8A04':'#16A34A';
 const safeName=name?sanitize(name):'';
-const greeting=safeName?`<p style="font-size:18px;color:#6B7280;margin-bottom:8px;">Prepared for: <strong style="color:#1F2937;">${safeName}</strong></p>`:'';  const svg=genSVGRadar(sc);
+const greeting=safeName?`<p style="font-size:18px;color:#6B7280;margin-bottom:8px;">Prepared for: <strong style="color:#1F2937;">${safeName}</strong></p>`:'';  const svg=genSVGPetal(sc);
   const spotStyles=['dominator','integrator','yielder','calculator'];
 const spotGrid=spotStyles.map(style=>{
   const sg=spottingGuide[style];
@@ -799,6 +882,219 @@ ${readingRoom}
 <p style="margin-top:8px;">To book a custom negotiation programme: admin@bucademy.com</p></div></body></html>`;
 }
 
+const PetalChart = ({ scores }) => {
+  const cx = 200, cy = 200;
+  const maxR = 125;
+  const ringOuterR = 170;
+  const ringInnerR = 140;
+  const total = 16;
+
+  const styles = [
+    { key:'dominator', label:'DOMINATOR', color:'#DC2626', light:'#FEE2E2', mid:'#FECACA', angle:-Math.PI/2 },
+    { key:'integrator', label:'INTEGRATOR', color:'#9333EA', light:'#F3E8FF', mid:'#E9D5FF', angle:0 },
+    { key:'yielder', label:'YIELDER', color:'#16A34A', light:'#DCFCE7', mid:'#BBF7D0', angle:Math.PI/2 },
+    { key:'calculator', label:'CALCULATOR', color:'#2563EB', light:'#DBEAFE', mid:'#BFDBFE', angle:Math.PI },
+  ];
+
+const blobPath = (score, angle) => {
+    const L = Math.max((score / total) * maxR, 40);
+    const w = L * 0.65;
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    const r = (x, y) => [cx + x * cos - y * sin, cy + x * sin + y * cos];
+    const [sx,sy] = r(0, -w * 0.05);
+    const [c1x,c1y] = r(L * 0.25, -w * 0.08);
+    const [c2x,c2y] = r(L * 0.5, -w * 0.9);
+    const [tx,ty] = r(L * 0.82, -w * 0.6);
+    const [tipx,tipy] = r(L, 0);
+    const [bx,by] = r(L * 0.82, w * 0.6);
+    const [c3x,c3y] = r(L * 0.5, w * 0.9);
+    const [c4x,c4y] = r(L * 0.25, w * 0.08);
+    const [ex,ey] = r(0, w * 0.05);
+    return `M${sx},${sy} C${c1x},${c1y} ${c2x},${c2y} ${tx},${ty} Q${tipx},${tipy} ${bx},${by} C${c3x},${c3y} ${c4x},${c4y} ${ex},${ey} Q${cx},${cy} ${sx},${sy}Z`;
+  };
+
+  const arcPath = (startAngle, endAngle, iR, oR) => {
+    const sx = cx + oR * Math.cos(startAngle);
+    const sy = cy + oR * Math.sin(startAngle);
+    const ex = cx + oR * Math.cos(endAngle);
+    const ey = cy + oR * Math.sin(endAngle);
+    const ix = cx + iR * Math.cos(endAngle);
+    const iy = cy + iR * Math.sin(endAngle);
+    const jx = cx + iR * Math.cos(startAngle);
+    const jy = cy + iR * Math.sin(startAngle);
+    return `M${sx},${sy} A${oR},${oR} 0 0 1 ${ex},${ey} L${ix},${iy} A${iR},${iR} 0 0 0 ${jx},${jy}Z`;
+  };
+
+  const wedgePath = (startAngle, endAngle, r) => {
+    const sx = cx + r * Math.cos(startAngle);
+    const sy = cy + r * Math.sin(startAngle);
+    const ex = cx + r * Math.cos(endAngle);
+    const ey = cy + r * Math.sin(endAngle);
+    return `M${cx},${cy} L${sx},${sy} A${r},${r} 0 0 1 ${ex},${ey} Z`;
+  };
+
+  return (
+    <svg viewBox="0 0 400 400" className="w-full h-full">
+      <defs>
+        {styles.map(s => (
+          <radialGradient key={`bg-${s.key}`} id={`qbg-${s.key}`} cx="50%" cy="50%" r="60%">
+            <stop offset="0%" stopColor="white" stopOpacity="0.6"/>
+            <stop offset="100%" stopColor={s.mid} stopOpacity="0.8"/>
+          </radialGradient>
+        ))}
+        {styles.map(s => (
+          <radialGradient key={`pg-${s.key}`} id={`pg-${s.key}`}
+            cx={`${50 + 30 * Math.cos(s.angle)}%`}
+            cy={`${50 + 30 * Math.sin(s.angle)}%`}
+            r="70%">
+            <stop offset="0%" stopColor={s.color} stopOpacity="0.95"/>
+            <stop offset="50%" stopColor={s.color} stopOpacity="0.75"/>
+            <stop offset="100%" stopColor={s.color} stopOpacity="0.35"/>
+          </radialGradient>
+        ))}
+        {styles.map(s => (
+          <radialGradient key={`glow-${s.key}`} id={`glow-${s.key}`} cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor={s.color} stopOpacity="0.5"/>
+            <stop offset="100%" stopColor={s.color} stopOpacity="0"/>
+          </radialGradient>
+        ))}
+        <filter id="pglow">
+          <feGaussianBlur stdDeviation="4" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="bigglow">
+          <feGaussianBlur stdDeviation="15"/>
+        </filter>
+        <filter id="innershadow">
+          <feGaussianBlur stdDeviation="2" result="b"/>
+          <feComposite in="SourceGraphic" in2="b" operator="over"/>
+        </filter>
+      </defs>
+
+      {/* Outer background */}
+      <circle cx={cx} cy={cy} r={ringOuterR + 2} fill="#F8FAFC"/>
+
+      {/* Quadrant colour washes */}
+      {styles.map(s => (
+        <path key={`wedge-${s.key}`}
+          d={wedgePath(s.angle - Math.PI/4, s.angle + Math.PI/4, ringInnerR)}
+          fill={`url(#qbg-${s.key})`}/>
+      ))}
+
+      {/* White divider lines between quadrants */}
+      {styles.map(s => {
+        const a = s.angle - Math.PI/4;
+        return (
+          <line key={`div-${s.key}`} x1={cx} y1={cy}
+            x2={cx + ringInnerR * Math.cos(a)} y2={cy + ringInnerR * Math.sin(a)}
+            stroke="white" strokeWidth="3" opacity="0.7"/>
+        );
+      })}
+
+      {/* Big soft glow behind each petal */}
+      {styles.map(s => {
+        const L = Math.max((scores[s.key] / total) * maxR, 40);
+        const glowX = cx + (L * 0.45) * Math.cos(s.angle);
+        const glowY = cy + (L * 0.45) * Math.sin(s.angle);
+        return (
+          <circle key={`glow-${s.key}`} cx={glowX} cy={glowY} r={L * 0.9}
+            fill={`url(#glow-${s.key})`} filter="url(#bigglow)"/>
+        );
+      })}
+
+      {/* Blob petals */}
+      {styles.map(s => (
+        <path key={`pt-${s.key}`}
+          d={blobPath(scores[s.key], s.angle)}
+          fill={`url(#pg-${s.key})`} stroke={s.color} strokeWidth="1.5" strokeOpacity="0.5"
+          filter="url(#pglow)"/>
+      ))}
+
+      {/* Bright tips on petals */}
+      {styles.map(s => {
+        const L = Math.max((scores[s.key] / total) * maxR, 40);
+        const tx = cx + (L * 0.85) * Math.cos(s.angle);
+        const ty = cy + (L * 0.85) * Math.sin(s.angle);
+        return <circle key={`tip-${s.key}`} cx={tx} cy={ty} r={L * 0.12}
+          fill={s.color} opacity="0.4" filter="url(#pglow)"/>;
+      })}
+
+      {/* Center */}
+      <circle cx={cx} cy={cy} r="10" fill="white" opacity="0.9"/>
+      <circle cx={cx} cy={cy} r="4" fill="#1E40AF" opacity="0.25"/>
+
+      {/* Thick colour ring */}
+      {styles.map(s => (
+        <path key={`ring-${s.key}`}
+          d={arcPath(s.angle - Math.PI/4, s.angle + Math.PI/4, ringInnerR, ringOuterR)}
+          fill={s.color} stroke={s.color} strokeWidth="0.5"/>
+      ))}
+
+      {/* Thin white separators on ring */}
+      {styles.map(s => {
+        const a = s.angle - Math.PI/4;
+        const x1 = cx + ringInnerR * Math.cos(a);
+        const y1 = cy + ringInnerR * Math.sin(a);
+        const x2 = cx + ringOuterR * Math.cos(a);
+        const y2 = cy + ringOuterR * Math.sin(a);
+        return (
+          <line key={`rsep-${s.key}`} x1={x1} y1={y1} x2={x2} y2={y2}
+            stroke="white" strokeWidth="3"/>
+        );
+      })}
+
+      {/* Labels curved on the ring */}
+      {styles.map(s => {
+        const r = (ringOuterR + ringInnerR) / 2;
+        const spread = Math.PI / 5;
+        let pathD;
+        if (s.angle === Math.PI) {
+          const sa = s.angle + spread;
+          const ea = s.angle - spread;
+          const sx = cx + r * Math.cos(sa);
+          const sy = cy + r * Math.sin(sa);
+          const ex = cx + r * Math.cos(ea);
+          const ey = cy + r * Math.sin(ea);
+          pathD = `M${sx},${sy} A${r},${r} 0 0 0 ${ex},${ey}`;
+        } else {
+          const sa = s.angle - spread;
+          const ea = s.angle + spread;
+          const sx = cx + r * Math.cos(sa);
+          const sy = cy + r * Math.sin(sa);
+          const ex = cx + r * Math.cos(ea);
+          const ey = cy + r * Math.sin(ea);
+          pathD = `M${sx},${sy} A${r},${r} 0 0 1 ${ex},${ey}`;
+        }
+        return (
+          <g key={`lbl-${s.key}`}>
+            <path id={`tp2-${s.key}`} d={pathD} fill="none"/>
+            <text>
+              <textPath href={`#tp2-${s.key}`} startOffset="50%" textAnchor="middle"
+                fill="white" fontSize="12" fontWeight="bold" fontFamily="system-ui,sans-serif"
+                letterSpacing="3">{s.label}</textPath>
+            </text>
+          </g>
+        );
+      })}
+
+      {/* Score percentages outside the ring */}
+      {styles.map(s => {
+        const lR = ringOuterR + 20;
+        const lx = cx + lR * Math.cos(s.angle);
+        const ly = cy + lR * Math.sin(s.angle);
+        const pct = Math.round((scores[s.key] / total) * 100);
+        return (
+          <text key={`score-${s.key}`} x={lx} y={ly + 4} textAnchor="middle"
+            fill={s.color} fontSize="14" fontWeight="bold" fontFamily="system-ui,sans-serif">
+            {pct}%
+          </text>
+        );
+      })}
+    </svg>
+  );
+};
+
 export default function NegotiationAssessment(){
   const[phase,setPhase]=useState('intro');
   const[qi,setQi]=useState(0);
@@ -866,7 +1162,7 @@ if(phase==='intro') return(
       </motion.div>
     </div>
 
-    {/* ═══ PROBLEM ═══ */}
+   {/* ═══ PROBLEM ═══ */}
     <div className="bg-slate-950 px-6 py-24">
       <motion.div initial={{opacity:0,y:30}} whileInView={{opacity:1,y:0}} viewport={{once:true,margin:'-100px'}} transition={{duration:0.8}} className="max-w-2xl mx-auto text-center">
         <p className="text-red-400/80 text-xs font-semibold tracking-widest uppercase mb-6">The Problem</p>
@@ -876,9 +1172,16 @@ if(phase==='intro') return(
           <p>Some of those instincts give you a genuine edge. Others are <span className="text-white font-medium">quietly costing you</span> in margin, in trust, in outcomes you never realise you missed.</p>
           <p className="text-white/80 font-medium text-lg pt-4">You can't fix what you can't see.</p>
         </div>
+        <div className="flex justify-center mt-10">
+          <button
+            onClick={()=>document.getElementById('start').scrollIntoView({behavior:'smooth'})}
+            className="bg-gradient-to-r from-blue-800 to-blue-900 hover:from-blue-900 hover:to-slate-900 text-white font-bold px-10 py-3 rounded-xl text-base transition-all shadow-lg hover:shadow-2xl transform hover:-translate-y-0.5"
+          >
+            Take The Assessment <ChevronRight className="inline w-5 h-5 ml-1"/>
+          </button>
+        </div>
       </motion.div>
     </div>
-
     {/* ═══ 4 STYLES ═══ */}
     <div className="bg-gradient-to-b from-slate-950 to-slate-900 px-6 py-24">
       <motion.div initial={{opacity:0,y:30}} whileInView={{opacity:1,y:0}} viewport={{once:true,margin:'-100px'}} transition={{duration:0.8}} className="max-w-3xl mx-auto text-center">
@@ -1002,7 +1305,7 @@ if(phase==='intro') return(
     </div>
 
     {/* ═══ CTA — YOUR EXISTING BUTTON & INPUT ═══ */}
-    <div className="bg-white px-6 py-14 flex flex-col items-center">
+    <div id="start" className="bg-white px-6 py-14 flex flex-col items-center">
       <motion.div initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} transition={{delay:0.4}} className="text-center max-w-md w-full">
 
         <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">Ready to See Yourself Clearly?</h2>
@@ -1019,6 +1322,8 @@ if(phase==='intro') return(
             className="w-72 px-5 py-3 border border-gray-200 rounded-lg text-center text-gray-700 bg-gray-50 focus:outline-none focus:border-blue-700 focus:ring-2 focus:ring-blue-50 focus:bg-white transition-all text-sm tracking-widest uppercase"
           />
         </div>
+
+
 
         <button
           onClick={()=>setPhase('quiz')}
@@ -1112,10 +1417,10 @@ if(phase==='tiebreak'&&tieData) return(
           className="w-full text-left p-5 rounded-lg border-2 border-gray-200 hover:border-blue-700 hover:bg-blue-50 transition-all">
           <span className="font-bold" style={{color:styleMeta[style].color}}>{styleMeta[style].label}</span>
           <span className="text-gray-500 text-sm ml-2">
-            {style==='dominator'&&'— I lead with directness and competitive drive'}
-            {style==='integrator'&&'— I lead with collaboration and creative problem-solving'}
-            {style==='yielder'&&'— I lead with empathy and relationship-building'}
-            {style==='calculator'&&'— I lead with analysis and thorough preparation'}
+            {style==='dominator'&&'— I negotiate with directness to win the best deal possible'}
+            {style==='integrator'&&'— I focus on collaboration and creative problem-solving'}
+            {style==='yielder'&&'— I focus on empathasing with the other party and relationship-building'}
+            {style==='calculator'&&'— I negotiate using thorough preparation and analysis'}
           </span>
         </button>
       ))}
@@ -1126,27 +1431,9 @@ if(phase==='tiebreak'&&tieData) return(
   if(phase==='results'&&results){
     const{scores:sc,shadow:sh,primary:p,secondary:s,archetype:arch}=results;
     const sl=shadowLevels[sh];
-    const total=16;
-    const pct=k=>Math.round((sc[k]/total)*100);
 
-    const radarData=[
-      {style:'Dominator',value:sc.dominator,fill:'#DC2626'},
-      {style:'Integrator',value:sc.integrator,fill:'#9333EA'},
-      {style:'Yielder',value:sc.yielder,fill:'#16A34A'},
-      {style:'Calculator',value:sc.calculator,fill:'#2563EB'},
-    ];
+  
 
-    const renderTick=({x,y,payload})=>{
-      const colorMap={Dominator:'#DC2626',Integrator:'#9333EA',Yielder:'#16A34A',Calculator:'#2563EB'};
-      const keyMap={Dominator:'dominator',Integrator:'integrator',Yielder:'yielder',Calculator:'calculator'};
-      const key=keyMap[payload.value];
-      const score=sc[key];
-      const percent=pct(key);
-      return(
-        <g><text x={x} y={y-8} textAnchor="middle" fill={colorMap[payload.value]} fontSize={15} fontWeight="bold">{payload.value}</text>
-        <text x={x} y={y+10} textAnchor="middle" fill="#6B7280" fontSize={12}>{score}/16 ({percent}%)</text></g>
-      );
-    };
 
     const shColors={green:'border-green-600 bg-green-50',yellow:'border-yellow-500 bg-yellow-50',amber:'border-amber-500 bg-amber-50',red:'border-red-600 bg-red-50'};
     const shTextColors={green:'text-green-700',yellow:'text-yellow-700',amber:'text-amber-700',red:'text-red-700'};
@@ -1184,31 +1471,40 @@ if(phase==='tiebreak'&&tieData) return(
           </motion.div>
 
           <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.2}} className="bg-white border border-gray-200 rounded-xl p-6 mb-6">
-            <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2 text-center">Your Negotiation Profile</h3>
-            <ResponsiveContainer width="100%" height={320}>
-              <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="70%">
-                <PolarGrid stroke="#E5E7EB"/>
-                <PolarAngleAxis dataKey="style" tick={renderTick}/>
-                <PolarRadiusAxis domain={[0,16]} tick={false} axisLine={false}/>
-                <Radar dataKey="value" stroke="#1E40AF" fill="#3B82F6" fillOpacity={0.25} strokeWidth={2.5} dot={{r:5,fill:'#1E40AF'}}/>
-              </RadarChart>
-            </ResponsiveContainer>
-          </motion.div>
+  <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2 text-center">Your Negotiation Profile</h3>
+  <div style={{width:'100%',maxWidth:400,margin:'0 auto',aspectRatio:'1'}}>
+    <PetalChart scores={sc}/>
+  </div>
+</motion.div>
 
-          <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.3}} className="grid grid-cols-4 gap-3 mb-6">
-            {[
-{k:'dominator',label:'Dominator',c:'bg-red-600 text-white border-red-600'},
-{k:'integrator',label:'Integrator',c:'bg-purple-600 text-white border-purple-600'},
-{k:'yielder',label:'Yielder',c:'bg-green-600 text-white border-green-600'},
-{k:'calculator',label:'Calculator',c:'bg-blue-600 text-white border-blue-600'},
-            ].map(a=>(
-              <div key={a.k} className={`text-center bg-white border-2 rounded-xl p-3 ${a.c}`}>
-                <div className="text-2xl font-bold">{pct(a.k)}%</div>
-                <div className="text-xs font-semibold mt-1">{a.label}</div>
-                <div className="text-xs text-gray-400">{sc[a.k]}/16</div>
-              </div>
-            ))}
-          </motion.div>
+<motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.3}} className="bg-white border border-gray-200 rounded-xl p-6 mb-6">
+  <div className="space-y-4">
+    {[
+      {k:'dominator',label:'Dominator',color:'#DC2626',bg:'bg-red-600'},
+      {k:'integrator',label:'Integrator',color:'#9333EA',bg:'bg-purple-600'},
+      {k:'yielder',label:'Yielder',color:'#16A34A',bg:'bg-green-600'},
+      {k:'calculator',label:'Calculator',color:'#2563EB',bg:'bg-blue-600'},
+    ].map(a=>{
+      const percent=Math.round((sc[a.k]/16)*100);
+      return(
+        <div key={a.k}>
+          <div className="flex justify-between items-center mb-1">
+            <span className="text-sm font-bold" style={{color:a.color}}>{a.label}</span>
+            <span className="text-sm font-bold" style={{color:a.color}}>{percent}%</span>
+          </div>
+          <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
+            <motion.div
+              className={`h-full rounded-full ${a.bg}`}
+              initial={{width:0}}
+              animate={{width:`${percent}%`}}
+              transition={{duration:0.8,delay:0.5}}
+            />
+          </div>
+        </div>
+      );
+    })}
+  </div>
+</motion.div>
 
           {sections.map((sec,idx)=>(
             <motion.div key={sec.title} initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.3+idx*0.08}}
