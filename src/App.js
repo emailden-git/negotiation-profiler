@@ -16,11 +16,11 @@ const questions = [
     {text:"I want to keep things constructive and avoid unnecessary conflict",map:'yielder'},
     {text:"Let me review my preparation one more time",map:'calculator'},
   ]},
-  { type:'style', text:"The other party makes an unexpected demand. You:", options:[
-    {text:"Ask for time to assess the full impact before responding",map:'calculator'},
-    {text:"Counter immediately with a strong position of your own",map:'dominator'},
-    {text:"Consider whether meeting them halfway would move things forward",map:'yielder'},
-    {text:"Ask questions to understand what is really driving the request",map:'integrator'},
+  { type:'style', text:"Your team has a limited budget to split across two projects you both believe in. You:", options:[
+    {text:"Push for the largest share to go to the project you are responsible for",map:'dominator'},
+    {text:"Explore whether there is a way to structure the budget so both projects get what they actually need",map:'integrator'},
+    {text:"Offer to take the smaller share so the other team feels supported",map:'yielder'},
+    {text:"Build a detailed analysis of expected returns to determine the most logical split",map:'calculator'},
   ]},
   { type:'shadow', text:"Your counterpart shares something personal before the meeting. You:", options:[
     {text:"Listen politely but keep your mind on business",shadow:false},
@@ -46,11 +46,11 @@ const questions = [
     {text:"Set it aside because using it feels like it would damage the relationship",map:'yielder'},
     {text:"Use it to guide the conversation toward a deal that benefits both sides long term",map:'integrator'},
   ]},
-  { type:'style', text:"Your boss says to get a better price from a supplier you like. You:", options:[
-    {text:"Go in direct and make the ask because a negotiation is a negotiation",map:'dominator'},
-    {text:"Be upfront about the situation and look for a solution together",map:'integrator'},
-    {text:"Raise it gently and hope the conversation stays comfortable",map:'yielder'},
-    {text:"Prepare a detailed case with numbers to support the request",map:'calculator'},
+{ type:'style', text:"A client asks you to deliver two weeks earlier than agreed. The issue is not cost, it is capacity. You:", options:[
+    {text:"Map out exactly what is feasible and present them with realistic options",map:'calculator'},
+    {text:"Push back and explain that the original timeline was agreed for a reason",map:'dominator'},
+    {text:"Explore what they actually need by the earlier date and whether a partial delivery would work",map:'integrator'},
+    {text:"Do your best to make it happen because you do not want to disappoint them",map:'yielder'},
   ]},
   { type:'shadow', text:"You discover the other party made a calculation error that benefits you. You:", options:[
     {text:"Point it out immediately, you want a clean deal",shadow:false},
@@ -112,11 +112,11 @@ const questions = [
     {text:"Lock in the current terms quickly before anything changes",shadow:false},
     {text:"Hint that you have other options to see if they will sweeten the deal, even though you do not",shadow:true},
   ]},
-  { type:'style', text:"The other party says 'take it or leave it.' You:", options:[
-    {text:"Assess calmly whether the offer meets your minimum requirements",map:'calculator'},
-    {text:"Weigh up the risk of losing it entirely and lean toward accepting",map:'yielder'},
-    {text:"Stand firm because you do not respond well to ultimatums",map:'dominator'},
-    {text:"Test whether it is truly final by exploring alternative structures",map:'integrator'},
+{ type:'style', text:"Six months after closing a deal, the other party tells you the terms are not working for them. You:", options:[
+    {text:"Review the original agreement and assess whether their concern is justified by the data",map:'calculator'},
+    {text:"Hold firm because a deal is a deal and renegotiating sets a bad precedent",map:'dominator'},
+    {text:"Reopen the conversation and look for adjustments that could work better for both sides going forward",map:'integrator'},
+    {text:"Feel concerned about the relationship and look for ways to help them even if it costs you something",map:'yielder'},
   ]},
   { type:'shadow', text:"You got a great deal but the other party looks disappointed. You:", options:[
     {text:"Think, its not your problem, a deal is a deal",shadow:false},
@@ -372,11 +372,62 @@ const shadowLevels = [
     msg:"Every single shadow question pointed to the same pattern. You consistently choose manipulation over authenticity, deception over honesty, and the appearance of fairness over the reality of it. You see other people's openness as opportunity, their trust as a tool, and their goodwill as something to be harvested rather than reciprocated. This is not strategy. It is a fundamental orientation toward other people that will eventually isolate you professionally and personally. Every relationship you build on this foundation has a fracture line running through it, and the pressure required to break it gets smaller over time. Rebuilding trust is ten times harder than building it, so start now before the cost becomes unrecoverable. The skills behind this pattern are real and could be redirected toward building genuine influence that would make you formidable for all the right reasons."},
 ];
 
+const styleLevels = {
+  dominator: {
+    negligible: "Competitive tactics are almost entirely absent from your negotiation approach. You rarely push back on terms, seldom anchor aggressively, and are unlikely to escalate when challenged at the table. You prefer other methods to reach agreement. This is not necessarily a weakness, but it means you may struggle to claim value when the deal genuinely requires assertiveness. If the other side pushes hard, you are unlikely to match their energy, which can result in leaving significant value on the table without realising it.",
+    low: "You have some competitive instincts but they sit deep beneath the surface and rarely drive your behaviour at the table. You can push back when absolutely necessary, but it takes a lot of provocation to get there. Most counterparts will never see this side of you because your other negotiation tendencies activate long before your competitive instinct does. In deals where the other side is assertive, you may find yourself gradually giving ground rather than holding your position, not because you agree with their terms but because matching their energy feels unnatural to you.",
+    moderate: "You have real competitive ability but it is not your default at the negotiation table. In most deals you defer to other approaches first. However, when pushed or when the stakes rise, your Dominator traits emerge and you become noticeably more assertive about terms. You are capable of pushing hard for what you want but it is not where you naturally start. This means you sometimes miss early opportunities to anchor strongly or set ambitious terms because your competitive instinct activates later in the conversation rather than from the opening position.",
+    high: "Competition is a strong and visible part of how you negotiate. You push for favourable terms naturally, hold your ground under pressure, and are comfortable making the first offer and setting ambitious anchors. Counterparts notice your assertiveness early and adjust their approach accordingly. You rarely leave value on the table through timidity. The risk at this level is that your competitive energy can overshadow your other negotiation skills, making it harder to build the trust and rapport that complex deals often require.",
+    dominant: "Competition is your natural state at the negotiation table. You instinctively push for the best possible terms, set the pace of every conversation, and resist concessions with genuine intensity. Every other style in your profile is filtered through this competitive lens first. This is not a mode you switch into when needed. It is where you live. Your counterparts know within minutes that they are dealing with someone who will fight for every point. This delivers strong short term results consistently, but it can make counterparts reluctant to negotiate with you again or share information openly.",
+  },
+  integrator: {
+    negligible: "Collaborative and creative deal making is largely absent from your negotiation approach. You rarely explore underlying interests, seldom propose package deals or creative trades, and are unlikely to spend time understanding what the other side truly needs beyond their stated position. You tend to treat negotiations as straightforward exchanges of offers and counteroffers rather than opportunities to create additional value. This means you may consistently reach agreements that are acceptable but miss significantly better outcomes that a more exploratory conversation could have produced.",
+    low: "You have some collaborative instincts but they rarely shape your behaviour at the table. You can engage in creative problem solving when someone else initiates it, but you are unlikely to lead the conversation in that direction yourself. When a deal stalls, your first instinct is not to explore new structures or look for creative trades. It is to push harder on existing terms or concede to move things forward. This means the value creating potential of most negotiations goes largely untapped when you are at the table.",
+    moderate: "You have genuine collaborative ability that shows up in certain negotiation contexts but is not your consistent default. When you are comfortable with the counterpart or when the deal structure naturally invites creativity, you explore interests, propose trades, and look for mutual gains effectively. But under pressure or with difficult counterparts, this instinct retreats and your other styles take over. The collaborative deals you do build tend to be good ones. The question is whether you access this skill consistently enough to benefit from it across all your negotiations.",
+    high: "Collaboration and creative deal making are a strong and visible part of how you negotiate. You naturally ask about underlying interests, propose package structures, and look for ways to expand the value available to both sides before dividing it. Counterparts find you genuinely engaged with their needs, not just your own, and this earns you access to information that more competitive negotiators never see. You consistently find deals that others miss because you are willing to invest time in understanding the full picture.",
+    dominant: "Creative collaboration defines how you negotiate. Your first instinct in any deal is to understand interests, explore options, and build structures that create value for both sides. You see negotiations as joint problem solving exercises rather than competitive encounters, and this shapes every conversation you have at the table. Counterparts trust your process and share information willingly because they believe you genuinely care about their outcome. The risk is that your collaborative orientation can blind you to counterparts who are exploiting your openness.",
+  },
+  yielder: {
+    negligible: "Relationship preservation and accommodation play almost no role in how you negotiate. You do not soften your position to maintain rapport, rarely worry about how the other side feels about the terms, and are unlikely to make concessions simply to keep the atmosphere positive. You focus on the deal substance rather than the interpersonal dynamic. This gives you clarity and efficiency at the table, but it also means you may miss opportunities that come from building genuine warmth with counterparts.",
+    low: "You have some awareness of relationship dynamics at the table but they rarely drive your negotiation decisions. You can be warm and accommodating when it costs you nothing, but when the deal terms are at stake you prioritise substance over rapport without much hesitation. Counterparts may find you professional but not particularly warm, and they are unlikely to feel a strong personal connection with you after the negotiation.",
+    moderate: "Relationships and harmony play a real but secondary role in your negotiations. You care about how counterparts feel and you make genuine efforts to keep interactions positive, but you can set those concerns aside when the deal requires it. You make some concessions to maintain rapport that a harder negotiator would not, but you do not give away the deal to keep everyone happy. This balance serves you well in most contexts.",
+    high: "Maintaining positive relationships is a strong and visible priority in how you negotiate. You invest real energy in rapport, monitor how counterparts feel throughout the process, and adjust your approach to keep interactions comfortable and constructive. You are willing to sacrifice some deal value to preserve a relationship you believe matters long term. Counterparts genuinely enjoy negotiating with you, which gives you repeat business and referrals that harder negotiators never see.",
+    dominant: "Relationships are the lens through which you see every negotiation. Your first priority is always the interpersonal dynamic, and deal terms come second. You will accept significantly worse terms rather than create tension with a counterpart you value, and you will make concessions that serve no strategic purpose simply to make the other side feel good about the process. Learning to separate your genuine care for people from your negotiation decisions is essential.",
+  },
+  calculator: {
+    negligible: "Analysis and preparation play almost no role in your negotiation approach. You rarely research the other side, seldom build detailed positions in advance, and are unlikely to reference data or benchmarks during the conversation. You rely on instinct, relationships, or sheer force of will rather than evidence. This means you may miss important details in deal terms and agree to terms you would have rejected if you had done the homework.",
+    low: "You do some preparation before negotiations but it is not thorough or consistent. You may review the key numbers and have a general sense of what you want, but you are unlikely to have modelled alternatives, researched the other side's constraints, or built a detailed walk away position. At the table, you rely on your other skills more than evidence.",
+    moderate: "Analysis and preparation are a real part of your negotiation approach but not your defining feature. You do your homework on important deals, reference data when it supports your position, and can hold your own in detailed discussions about terms and benchmarks. However, you are equally comfortable making decisions based on instinct or relationship dynamics when the data is inconclusive.",
+    high: "Thorough preparation and analytical rigour are a strong and visible part of how you negotiate. You arrive at the table with detailed research, clear benchmarks, modelled alternatives, and a precise understanding of your walk away position. Counterparts notice your preparation quickly and it earns you credibility and respect. You catch errors others miss and make decisions grounded in reality rather than hope.",
+    dominant: "Analysis defines how you negotiate. You do not sit down at the table without thorough research, detailed models, and a comprehensive understanding of every variable at play. You trust evidence over intuition, process over personality, and logic over emotion in every deal. Your preparation gives you a genuine and consistent edge because you see things others miss.",
+  },
+};
+
+const getStyleLevel = (score) => {
+  if (score <= 1) return 'negligible';
+  if (score <= 3) return 'low';
+  if (score <= 6) return 'moderate';
+  if (score <= 9) return 'high';
+  return 'dominant';
+};
+
+const levelLabels = {
+  negligible: { text: 'Negligible', color: '#94A3B8', bg: 'bg-gray-100', barWidth: '6%' },
+  low: { text: 'Low', color: '#64748B', bg: 'bg-gray-200', barWidth: '25%' },
+  moderate: { text: 'Moderate', color: '#3B82F6', bg: 'bg-blue-100', barWidth: '50%' },
+  high: { text: 'High', color: '#F59E0B', bg: 'bg-amber-100', barWidth: '75%' },
+  dominant: { text: 'Dominant', color: '#EF4444', bg: 'bg-red-100', barWidth: '100%' },
+};
+
 const styleMeta = {
-  dominator:{label:'Dominator',color:'#DC2626',tw:'text-white',bg:'bg-red-600',light:'bg-red-600',border:'border-red-600',barColor:'#DC2626'},
-  integrator:{label:'Integrator',color:'#9333EA',tw:'text-white',bg:'bg-purple-600',light:'bg-purple-600',border:'border-purple-600',barColor:'#9333EA'},
-  yielder:{label:'Yielder',color:'#16A34A',tw:'text-white',bg:'bg-green-600',light:'bg-green-600',border:'border-green-600',barColor:'#16A34A'},
-  calculator:{label:'Calculator',color:'#2563EB',tw:'text-white',bg:'bg-blue-600',light:'bg-blue-600',border:'border-blue-600',barColor:'#2563EB'},
+  dominator:{label:'Dominator',color:'#DC2626',tw:'text-white',bg:'bg-red-600',light:'bg-red-600',border:'border-red-600',barColor:'#DC2626',
+    brief:'The competitive negotiator who leads with assertiveness, sets ambitious terms, and pushes to win.'},
+  integrator:{label:'Integrator',color:'#9333EA',tw:'text-white',bg:'bg-purple-600',light:'bg-purple-600',border:'border-purple-600',barColor:'#9333EA',
+    brief:'The collaborative negotiator who explores interests, builds creative deals, and seeks value for both sides.'},
+  yielder:{label:'Yielder',color:'#16A34A',tw:'text-white',bg:'bg-green-600',light:'bg-green-600',border:'border-green-600',barColor:'#16A34A',
+    brief:'The relationship focused negotiator who prioritises harmony, builds trust, and maintains rapport at the table.'},
+  calculator:{label:'Calculator',color:'#2563EB',tw:'text-white',bg:'bg-blue-600',light:'bg-blue-600',border:'border-blue-600',barColor:'#2563EB',
+    brief:'The analytical negotiator who leads with data, preparation, and evidence based decision making.'},
 };
 
 const spottingGuide = {
@@ -925,6 +976,29 @@ ${matchupCards}
 <div class="si" style="border-color:#16A34A;"><div class="n" style="color:#16A34A;">${pct('yielder')}%</div><div class="l" style="color:#16A34A;">Yielder</div><div class="p">${sc.yielder} of ${total}</div></div>
 <div class="si" style="border-color:#2563EB;"><div class="n" style="color:#2563EB;">${pct('calculator')}%</div><div class="l" style="color:#2563EB;">Calculator</div><div class="p">${sc.calculator} of ${total}</div></div>
 </div>
+<div class="sec" style="margin-bottom:32px;">
+<h2 style="color:#1E40AF;font-size:18px;border-bottom:2px solid #1E40AF;padding-bottom:6px;">Style Intensity Profile</h2>
+<p style="color:#9CA3AF;font-size:13px;margin-top:4px;margin-bottom:16px;">How strongly each negotiation style influences your behaviour at the table.</p>
+${['dominator','integrator','yielder','calculator'].map(style=>{
+  const score=sc[style];
+  const level=score<=1?'negligible':score<=3?'low':score<=6?'moderate':score<=9?'high':'dominant';
+  const levelText={negligible:'Negligible',low:'Low',moderate:'Moderate',high:'High',dominant:'Dominant'}[level];
+  const col=styleMeta[style].color;
+  const pctVal=pct(style);
+  const desc=styleLevels[style][level];
+  return `<div style="border:1px solid #F3F4F6;border-radius:8px;padding:16px;margin-bottom:12px;">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+<span style="font-weight:bold;font-size:14px;color:${col};">● ${styleMeta[style].label}</span>
+<span style="font-size:13px;font-weight:bold;color:#6B7280;">${levelText} — ${pctVal}%</span>
+</div>
+<div style="height:8px;background:#F3F4F6;border-radius:99px;overflow:hidden;margin-bottom:12px;">
+<div style="height:100%;width:${pctVal}%;background:${col};border-radius:99px;"></div>
+</div>
+<p style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;">${styleMeta[style].brief}</p>
+<p style="font-size:13px;color:#4B5563;line-height:1.7;">${desc}</p>
+</div>`;
+}).join('')}
+</div>
 <div class="sec"><h2 style="color:#1E40AF;">${a.emoji} Your Archetype: ${a.name}</h2><p>${nl(a.narrative)}</p></div>
 <div class="sec"><h2 style="color:${styleMeta[p].color};">Your Primary Style: ${styleMeta[p].label}</h2><p>${nl(stylePrimary[p])}</p></div>
 <div class="sec"><h2 style="color:${styleMeta[s].color};">Your Secondary Influence: ${styleMeta[s].label}</h2><p>${nl(styleSecondary[s])}</p></div>
@@ -1384,7 +1458,6 @@ if(phase==='intro') return(
         </div>
 
 
-
         <button
           onClick={()=>setPhase('quiz')}
           className="mb-6 bg-gradient-to-r from-blue-800 to-blue-900 hover:from-blue-900 hover:to-slate-900 text-white font-bold px-12 py-4 rounded-xl text-lg transition-all shadow-lg hover:shadow-2xl transform hover:-translate-y-0.5"
@@ -1565,6 +1638,47 @@ const renderWithQuote=(text)=>{
               transition={{duration:0.8,delay:0.5}}
             />
           </div>
+        </div>
+      );
+    })}
+  </div>
+</motion.div>
+
+{/* Style Intensity Profile */}
+<motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.25}}
+  className="bg-white border border-gray-200 rounded-xl p-6 mb-4">
+  <h3 className="text-xs font-semibold text-blue-700/60 uppercase tracking-widest mb-1 text-center">Style Intensity Profile</h3>
+  <p className="text-xs text-gray-400 text-center mb-6">How strongly each negotiation style influences your behaviour at the table.</p>
+  <div className="space-y-6">
+    {['dominator','integrator','yielder','calculator'].map(style=>{
+      const score=sc[style];
+      const level=getStyleLevel(score);
+      const meta=styleMeta[style];
+      const lbl=levelLabels[level];
+      const pct=Math.round((score/16)*100);
+      return(
+        <div key={style} className="border border-gray-100 rounded-lg p-4">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full" style={{backgroundColor:meta.color}}/>
+              <span className="font-bold text-sm" style={{color:meta.color}}>{meta.label}</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className={`px-2 py-0.5 rounded text-xs font-bold ${lbl.bg}`} style={{color:lbl.color}}>{lbl.text}</span>
+              <span className="text-sm font-bold text-gray-500">{pct}%</span>
+            </div>
+          </div>
+          <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden mb-3">
+            <motion.div
+              className="h-full rounded-full"
+              style={{backgroundColor:meta.color}}
+              initial={{width:0}}
+              animate={{width:`${pct}%`}}
+              transition={{duration:0.8,delay:0.4}}
+            />
+          </div>
+         <p className="text-sm font-medium text-gray-800 mb-2">{meta.brief}</p>
+         <p className="text-sm text-gray-600 leading-relaxed">{styleLevels[style][level]}</p>
         </div>
       );
     })}
