@@ -159,16 +159,21 @@ const styleSecondary = {
 };
 
 const archetypes = {
-  'dominator-integrator': {
+'dominator-integrator': {
     name:'The Conqueror', emoji:'⚔️', tagline:'You fight hard and you fight smart.',
-    narrative:"The Conqueror is one of the most formidable negotiation profiles. You combine the Dominator's competitive drive with the Integrator's strategic intelligence, meaning you do not just want to win. You want to win in a way that is sustainable and smart. You push hard for your interests, but you are perceptive enough to know when to pivot, when to concede a small point to gain a large one, and when to leave something on the table for the relationship's sake. When you walk into a room, people pay attention, and they prepare accordingly.",
-    strengths:"Powerful combination of assertiveness and strategic thinking that makes you effective across a wide range of negotiation contexts. You push hard but know when to pivot, and people take you seriously from the moment you sit down. Your competitive instinct means you rarely leave value unclaimed, while your strategic side ensures you do not burn bridges unnecessarily. You excel in complex, high stakes negotiations where both toughness and creativity are required. You can read a room, spot opportunities, and move decisively, which is a rare triple threat that few negotiators can match.",
-    weaknesses:"Your competitive fire can overshadow your collaborative instincts, even when collaboration would serve you better. You genuinely believe you are being fair, but your version of fair tends to be skewed in your favour more often than you realise. You set the terms, frame the options, and define what reasonable looks like, and while it is skilful, the other side can feel managed rather than partnered. Over time, people may agree to your deals but resent the process that led them there. Your strength can also make it hard for you to recognise when a softer approach would actually produce a superior outcome for everyone involved.",
-    blindSpots:"You assume everyone respects strength and strategic thinking as much as you do, but that is simply not the case. Some counterparts shut down under pressure, meaning you miss information they would have shared willingly in a less competitive environment. You also underestimate how much your intensity affects people emotionally, even when you believe you are being perfectly reasonable. You think you are being direct and efficient, but they may experience you as domineering or overwhelming. The deals you are proudest of may be the ones your counterparts are most bitter about, which creates long term risks you cannot see from your side of the table.",
-    howOthersSeeYou:"Impressive but intimidating. People respect your competence and preparation, but they do not always enjoy negotiating with you. Junior counterparts find you overwhelming, while peers see you as a worthy adversary they need to prepare carefully for. Those who have worked with you over time appreciate your reliability and directness, but newcomers often feel they are fighting uphill from the first handshake. You command attention in any room, and the real question is whether that attention comes with trust or with wariness.",
-    underPressure:"When stressed, your Dominator side takes over and your strategic patience erodes quickly. The collaborative intelligence of the Integrator gives way to competitive aggression, and you may push harder than the situation warrants. You become more focused on winning the point than solving the problem, which can derail otherwise productive conversations. The transition can be sudden, catching the other side off guard. One moment you are collaborating, the next you are competing, and the other side feels ambushed by the shift in your energy.",
-    watchOut:"Winning today's battle while losing tomorrow's war is the trap that Conquerors fall into most often. If people remember being conquered, they come back armed next time, or they simply do not come back at all. Your track record of strong results may mask the relationships you are quietly eroding beneath the surface. Pay attention to whether people choose to negotiate with you, or whether they are simply forced to because they have no alternative. The difference matters more than most Conquerors realise, and it determines whether your success is truly sustainable.",
-    growthEdge:"Ask one more question before making your move in every negotiation you enter. Practice genuine curiosity by asking about the other side's constraints, pressures, and priorities before presenting your own position. You will be surprised how much more information flows when you lead with questions rather than demands. The best Conquerors win because people choose to deal with them, not because the other side had no choice. Your strategic brain can handle this shift, so let it guide you toward a more sustainable and ultimately more profitable approach.",
+    narrative:"The Conqueror is one of the most formidable negotiation profiles. You combine the Dominator's competitive drive with the Integrator's strategic intelligence, meaning you do not just want to win. You want to win in a way that is sustainable and smart. You push hard for your interests, but you are perceptive enough to know when to pivot, when to concede a small point to gain a large one, and when to leave something on the table for the sake of a future deal. When you walk into a negotiation, the other side pays attention, and they prepare accordingly.",
+    strengths:"Powerful combination of assertiveness and strategic thinking that makes you effective across a wide range of negotiation contexts. You push hard but know when to pivot, and people take you seriously from the moment you sit down at the table. Your competitive instinct means you rarely leave value unclaimed, while your strategic side ensures you do not burn bridges unnecessarily. You excel in complex, high stakes negotiations where both toughness and creativity are required. You can read the room, spot opportunities in the deal structure, and move decisively to capture them, which is a rare combination that few negotiators can match.",
+    weaknesses:"Your competitive fire can overshadow your collaborative instincts at the table, even when collaboration would produce a better deal. You genuinely believe you are being fair, but your version of fair tends to be skewed in your favour more often than you realise. You set the terms, frame the options, and define what reasonable looks like, and while it is skilful negotiation, the other side can feel managed rather than partnered. Over time, counterparts may agree to your deals but resent the process that produced them. Your strength can also make it hard for you to recognise when a softer approach at the table would actually produce a superior outcome for everyone involved.",
+    blindSpots:"You assume every counterpart respects strength and strategic thinking as much as you do, but that is simply not the case. Some people across the table shut down under pressure, meaning you miss information they would have shared willingly in a less competitive negotiation environment. You also underestimate how much your intensity affects counterparts emotionally, even when you believe you are being perfectly reasonable. You think you are being direct and efficient, but they may experience you as domineering or overwhelming. The deals you are proudest of may be the ones your counterparts are most bitter about, which creates long term risks to future negotiations that you cannot see from your side of the table.",
+    howOthersSeeYou:"Impressive but intimidating at the table. People respect your competence and preparation, but they do not always enjoy negotiating with you. Less experienced counterparts find you overwhelming, while peers see you as a worthy adversary they need to prepare carefully for. Those who have negotiated with you before appreciate your reliability and directness, but newcomers often feel they are fighting uphill from the first offer. You command attention in any negotiation, and the real question is whether that attention comes with trust or with wariness.",
+    underPressure:"When stressed, your Dominator side takes over and your strategic patience erodes quickly. The collaborative intelligence of the Integrator gives way to competitive aggression, and you may push harder on terms than the situation warrants. You become more focused on winning the point than finding the best deal, which can derail otherwise productive negotiations. The transition can be sudden, catching the other side off guard. One moment you are exploring options together, the next you are competing aggressively, and the other side feels ambushed by the shift in your approach.",
+    watchOut:"Winning today's deal while losing tomorrow's relationship is the trap that Conquerors fall into most often. If counterparts remember being conquered, they come back armed next time, or they simply do not come back at all. Your track record of strong results may mask the relationships you are quietly eroding beneath the surface. Pay attention to whether people choose to negotiate with you, or whether they deal with you only because they have no alternative. The difference matters more than most Conquerors realise, and it determines whether your negotiation success is truly sustainable over time.",
+    growthEdge:"Ask one more question before making your move in every negotiation you enter. Practice genuine curiosity by asking about the other side's constraints, pressures, and priorities before presenting your own position. You will be surprised how much more information flows when you lead with questions rather than demands. The best Conquerors win because people choose to deal with them, not because the other side had no choice. Your strategic brain can handle this shift, so let it guide you toward a more sustainable and ultimately more profitable approach to every deal you negotiate.",
+    growthSteps:[
+      'Before stating your position, ask about the other side\'s constraints and priorities',
+      'Notice when you are pushing out of habit rather than strategy and pause',
+      'After every negotiation, ask yourself whether the other side would choose to deal with you again',
+    ],
   },
   'dominator-yielder': {
     name:'The Iron Chancellor', emoji:'🏛️', tagline:'Iron fist, velvet glove.',
@@ -180,6 +185,11 @@ const archetypes = {
     underPressure:"Under pressure, one of two things happens, and neither is strategic. Either your Dominator side takes over and you become aggressively competitive, losing the relational goodwill you have carefully built, or your Yielder side dominates and you accommodate simply to make the discomfort stop. The shift is driven by adrenaline rather than analysis, which means you are at your least effective precisely when the stakes are highest. Your task under pressure is to pause and consciously choose which energy the situation actually requires. Recognising the trigger before it takes hold is the critical skill you need to develop.",
     watchOut:"The perception of manipulation is your greatest reputational risk, even when your intentions are entirely honest. Because you are warm and tough in alternation, some people will conclude you are being strategically nice to soften them up for the kill. Even if that is not your intention, the pattern can look exactly that way from the outside. Once someone decides you are manipulative, every warm gesture becomes suspect and every tough moment confirms their theory. Consistency is your antidote, and it matters more than charm ever will.",
     growthEdge:"Choose your mode intentionally before each negotiation rather than letting the moment decide for you. Ask yourself whether this situation needs your Dominator energy or your Yielder warmth, then commit to that approach and stay there throughout. Consistency builds more trust than charm ever will, and deliberate flexibility is far more powerful than reactive switching between extremes. Your dual nature is genuinely a gift, but only when you control it instead of it controlling you. Start practising this deliberate choice in low stakes situations first, and build the habit before the pressure rises.",
+      growthSteps:[
+      'Before each negotiation, decide deliberately whether to lead with warmth or firmness',
+      'Commit to that approach for the entire conversation rather than switching based on emotion',
+      'Practice this deliberate choice in low stakes situations before testing it under pressure',
+    ],
   },
   'dominator-calculator': {
     name:'The Inquisitor', emoji:'🔍', tagline:'Prepared, precise, and relentless.',
@@ -191,39 +201,59 @@ const archetypes = {
     underPressure:"Under pressure, you retreat further into analysis and become more rigid in your positions. You want more data, more time, and more certainty before committing to anything, and when you cannot get those things you become adversarial. Your Dominator side asserts itself with sharp, clinical attacks on the other side's position that feel personal even when they are not intended that way. You win the argument but lose the room in the process. The combination of increased aggression and decreased warmth under pressure is your most dangerous and most predictable pattern.",
     watchOut:"Being right does not mean people will agree with you, and this is a lesson that many Inquisitors learn too late. If the other party feels disrespected by your clinical approach, they may walk away from a good deal just to spite you. Your thoroughness can also create a power imbalance that makes less prepared counterparts feel humiliated rather than persuaded. Victory through humiliation creates enemies, not partners, and enemies have very long memories. The resistance you encounter is often a reaction to your style rather than your substance.",
     growthEdge:"Add warmth to your precision and watch your effectiveness multiply. A single genuine question about the other person, their challenges, their pressures, what keeps them up at night, can unlock more value than an hour of data analysis. Try opening your next negotiation with curiosity about the person before diving into the problem at hand. Your analytical skills are already world class and do not need more sharpening. Your relational skills are where the real growth lies, and even small improvements there will dramatically increase your overall effectiveness.",
+      growthSteps:[
+      'Open your next negotiation with a genuine question about the person before discussing the problem',
+      'Watch how the conversation changes when you lead with curiosity rather than data',
+      'Ask yourself after each meeting whether the other side felt respected, not just logically persuaded',
+    ],
   },
-  'integrator-dominator': {
+'integrator-dominator': {
     name:'The King', emoji:'👑', tagline:'You lead with vision and backbone.',
-    narrative:"The King is the natural leader at any negotiation table. You combine the Integrator's collaborative vision with the Dominator's competitive backbone, meaning you genuinely seek outcomes that work for everyone, but you are absolutely willing to fight when necessary. People follow your lead because you project both fairness and strength in equal measure. You set the tone, frame the agenda, and guide the conversation with a confidence that feels earned rather than imposed.",
-    strengths:"Natural authority combined with genuine collaborative intent makes you one of the most effective negotiation profiles in any setting. You seek fair outcomes but are not afraid to fight for what matters, which earns deep respect from counterparts on both sides of the table. Your combination of vision and steel means you can hold a room, manage multiple stakeholders, and drive toward solutions that are both ambitious and achievable. People trust your leadership because it serves the collective interest, not just your own. In team negotiations and multi party deals, you are the one everyone looks to for direction and resolution.",
-    weaknesses:"Confidence can tip into arrogance more easily than you might expect, particularly when you are under time pressure. When challenged, your Dominator side may emerge more aggressively than you intended, and your certainty that you are right, because you have considered everyone's interests, can make you dismissive of perspectives you have already evaluated and rejected. You lead well, but you do not always listen well, and there is a fine line between guiding a negotiation and controlling it. That line is thinner than you think, and others see you cross it more often than you realise. The best leaders create space for others to contribute, and that is an area where you still have room to grow.",
-    blindSpots:"You believe your solutions are best because you have considered everyone's interests, but the question is whether you have really listened or just assumed you know what others need. Your confident, decisive style can crowd out quieter voices and unconventional ideas that might actually improve the outcome. The people most likely to tell you something you do not already know are the ones least likely to speak up in your presence. You may not even notice their silence, which means you are making decisions with incomplete information while believing you have the full picture. This gap between your perception and reality is your most significant vulnerability.",
-    howOthersSeeYou:"Commanding and fair, but sometimes overbearing in ways you do not intend. People genuinely respect you and often defer to your judgement, sometimes too readily for the good of the outcome. But some experience your leadership as steamrolling dressed up as collaboration, and they resent it quietly. They agree with your proposals because challenging you feels futile, not because they are genuinely persuaded. The agreement you see on the surface may be thinner than you think, and it may not survive the pressures of implementation.",
-    underPressure:"Under pressure, the Dominator emerges and your collaborative patience erodes quickly. Your strategic thinking gives way to competitive instinct, and you begin making unilateral decisions, issuing ultimatums, and pushing through outcomes rather than building them with others. The transition can be sudden and jarring for people who trusted your collaborative approach and expected it to hold. They feel betrayed by the shift, and the trust you have built can evaporate in a single heated moment. Learning to recognise the early warning signs of this pattern is essential to your continued effectiveness.",
-    watchOut:"The moment people feel you are dictating rather than collaborating, you lose the trust that makes you effective as a leader. Leaders who stop listening eventually become tyrants, and the difference between the two is often invisible to the person in charge. Watch for signs that people are agreeing with you to avoid conflict rather than because they genuinely support your position. Compliance is not commitment, and the gap between the two will show up during implementation. The strongest leaders actively invite disagreement because they understand that challenge makes decisions better.",
-    growthEdge:"Practice genuine curiosity by asking questions you do not already know the answer to, and sit with the answers before responding. Invite disagreement explicitly, not as a token gesture, but because the best leaders understand that challenge makes decisions stronger and outcomes more durable. Build round tables, not thrones, and create space for others to lead portions of the conversation. Your leadership is most powerful when people choose to follow, not when they feel they have to. Try this in your next negotiation: let someone else propose the first solution and resist the urge to improve it immediately.",
+    narrative:"The King is the most commanding presence at any negotiation table. You combine the Integrator's collaborative vision with the Dominator's competitive backbone, meaning you genuinely seek outcomes that work for everyone, but you are absolutely willing to fight for your position when necessary. People defer to your proposals because you project both fairness and strength in equal measure. You set the tone, frame the agenda, and guide the conversation with a confidence that feels earned rather than imposed. When you walk into a negotiation, the other side adjusts their approach to match yours.",
+    strengths:"Natural authority combined with genuine collaborative intent makes you one of the most effective negotiation profiles in any setting. You seek fair outcomes but are not afraid to fight for what matters, which earns deep respect from counterparts on both sides of the table. Your combination of vision and steel means you can hold a room, manage multiple stakeholders, and drive toward deals that are both ambitious and achievable. People trust your proposals because they serve the collective interest, not just your own. In multi party negotiations and complex deal structures, you are the one everyone looks to for direction and resolution. You consistently close deals that others cannot because you combine the creativity to find solutions with the backbone to push them through.",
+    weaknesses:"Your confidence in your own proposals can tip into rigidity more easily than you expect, particularly when you are under time pressure. When your ideas are challenged at the table, your Dominator side may emerge more aggressively than you intended, and your certainty that you have found the best deal structure, because you have considered everyone's interests, can make you dismissive of alternatives you have already evaluated and rejected. You negotiate well, but you do not always listen well, and there is a fine line between guiding a negotiation toward a good outcome and controlling the conversation so tightly that the other side feels managed rather than partnered. That line is thinner than you think, and others see you cross it more often than you realise.",
+    blindSpots:"You believe your proposals are best because you have considered everyone's interests, but the question is whether you have really listened to what the other side needs or just assumed you already know. Your confident, decisive style can crowd out quieter counterparts and unconventional ideas that might actually improve the deal. The people most likely to offer you information you do not already have are the ones least likely to speak up when you are dominating the conversation. You may not even notice their silence, which means you are negotiating with incomplete information while believing you have the full picture. This gap between your perception and reality is your most significant vulnerability at the table.",
+    howOthersSeeYou:"Commanding and fair, but sometimes overbearing in ways you do not intend. People genuinely respect your proposals and often defer to your framing of the deal, sometimes too readily for the good of the outcome. But some counterparts experience your approach as steamrolling dressed up as collaboration, and they resent it quietly. They agree to your terms because challenging you feels futile, not because they are genuinely persuaded the deal is fair. The agreement you see on the surface may be thinner than you think, and it may not survive the pressures of implementation when the other side reflects on how little input they actually had.",
+    underPressure:"Under pressure, the Dominator emerges and your collaborative patience erodes quickly. Your strategic thinking gives way to competitive instinct, and you begin making unilateral demands, issuing ultimatums, and pushing terms through rather than building agreement. The transition can be sudden and jarring for counterparts who trusted your collaborative approach and expected it to hold. They feel blindsided by the shift, and the trust you have built across the table can evaporate in a single heated exchange. Learning to recognise the early warning signs of this pattern is essential to maintaining your effectiveness in tough negotiations.",
+    watchOut:"The moment the other side feels you are dictating terms rather than collaborating on a deal, you lose the trust that makes you effective. Negotiators who stop listening to counterparts eventually become adversaries, and the difference between the two is often invisible to the person doing the talking. Watch for signs that the other side is agreeing to your proposals to end the conversation rather than because they genuinely support the terms. Compliance at the table is not commitment to the deal, and the gap between the two will show up during implementation. The strongest negotiators actively invite pushback because they understand that challenge makes deals better and more durable.",
+    growthEdge:"Practice genuine curiosity by asking questions you do not already know the answer to at the negotiation table, and sit with the answers before responding with your own proposal. Invite pushback explicitly, not as a token gesture, but because the best deals are built when both sides genuinely contribute to the structure. In your next negotiation, let the other side propose the first solution and resist the urge to improve it immediately. Your negotiation outcomes are strongest when the other side feels they chose the deal, not when they feel they had no alternative but to accept yours.",
+    growthSteps:[
+      'In your next negotiation, let the other side propose the first solution before presenting your own',
+      'When your proposal is challenged, ask a question before defending your position',
+      'After every deal, ask yourself whether the other side would describe the process as collaborative or controlled',
+    ],
   },
-  'integrator-yielder': {
+'integrator-yielder': {
     name:'The Ambassador', emoji:'🤝', tagline:'Trusted by everyone at the table.',
-    narrative:"The Ambassador is the most trusted profile in the negotiation world. You combine the Integrator's strategic collaboration with the Yielder's genuine warmth, creating an approach that makes people feel safe, heard, and respected. Others open up to you naturally, sharing information and concerns they would hide from more competitive styles. You find creative solutions because people tell you what they really need, not just what they are willing to say publicly.",
-    strengths:"Exceptional at building trust and finding solutions everyone feels good about, which gives you a distinctive advantage in relationship heavy negotiations. Your warmth is genuine, your strategic thinking is sharp, and the combination means you consistently find deals that others miss entirely. People actively want to negotiate with you because they believe the process will be fair. They refer others to you, they implement agreements willingly because they feel ownership over the outcome, and they come back for future deals. In long term, relationship heavy negotiations, you are simply unmatched.",
-    weaknesses:"You may avoid necessary confrontation, even when it would serve everyone's interests better in the long run. When the deal requires you to push hard, draw a firm line, or walk away, you hesitate because the potential damage to the relationship feels too costly. The thought of creating conflict makes you genuinely uncomfortable, and this discomfort leads to concessions that serve the relationship at the expense of the outcome. Over time, you leave significant value on the table, not because you lack intelligence, but because you lack the willingness to create the temporary tension that better deals require. Recognising this pattern is the first step toward changing it.",
-    blindSpots:"You assume good faith too readily and extend trust faster than the evidence warrants. Not everyone shares your collaborative values, and some negotiators will exploit your openness, use your trust against you, and take advantage of your reluctance to confront dishonesty. Your warm, open style is a magnet for manipulation by those who see kindness as weakness. Your instinct to see the best in people can delay your recognition of bad actors until significant damage has already been done. Trust should be earned incrementally and verified regularly, not given freely on the assumption that others operate as you do.",
-    howOthersSeeYou:"Warm, trustworthy, and genuinely liked by almost everyone who deals with you. People enjoy negotiating with you and often feel the outcomes are fair, which is a real and valuable asset. However, tougher negotiators may view you as a soft target they can push without consequence. They appreciate your nature but exploit it when it serves their interests. Your own stakeholders may wish you came back with stronger results, even if they admire the relationships you build along the way.",
-    underPressure:"Under pressure, your Yielder side dominates completely and your strategic thinking goes offline. You become conflict averse, accommodating, and focused on preserving the relationship at any cost, even when that cost is unreasonable. You make concessions you will regret once the pressure subsides and you can think clearly again. You need preset boundaries, meaning lines drawn before the heat of the moment, because in the moment, your instinct is always to give ground. Writing down your limits before every negotiation is not optional for you. It is essential.",
-    watchOut:"Dominators and manipulators read your warmth as weakness and will test you accordingly. Without steel underneath your diplomacy, you will consistently give away more than you should and more than your stakeholders expect. The hardest lesson for Ambassadors is that firmness and warmth are not opposites. You can say no with a smile, hold your ground with empathy, and protect your interests without damaging the relationship. Most relationships are far more resilient than you assume, and they can handle the occasional firm boundary.",
-    growthEdge:"Practice saying no without apologising, starting in low stakes situations and building from there. Hold a position longer than feels comfortable and observe what happens. You will usually find that people respect the boundary and the relationship survives perfectly well. Firm boundaries delivered with warmth is your ultimate superpower, but you need to actually deploy it rather than just knowing it exists. Before every concession, ask yourself this: am I giving this because it is strategic, or because I am uncomfortable with the tension?",
+    narrative:"The Ambassador is the most trusted profile in the negotiation world. You combine the Integrator's strategic collaboration with the Yielder's genuine warmth, creating an approach that makes counterparts feel safe, heard, and respected at the table. Others open up to you naturally, sharing information and concerns they would hide from more competitive negotiators. You find creative deal structures because people tell you what they really need, not just what they are willing to say in a formal negotiation.",
+    strengths:"Exceptional at building trust and finding deal structures everyone feels good about, which gives you a distinctive advantage in relationship heavy negotiations. Your warmth is genuine, your strategic thinking is sharp, and the combination means you consistently find deals that others miss entirely. Counterparts actively want to negotiate with you because they believe the process will be fair. They implement agreements willingly because they feel ownership over the outcome, and they come back for future deals with confidence. In long term, relationship heavy negotiations where repeat business matters, you are simply unmatched at the table.",
+    weaknesses:"You avoid necessary confrontation at the table, even when pushing harder would serve everyone's interests better in the long run. When the deal requires you to hold a firm position, draw a clear line, or walk away, you hesitate because the potential damage to the relationship feels too costly. The thought of creating tension at the table makes you genuinely uncomfortable, and this discomfort leads to concessions that serve the relationship at the expense of the deal. Over time, you leave significant value on the table, not because you lack intelligence, but because you lack the willingness to create the temporary tension that better deals require. Recognising this pattern is the first step toward changing it.",
+    blindSpots:"You assume good faith too readily and extend trust to counterparts faster than the evidence warrants. Not everyone across the table shares your collaborative values, and some negotiators will exploit your openness, use your trust against you, and take advantage of your reluctance to confront dishonesty in a deal. Your warm, open style is a magnet for manipulation by those who see kindness as weakness at the negotiation table. Your instinct to see the best in every counterpart can delay your recognition of bad faith tactics until significant damage to the deal has already been done. Trust should be earned incrementally and verified regularly, not given freely on the assumption that the other side operates as you do.",
+    howOthersSeeYou:"Warm, trustworthy, and genuinely liked by almost everyone who negotiates with you. Counterparts enjoy the process and often feel the outcomes are fair, which is a real and valuable asset. However, tougher negotiators may view you as a soft target they can push without consequence at the table. They appreciate your nature but exploit it when it serves their deal interests. Your own stakeholders may wish you came back with stronger terms, even if they admire the relationships you build with counterparts along the way.",
+    underPressure:"Under pressure at the table, your Yielder side dominates completely and your strategic thinking goes offline. You become conflict averse, accommodating, and focused on preserving the relationship at any cost, even when that cost means accepting deal terms that are unreasonable. You make concessions you will regret once the pressure subsides and you can evaluate the deal clearly again. You need preset boundaries, meaning lines drawn before you walk into the negotiation, because in the moment your instinct is always to give ground. Writing down your walk away point before every negotiation is not optional for you. It is essential.",
+    watchOut:"Dominators and manipulators read your warmth as weakness and will test you at the table accordingly. Without steel underneath your diplomacy, you will consistently give away more value than you should and more than your stakeholders expect from the deal. The hardest lesson for Ambassadors is that firmness and warmth are not opposites at the negotiation table. You can say no with a smile, hold your position with empathy, and protect your deal interests without damaging the relationship. Most counterpart relationships are far more resilient than you assume, and they can handle the occasional firm boundary in a negotiation.",
+    growthEdge:"Practice saying no at the table without apologising, starting in low stakes negotiations and building from there. Hold a position longer than feels comfortable and observe what happens to the deal. You will usually find that counterparts respect the boundary and the relationship survives perfectly well. Firm boundaries delivered with warmth is your ultimate negotiation superpower, but you need to actually deploy it rather than just knowing it exists. Before every concession, ask yourself this: am I giving this because it is strategic for the deal, or because I am uncomfortable with the tension at the table?",
+    growthSteps:[
+      'Before every concession, ask yourself whether you are giving it because it is strategic or because you are uncomfortable',
+      'Practice saying no without apologising, starting in low stakes negotiations',
+      'Write down your walk away point before walking in and hold at least one position firm',
+    ],
   },
-  'integrator-calculator': {
+'integrator-calculator': {
     name:'The Vizier', emoji:'🎯', tagline:'Three moves ahead of everyone.',
-    narrative:"The Vizier is the master strategist. You combine the Integrator's collaborative problem solving with the Calculator's analytical depth, creating an approach that sees further and thinks deeper than any other profile. You do not just prepare for the negotiation. You prepare for the negotiation about the negotiation. You anticipate moves, map scenarios, and build solutions that are creative, robust, and genuinely hard to fault. You are the person everyone wants advising them before they walk into the room.",
-    strengths:"Strategic mastermind who sees the full picture and plans several moves ahead of everyone else at the table. You build solutions that are both creative and bulletproof, combining genuine collaboration with rigorous analysis in a way that few other profiles can match. Your proposals are consistently better thought through than anyone else's, backed by both logic and a genuine understanding of all parties' interests. In complex, multi party negotiations with many moving parts, you are genuinely invaluable. The deals you build tend to last because they are designed to withstand pressure and changing circumstances over time.",
-    weaknesses:"You can overthink and under act, and this pattern costs you more opportunities than you realise. While you are planning the perfect move, opportunities pass you by and faster moving counterparts claim the value you were still analysing. Your need for thoroughness creates delays that frustrate others, and your reluctance to commit until you have analysed every angle can look like indecisiveness or lack of conviction. Sometimes good enough right now beats perfect next week, and you struggle deeply with that truth. Learning to act at eighty percent certainty rather than waiting for ninety five is your most important development area.",
-    blindSpots:"You trust your process more than your instincts, and sometimes the right move is obvious and does not need a spreadsheet to justify it. Your analytical nature can also make you dismissive of gut feelings, both yours and others, which means you miss signals that cannot be quantified but are nonetheless critically important. Not everything that matters can be measured, and not every decision improves with more analysis. The people around you sometimes know things intuitively that your models cannot capture. Learning to value and integrate that intuitive data alongside your analytical data would make you significantly more effective.",
-    howOthersSeeYou:"Brilliant but slow, which creates a perception gap that varies dramatically depending on who you are dealing with. People respect your intellect and the quality of your proposals, but they often get frustrated waiting for them. Fast moving counterparts feel held back by your process and may disengage before you are ready. Detail oriented counterparts love working with you because they appreciate your rigour. The perception gap between those who value thoroughness and those who value speed often determines how effective you are in any given negotiation context.",
-    underPressure:"Under pressure, you retreat into analysis and demand more time, more data, and more certainty before committing to anything. If pushed beyond your comfort zone, you become rigid about process, insisting on proper procedures and thorough review when the situation demands flexibility and speed. Your Integrator side wants to find a creative solution. Your Calculator side will not let you move until you have verified it from every angle. The result is paralysis at the worst possible moment, precisely when decisive action is most needed.",
-    watchOut:"Analysis paralysis is a real and present danger for you, and competitive negotiators know how to use your need for information against you by creating artificial time pressure. They know that if they rush you, you will either make a worse decision than usual or freeze entirely, and both outcomes serve their interests. Have a framework ready for rapid decisions, not perfect decisions, but good enough decisions you can make under pressure without abandoning your values. Preparation for speed is just as important as preparation for substance. Do not let others dictate your timeline, but do not let your own process hold you hostage either.",
-    growthEdge:"Set a decision deadline for yourself before every negotiation and honour it regardless of whether you feel completely ready. Practice making decisions at eighty percent certainty instead of waiting for ninety five, and observe how the outcomes compare. The value of a timely decision almost always exceeds the value of a perfect one, and your analytical skills will ensure that even your quick decisions are better than most people's careful ones. Your analytical and collaborative skills are already world class. Your speed of execution is where the real growth lies, and it is the one thing holding you back from being truly exceptional.",
+    narrative:"The Vizier is the master negotiation strategist. You combine the Integrator's collaborative problem solving with the Calculator's analytical depth, creating an approach that sees further into the deal structure and thinks deeper about the terms than any other profile. You do not just prepare for the negotiation. You prepare for every possible direction it could take. You anticipate counterpart moves, map deal scenarios, and build proposals that are creative, robust, and genuinely hard to fault. You are the person everyone wants advising them before they walk into a tough negotiation.",
+    strengths:"Strategic mastermind who sees the full deal picture and plans several moves ahead of everyone else at the table. You build proposals that are both creative and bulletproof, combining genuine collaboration with rigorous analysis in a way that few other negotiation profiles can match. Your proposals are consistently better thought through than anyone else's, backed by both logic and a genuine understanding of all parties' deal interests. In complex, multi party negotiations with many moving parts, you are genuinely invaluable at the table. The deals you build tend to last because they are designed to withstand changing circumstances and implementation pressures over time.",
+    weaknesses:"You can overthink deal structures and under act at the table, and this pattern costs you more negotiation outcomes than you realise. While you are planning the perfect proposal, opportunities pass and faster moving counterparts claim the value you were still analysing. Your need for thoroughness creates delays that frustrate the other side, and your reluctance to commit to terms until you have analysed every angle can look like indecisiveness or lack of conviction at the table. Sometimes a good deal closed today beats a perfect deal structure next week, and you struggle deeply with that truth. Learning to commit to terms at eighty percent certainty rather than waiting for ninety five is your most important development area as a negotiator.",
+    blindSpots:"You trust your preparation process more than your instincts at the table, and sometimes the right move in a negotiation is obvious and does not need a spreadsheet to justify it. Your analytical nature can also make you dismissive of gut feelings, both yours and your counterpart's, which means you miss signals at the table that cannot be quantified but are nonetheless critically important to the deal. Not everything that matters in a negotiation can be measured, and not every deal term improves with more analysis. The counterparts sitting across from you sometimes know things intuitively about the deal that your models cannot capture. Learning to value and integrate that intuitive information alongside your analytical data would make you significantly more effective at the table.",
+    howOthersSeeYou:"Brilliant but slow at the table, which creates a perception gap that varies dramatically depending on who you are negotiating with. Counterparts respect your intellect and the quality of your proposals, but they often get frustrated waiting for them. Fast moving negotiators feel held back by your process and may disengage or close with someone else before you are ready to present your carefully crafted deal structure. Detail oriented counterparts love negotiating with you because they appreciate your rigour. The perception gap between those who value thoroughness and those who value speed at the table often determines how effective you are in any given negotiation.",
+    underPressure:"Under pressure at the table, you retreat into analysis and demand more time, more data, and more certainty before committing to any terms. If pushed beyond your comfort zone by aggressive counterparts, you become rigid about process, insisting on proper review when the negotiation demands flexibility and speed. Your Integrator side wants to find a creative deal structure. Your Calculator side will not let you commit until you have verified it from every angle. The result is paralysis at the worst possible moment in the negotiation, precisely when decisive action is most needed to capture value on the table.",
+    watchOut:"Analysis paralysis is a real and present danger for you at the table, and competitive negotiators know how to use your need for information against you by creating artificial time pressure on the deal. They know that if they rush you, you will either make a worse decision than usual or freeze entirely, and both outcomes serve their deal interests. Have a framework ready for rapid decisions at the table, not perfect decisions, but good enough decisions you can make under pressure without abandoning your values. Preparation for speed is just as important as preparation for substance in any negotiation.",
+    growthEdge:"Set a decision deadline for yourself before every negotiation and honour it regardless of whether you feel completely ready to commit to terms. Practice making deal decisions at eighty percent certainty instead of waiting for ninety five, and observe how the outcomes compare. The value of a timely decision at the table almost always exceeds the value of a perfect one that arrives too late. Your analytical and collaborative negotiation skills are already world class. Your speed of execution at the table is where the real growth lies, and it is the one thing holding you back from being truly exceptional as a negotiator.",
+    growthSteps:[
+      'Set a decision deadline before every negotiation and honour it regardless of whether you feel completely ready',
+      'Practice committing to deal terms at eighty percent certainty and observe how the outcomes compare',
+      'When you want more data, ask yourself whether the additional analysis would actually change the terms you offer',
+    ],
   },
   'yielder-dominator': {
     name:'The Shield Bearer', emoji:'🛡️', tagline:'Gentle until provoked, then formidable.',
@@ -235,6 +265,11 @@ const archetypes = {
     underPressure:"Under pressure, you oscillate between over accommodation and disproportionate pushback in a pattern that undermines both your relationships and your results. You absorb, absorb, and absorb some more, and then you snap. The snap is usually bigger than the situation requires because you are responding to accumulated frustration, not just the current provocation. This pattern is your most important one to recognise and manage, because it costs you credibility and trust every time it occurs. Learning to release pressure incrementally rather than in a single burst is the key to transforming this pattern.",
     watchOut:"Experienced negotiators test limits early, and if you fold on the first three requests, they know you will fold on the fourth and the fifth as well. Your pattern of accommodation followed by sudden resistance creates an exploitable predictability that skilled counterparts will recognise and use against you. They push until you snap, then back off just enough to keep you in Yielder mode for the next round of requests. Dominators in particular will read you quickly and systematically work your pattern to extract maximum concessions. Recognising this dynamic from outside yourself is the first step toward breaking free of it.",
     growthEdge:"Set your non negotiables before you walk in and write them down where you can see them during the conversation. Know your lines in advance so you do not have to find them under pressure when your instincts are pulling you toward accommodation. Practice early, small assertions by pushing back on the first issue rather than waiting until the tenth when your frustration is already building. You have both the warmth and the steel inside you. Your task is integrating them into a consistent approach rather than alternating between extremes that confuse everyone, including yourself.",
+    growthSteps:[
+      'Write your three non-negotiables down before every negotiation where you can see them',
+      'Push back on the first issue rather than waiting until frustration builds',
+      'Build your assertiveness muscle by pushing back on small everyday requests before testing it in high stakes situations',
+    ],
   },
   'yielder-integrator': {
     name:'The Emissary', emoji:'📜', tagline:'You build bridges others cannot.',
@@ -246,6 +281,11 @@ const archetypes = {
     underPressure:"Under pressure, your Yielder side dominates completely and your strategic Integrator thinking goes offline just when you need it most. You become focused on ending the discomfort as quickly as possible, which usually means making concessions that solve the immediate tension but create long term problems. You agree to things you will question later when you have the space to think clearly again. Having clear walk away criteria written down before the negotiation is essential for you because it keeps your strategic brain engaged when your emotional brain wants to please. Without those written boundaries, you are negotiating against yourself.",
     watchOut:"Your likability is a genuine asset, but it is not a strategy by itself, and confusing the two is dangerous. Tough negotiators will enjoy your company while they systematically claim everything on the table without you noticing until it is too late. Being liked does not protect your interests. Being clear about your needs does, even when clarity creates temporary discomfort. Make sure every act of warmth is paired with clarity about what you need from the deal, because warmth without boundaries is an open invitation for exploitation.",
     growthEdge:"Before every concession, ask yourself this question: am I giving this because it is strategic, or because I am uncomfortable with the tension? If the answer is discomfort, hold your ground and observe what happens. Practice sitting with silence after making a request instead of filling the gap with a softer version of what you just asked for. Your warmth will survive one firm moment, and the relationship is almost certainly more resilient than you fear. Build the habit of pausing before conceding, because most of the time you will discover that the tension passes entirely on its own.",
+    growthSteps:[
+      'Before giving a concession, pause and count to five before responding',
+      'Ask yourself whether the tension you feel is real danger or just discomfort',
+      'Hold your position on one point longer than feels comfortable and observe what happens',
+    ],
   },
   'yielder-calculator': {
     name:'The Counsel', emoji:'📖', tagline:'The quiet voice everyone should listen to.',
@@ -257,6 +297,11 @@ const archetypes = {
     underPressure:"Under pressure, you withdraw psychologically even when you remain physically present in the room. You become quieter, more analytical, and less engaged with the people around you, retreating into your notes, your data, and your preparation, all the things that feel safe. Meanwhile, the negotiation moves forward without you, and others make the decisions you should be influencing. Your absence from the conversation at critical moments is your biggest vulnerability. The higher the stakes, the more you retreat, which is exactly the opposite of what the situation requires.",
     watchOut:"Knowledge without assertiveness is wasted potential, and every other style at the table will outpace you if you do not speak up. Dominators will dominate the conversation, Integrators will lead the process, Yielders will at least try to build rapport and influence the tone, and you will sit there with the best analysis in the room watching everyone else make suboptimal decisions because you did not contribute. Your insight only has value when it reaches the table. Keeping it inside your head protects you from discomfort but deprives everyone else of your genuine contribution. The cost of your silence is borne by everyone, not just you.",
     growthEdge:"Share your insights out loud, every single time, not just when asked directly. Make a commitment to speak up at least fifty percent more than feels comfortable in your next negotiation and observe what happens to the quality of the discussion. Prepare not just your analysis but your talking points, writing down what you want to say and when you want to say it during the conversation. Your analysis is a powerful tool, but only if you use it actively rather than keeping it in reserve. Start treating your voice as part of your preparation rather than an optional addition that depends on whether someone invites you to speak.",
+    growthSteps:[
+      'Prepare one specific insight you will share out loud in your next negotiation',
+      'Write down not just your analysis but the exact words you will use to present it',
+      'Speak up at least once before being asked and notice how people respond',
+    ],
   },
   'calculator-dominator': {
     name:'The Spymaster', emoji:'🗡️', tagline:'Patient, precise, and lethal.',
@@ -268,6 +313,11 @@ const archetypes = {
     underPressure:"Under pressure, your Dominator side takes over with cold precision that can feel ruthless to those on the receiving end. You become sharply competitive, using your analytical advantage as a weapon rather than a tool for finding mutual benefit. Your moves become more aggressive, your patience thins dramatically, and your strikes become more pointed and personal. This pressurised version of you is effective in the short term but burns trust rapidly and creates adversaries who will remember the experience. The damage you do under pressure often takes far longer to repair than the advantage it creates.",
     watchOut:"When people figure out your approach, and experienced negotiators will figure it out, they stop sharing information entirely and your power base erodes. Your effectiveness depends on access to intelligence, and that access evaporates once you are identified as a calculating competitor who uses information strategically against others. The Spymaster's greatest vulnerability is exposure, because once people know what you are, they build walls where there used to be doors. The reputation you build follows you from one negotiation to the next, and in close industries, word travels fast. Your future effectiveness depends on how you manage your current reputation.",
     growthEdge:"Show more of your hand deliberately and observe how the dynamic changes. Selective transparency, meaning sharing some of your analysis, your reasoning, and your constraints openly, actually generates better intelligence than secrecy because people naturally reciprocate openness with openness. In your next negotiation, share one piece of genuine information early and watch how the conversation shifts. Trust, strategically deployed, is more powerful than secrecy, and you are strategic enough to deploy it brilliantly. The transition from information hoarder to selective sharer is the single most impactful change you can make to your negotiation approach.",
+    growthSteps:[
+      'Share one piece of genuine information early in your next negotiation',
+      'Watch how the other side\'s openness changes in response to your transparency',
+      'Ask yourself whether secrecy is truly serving you or just making others guard against you',
+    ],
   },
   'calculator-integrator': {
     name:'The Architect', emoji:'🏗️', tagline:'You build deals that stand the test of time.',
@@ -279,6 +329,11 @@ const archetypes = {
     underPressure:"Under pressure, you cling to process with an intensity that can feel obstructive to everyone else in the room. You insist on proper analysis, thorough review, and structured decision making when the situation may demand flexibility, improvisation, and speed. If your process is disrupted by time pressure, aggressive counterparts, or unexpected developments, you become rigid and anxious rather than adaptive and creative. The very structure that gives you strength in calm conditions becomes a cage under pressure. Building comfort with imperfect information and rapid decisions is your most critical development area.",
     watchOut:"Competitive negotiators exploit your need for structure by creating chaos, because disrupting your process is the fastest way to neutralise your advantage. If they can rush your timeline, introduce unexpected variables, or force you out of your prepared framework, they push you into reactive mode where you are at your weakest and most vulnerable. Always have a contingency approach ready for when your primary plan is disrupted, because it will be disrupted eventually. The best Architects design for earthquakes, not just fair weather. Prepare for the process breaking down just as thoroughly as you prepare for it working perfectly.",
     growthEdge:"Build a good enough threshold into every preparation before you walk in the door. Define clearly what eighty percent of your ideal outcome looks like, and decide in advance whether you would accept it if offered. This gives you a decision point that prevents endless optimisation and allows you to close deals while the opportunity is still available. Practice closing deals that are good rather than holding out for deals that are perfect, and observe how the outcomes compare over time. Your architecture skills are already exceptional. Now build a clock into your blueprints and watch your effectiveness increase dramatically.",
+   growthSteps:[
+      'Define clearly what eighty percent of your desired outcome looks like before every negotiation',
+      'If offered that eighty percent, commit to accepting it rather than optimising further',
+      'Practice closing deals that are good rather than holding out for deals that are perfect',
+    ],
   },
   'calculator-yielder': {
     name:'The Oracle', emoji:'🔮', tagline:'You see everything. Now act on it.',
@@ -290,6 +345,11 @@ const archetypes = {
     underPressure:"Under pressure, you disappear, not physically, but psychologically, becoming quieter, more analytical, and less engaged with the people in the room. You retreat into observation and analysis, contributing less and less as the stakes rise around you. At the exact moment when your insight is most valuable and most needed, you become least likely to share it. This pattern makes you unreliable in high pressure negotiations and limits the roles and opportunities available to you. Others learn that they cannot count on your voice when it matters most, which means they stop seeking it out.",
     watchOut:"Every other style at the table will outpace you if you do not find the courage to speak up and contribute actively. Dominators will take control of the conversation, Integrators will lead the process toward solutions, Yielders will at least build rapport and try to influence the emotional tone of the room, and you will sit there with the best understanding in the room watching suboptimal outcomes unfold because you chose silence over discomfort. Your silence is not neutrality. It is a choice, and it has real consequences for everyone at the table, including yourself. The cost of not speaking is always higher than you estimate in the moment.",
     growthEdge:"You have more power and more influence than you think, and the gap between your potential and your performance is entirely within your control to close. Make one firm statement or request in every negotiation, just one, not a question and not a suggestion, but a clear assertion of what you believe or what you need. Then build the muscle from there over time. Your insight combined with even moderate assertiveness would make you one of the most effective negotiators in any room you enter. The only thing standing between you and that reality is your willingness to speak up, tolerate the discomfort that follows, and discover that the consequences you fear almost never actually materialise.",
+    growthSteps:[
+      'Make one firm statement in your next negotiation that is not a question or a suggestion',
+      'Prepare your talking points in advance including the exact moment you will share them',
+      'Build the muscle by adding one more assertion each negotiation until it feels natural',
+    ],
   },
 };
 
@@ -1440,38 +1500,43 @@ if(phase==='tiebreak'&&tieData) return(
     const shC=shColors[sl.color]||shColors.green;
     const shT=shTextColors[sl.color]||shTextColors.green;
 
-    const renderParagraphs=(text)=>text.split('\n\n').map((para,i)=><p key={i} className={`text-gray-700 leading-relaxed ${i>0?'mt-3':''}`}>{para}</p>);
+const renderParagraphs=(text)=>text.split('\n\n').map((para,i)=><p key={i} className={`text-gray-700 leading-relaxed ${i>0?'mt-3':''}`}>{para}</p>);
 
-    const sections=[
-      {title:`${arch.emoji} Your Archetype: ${arch.name}`,text:arch.narrative,color:'text-blue-800'},
-      {title:`Primary Style: ${styleMeta[p].label}`,text:stylePrimary[p],color:styleMeta[p].tw},
-      {title:`Secondary Influence: ${styleMeta[s].label}`,text:styleSecondary[s],color:styleMeta[s].tw},
-      {title:'How Others Experience You',text:arch.howOthersSeeYou,color:'text-blue-800'},
-      {title:'Your Strengths',text:arch.strengths,color:'text-green-700'},
-      {title:'Your Weaknesses',text:arch.weaknesses,color:'text-red-700'},
-      {title:'Your Blind Spots',text:arch.blindSpots,color:'text-purple-700'},
-      {title:'Under Pressure',text:arch.underPressure,color:'text-amber-700'},
-      {title:'Watch Out',text:arch.watchOut,color:'text-red-700'},
-      {title:'Your Growth Edge',text:arch.growthEdge,color:'text-green-700'},
-    ];
+const renderWithQuote=(text)=>{
+  const paragraphs=text.split('\n\n');
+  const firstSentence=paragraphs[0].split('. ')[0]+'.';
+  const restOfFirst=paragraphs[0].slice(firstSentence.length).trim();
+  const allRemaining=[restOfFirst,...paragraphs.slice(1)].filter(p=>p.length>0).join(' ');
+  const sentences=allRemaining.split('. ').filter(s=>s.trim().length>0);
+  const mid=Math.ceil(sentences.length/2);
+  const firstHalf=sentences.slice(0,mid).join('. ')+(sentences.length>1?'.':'');
+  const secondHalf=sentences.slice(mid).join('. ')+(sentences.length>mid?'.':'');
+  return(
+    <>
+      <p className="text-lg font-medium text-gray-900 border-l-4 border-blue-300 pl-4 mb-4 leading-relaxed italic">{firstSentence}</p>
+      {firstHalf && <p className="text-gray-700 leading-relaxed">{firstHalf}</p>}
+      {secondHalf && <p className="text-gray-700 leading-relaxed mt-4">{secondHalf}</p>}
+    </>
+  );
+};
+
 
     return(
       <div className="min-h-screen bg-gray-50 text-gray-900 p-4 overflow-y-auto">
         <div className="max-w-2xl mx-auto py-8">
-          <motion.div initial={{opacity:0,scale:0.9}} animate={{opacity:1,scale:1}} transition={{duration:0.5,type:'spring'}} className="text-center mb-8 bg-white rounded-xl border-2 border-blue-700 p-8">
-            {userName && <p className="text-gray-500 mb-2">Prepared for: <span className="font-bold text-gray-900">{userName}</span></p>}
-            <div className="text-6xl mb-3">{arch.emoji}</div>
-            <h1 className="text-3xl font-bold text-blue-800 mb-1">{arch.name}</h1>
-            <p className="text-gray-500">
-              Primary: <span className={styleMeta[p].tw} style={{fontWeight:700}}>{styleMeta[p].label}</span>
-              {' '} | {' '}
-              Secondary: <span className={styleMeta[s].tw} style={{fontWeight:700}}>{styleMeta[s].label}</span>
-            </p>
-            <p className="text-lg text-gray-600 italic mt-3">"{arch.tagline}"</p>
-          </motion.div>
+         <motion.div initial={{opacity:0,scale:0.9}} animate={{opacity:1,scale:1}} transition={{duration:0.5,type:'spring'}} className="text-center mb-8 bg-white rounded-xl border-2 border-blue-700 p-8">
+  {userName && <p className="text-gray-500 mb-2">Prepared for: <span className="font-bold text-gray-900">{userName}</span></p>}
+  <p className="text-xs text-blue-700/60 font-semibold tracking-widest uppercase mb-4">Your Negotiation Archetype</p>
+  <h1 className="text-3xl font-bold text-blue-800 mb-2">{arch.name}</h1>
+  <p className="text-base text-gray-500 mb-4">{arch.tagline}</p>
+  <div className="flex items-center justify-center gap-3">
+    <span className="px-3 py-1 rounded-full text-xs font-bold text-white" style={{backgroundColor:styleMeta[p].color}}>Primary: {styleMeta[p].label}</span>
+    <span className="px-3 py-1 rounded-full text-xs font-bold text-white" style={{backgroundColor:styleMeta[s].color}}>Secondary: {styleMeta[s].label}</span>
+  </div>
+</motion.div>
 
           <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.2}} className="bg-white border border-gray-200 rounded-xl p-6 mb-6">
-  <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2 text-center">Your Negotiation Profile</h3>
+<h3 className="text-xs font-semibold text-blue-700/60 uppercase tracking-widest mb-4 text-center">Style Distribution</h3>
   <div style={{width:'100%',maxWidth:400,margin:'0 auto',aspectRatio:'1'}}>
     <PetalChart scores={sc}/>
   </div>
@@ -1506,13 +1571,102 @@ if(phase==='tiebreak'&&tieData) return(
   </div>
 </motion.div>
 
-          {sections.map((sec,idx)=>(
-            <motion.div key={sec.title} initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.3+idx*0.08}}
-              className="bg-white border border-gray-200 rounded-xl p-6 mb-4">
-              <h3 className={`font-bold text-lg mb-3 ${sec.color}`}>{sec.title}</h3>
-              {renderParagraphs(sec.text)}
-            </motion.div>
-          ))}
+{/* Archetype Narrative */}
+<motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.3}}
+  className="bg-gradient-to-r from-blue-50/50 to-white border border-blue-100 rounded-xl p-6 mb-4 border-l-4 border-l-blue-700">
+  <h3 className="font-bold text-lg mb-3 text-blue-800">{arch.emoji} Your Archetype: {arch.name}</h3>
+  {renderWithQuote(arch.narrative)}
+</motion.div>
+
+{/* Primary and Secondary side by side on desktop */}
+<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+  <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.38}}
+    className="bg-white rounded-xl p-5 border-l-4" style={{borderLeftColor:styleMeta[p].color}}>
+    <h3 className="font-bold text-base mb-2" style={{color:styleMeta[p].color}}>🎯 Primary: {styleMeta[p].label}</h3>
+    <div className="text-sm text-gray-700 leading-relaxed">{renderParagraphs(stylePrimary[p])}</div>
+  </motion.div>
+  <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.42}}
+    className="bg-white rounded-xl p-5 border-l-4" style={{borderLeftColor:styleMeta[s].color}}>
+    <h3 className="font-bold text-base mb-2" style={{color:styleMeta[s].color}}>🔀 Secondary: {styleMeta[s].label}</h3>
+    <div className="text-sm text-gray-700 leading-relaxed">{renderParagraphs(styleSecondary[s])}</div>
+  </motion.div>
+</div>
+
+{/* How Others See You */}
+<motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.46}}
+  className="bg-white border-l-4 border-l-blue-700 rounded-xl p-6 mb-4">
+  <h3 className="font-bold text-lg mb-3 text-blue-800">👥 How Others Experience You</h3>
+  {renderWithQuote(arch.howOthersSeeYou)}
+</motion.div>
+
+{/* Strengths and Weaknesses side by side as bullets */}
+<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+  <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.5}}
+    className="bg-green-50/50 border border-green-100 rounded-xl p-5 border-l-4 border-l-green-600">
+    <h3 className="font-bold text-base mb-4 text-green-700">💪 Your Strengths</h3>
+    <div className="space-y-3">
+      {arch.strengths.split('. ').filter(s=>s.trim().length>10).map((s,i)=>(
+        <div key={i} className="flex gap-2 items-start">
+          <span className="shrink-0 text-green-600 mt-0.5">✓</span>
+          <p className="text-sm text-gray-700 leading-relaxed">{s.trim().replace(/\.$/,'')}.</p>
+        </div>
+      ))}
+    </div>
+  </motion.div>
+  <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.54}}
+    className="bg-red-50/30 border border-red-100 rounded-xl p-5 border-l-4 border-l-red-600">
+    <h3 className="font-bold text-base mb-4 text-red-700">⚡ Your Weaknesses</h3>
+    <div className="space-y-3">
+      {arch.weaknesses.split('. ').filter(s=>s.trim().length>10).map((s,i)=>(
+        <div key={i} className="flex gap-2 items-start">
+          <span className="shrink-0 text-red-600 mt-0.5">✗</span>
+          <p className="text-sm text-gray-700 leading-relaxed">{s.trim().replace(/\.$/,'')}.</p>
+        </div>
+      ))}
+    </div>
+  </motion.div>
+</div>
+
+{/* Blind Spots - distinct visual treatment */}
+<motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.58}}
+  className="bg-purple-50/30 border border-purple-100 rounded-xl p-6 mb-4 border-l-4 border-l-purple-600">
+  <h3 className="font-bold text-lg mb-3 text-purple-700">🔍 Your Blind Spots</h3>
+  {renderWithQuote(arch.blindSpots)}
+</motion.div>
+
+{/* Under Pressure - warning style */}
+<motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.62}}
+  className="bg-amber-50/30 border border-amber-100 rounded-xl p-6 mb-4 border-l-4 border-l-amber-500">
+  <h3 className="font-bold text-lg mb-3 text-amber-700">🌡️ Under Pressure</h3>
+  {renderWithQuote(arch.underPressure)}
+</motion.div>
+
+{/* Watch Out - alert style */}
+<motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.66}}
+  className="bg-red-50/30 border border-red-100 rounded-xl p-6 mb-4 border-l-4 border-l-red-600">
+  <h3 className="font-bold text-lg mb-3 text-red-700">⚠️ Watch Out</h3>
+  {renderWithQuote(arch.watchOut)}
+</motion.div>
+
+{/* Growth Edge - action steps */}
+<motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.7}}
+  className="bg-gradient-to-r from-green-50/50 to-emerald-50/30 border border-green-100 rounded-xl p-6 mb-4 border-l-4 border-l-green-600">
+  <h3 className="font-bold text-lg mb-3 text-green-700">🌱 Your Growth Edge</h3>
+  <p className="text-lg font-medium text-gray-900 border-l-4 border-green-300 pl-4 mb-5 leading-relaxed italic">
+    {arch.growthEdge.split('. ')[0]}.
+  </p>
+  <div className="space-y-4">
+    {arch.growthSteps.map((step,i)=>(
+      <div key={i} className="flex gap-4 items-start">
+        <div className="shrink-0 w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center font-bold text-sm">{i+1}</div>
+        <p className="text-gray-700 leading-relaxed pt-1">{step}</p>
+      </div>
+    ))}
+  </div>
+  <div className="mt-5 pt-4 border-t border-green-200">
+    <p className="text-sm text-gray-600 leading-relaxed">{arch.growthEdge.split('. ').slice(1).join('. ')}</p>
+  </div>
+</motion.div>
 
 {/* Reading The Room */}
           <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:1.0}}
