@@ -1365,9 +1365,9 @@ if(phase==='intro') return(
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left max-w-2xl mx-auto">
       {[
         {title:'Your Negotiation DNA',desc:'Understand your dominant style, your secondary tendencies, and the archetype that makes you unique among the 12 profiles.',icon:'🧬'},
-        {title:'Your Natural Edge',desc:"See exactly where your instincts serve you — the advantages most people in your style never consciously leverage.",icon:'🎯'},
-        {title:'Your Blind Spots',desc:'Uncover the patterns that quietly erode trust, margin, or momentum — before your next high stakes conversation.',icon:'🔍'},
-        {title:'How to Read Others',desc:'Learn to identify each style across the table and adapt your approach in real time to create better outcomes — for everyone.',icon:'🧭'},
+        {title:'Your Natural Edge',desc:"See exactly where your instincts serve you; the advantages most people in your style never consciously leverage.",icon:'🎯'},
+        {title:'Your Blind Spots',desc:'Uncover the patterns that quietly erode trust, margin, or momentum before your next high stakes conversation.',icon:'🔍'},
+        {title:'How to Read Others',desc:'Learn to identify each style across the table and adapt your approach in real time to create better outcomes for everyone.',icon:'🧭'},
       ].map((b,i)=>(
             <motion.div key={b.title} initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{delay:i*0.1,duration:0.6}}
               className="bg-slate-800/40 border border-slate-700/50 rounded-2xl p-6 hover:border-blue-500/30 transition-all">
