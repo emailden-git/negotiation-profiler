@@ -4,146 +4,153 @@ import { ChevronRight, ChevronLeft, Download, RotateCcw } from 'lucide-react';
 import { supabase } from './supabaseClient'
 
 const questions = [
-  { type:'style', text:"A customer rejects your proposal outright. Your first instinct:", options:[
-    {text:"Stand your ground and explain exactly why your proposal makes sense",map:'dominator'},
-    {text:"Ask what specifically is not working so you can find a better angle",map:'integrator'},
-    {text:"Soften your position and ask what would work better for them",map:'yielder'},
-    {text:"Step back and review your data before responding",map:'calculator'},
-  ]},
-  { type:'style', text:"You're about to walk into a tough negotiation. Your first thought:", options:[
-    {text:"I know what I need and I am going to make it happen",map:'dominator'},
-    {text:"I need to understand what both sides actually want",map:'integrator'},
-    {text:"I want to keep things constructive and avoid unnecessary conflict",map:'yielder'},
-    {text:"Let me review my preparation one more time",map:'calculator'},
-  ]},
-  { type:'style', text:"Your team has a limited budget to split across two projects you both believe in. You:", options:[
-    {text:"Push for the largest share to go to the project you are responsible for",map:'dominator'},
-    {text:"Explore whether there is a way to structure the budget so both projects get what they actually need",map:'integrator'},
-    {text:"Offer to take the smaller share so the other team feels supported",map:'yielder'},
-    {text:"Build a detailed analysis of expected returns to determine the most logical split",map:'calculator'},
-  ]},
-  { type:'shadow', text:"Your counterpart shares something personal before the meeting. You:", options:[
-    {text:"Listen politely but keep your mind on business",shadow:false},
-    {text:"Share something personal back because a real connection matters",shadow:false},
-    {text:"Make a mental note of it because personal details can be useful leverage later",shadow:true},
-    {text:"Enjoy the moment but steer them back to the agenda",shadow:false},
-  ]},
-  { type:'style', text:"You've been negotiating for hours with no progress. You:", options:[
-    {text:"Suggest a compromise so both sides can walk away with something",map:'yielder'},
-    {text:"Turn up the heat because someone needs to make a decision",map:'dominator'},
-    {text:"Reframe the problem and propose an approach neither side has tried",map:'integrator'},
-    {text:"Step back and map out everything that has been discussed so far",map:'calculator'},
-  ]},
-  { type:'style', text:"The other party gets emotional during the negotiation. You:", options:[
-    {text:"Hold steady because emotions are their responsibility to manage, not yours",map:'dominator'},
-    {text:"Use the shift in energy to steer the conversation toward what really matters",map:'integrator'},
-    {text:"Ease off the topic that triggered it and find more comfortable ground",map:'yielder'},
-    {text:"Pause and suggest continuing once everyone has had time to regroup",map:'calculator'},
-  ]},
-  { type:'style', text:"You realise you have significantly more leverage. You:", options:[
-    {text:"Factor it into your analysis but keep your approach consistent",map:'calculator'},
-    {text:"Press the advantage because leverage exists to be used",map:'dominator'},
-    {text:"Set it aside because using it feels like it would damage the relationship",map:'yielder'},
-    {text:"Use it to guide the conversation toward a deal that benefits both sides long term",map:'integrator'},
-  ]},
-{ type:'style', text:"A client asks you to deliver two weeks earlier than agreed. The issue is not cost, it is capacity. You:", options:[
-    {text:"Map out exactly what is feasible and present them with realistic options",map:'calculator'},
-    {text:"Push back and explain that the original timeline was agreed for a reason",map:'dominator'},
-    {text:"Explore what they actually need by the earlier date and whether a partial delivery would work",map:'integrator'},
-    {text:"Do your best to make it happen because you do not want to disappoint them",map:'yielder'},
-  ]},
-  { type:'shadow', text:"You discover the other party made a calculation error that benefits you. You:", options:[
-    {text:"Point it out immediately, you want a clean deal",shadow:false},
-    {text:"Say nothing because it's their job to check their own numbers",shadow:false},
-    {text:"Mention it to build trust and bank goodwill for later",shadow:false},
-    {text:"Keep quiet and act surprised if they ever raise it",shadow:true},
-  ]},
-  { type:'style', text:"The other party makes a small concession. You:", options:[
-    {text:"Show appreciation and offer something of similar value in return",map:'yielder'},
-    {text:"Log it and assess how it shifts the overall structure of the deal",map:'calculator'},
-    {text:"Accept it and continue pushing for the next item on your list",map:'dominator'},
-    {text:"Acknowledge it and respond with a measured concession of your own",map:'integrator'},
-  ]},
-  { type:'style', text:"You're negotiating with someone you'll work with for years. You:", options:[
-    {text:"Weigh today's result against the value of the long term relationship",map:'integrator'},
-    {text:"Put the relationship first because the ongoing partnership matters most",map:'yielder'},
-    {text:"Analyse the long term implications before committing to any position",map:'calculator'},
-    {text:"Negotiate just as hard because setting the tone early matters",map:'dominator'},
-  ]},
-  { type:'shadow', text:"You are negotiating with someone who clearly trusts you completely. You:", options:[
-    {text:"Use that trust to move the conversation toward a deal that genuinely works for both sides",shadow:false},
-    {text:"Appreciate the trust and make sure you do not take advantage of it",shadow:false},
-    {text:"Recognise that their trust gives you room to steer the outcome more in your favour without them noticing",shadow:true},
-    {text:"Treat the negotiation the same way you would regardless of how much they trust you",shadow:false},
-  ]},
-  { type:'style', text:"A colleague asks for advice before their negotiation. You say:", options:[
-    {text:"Make sure you know every detail before you walk in the door",map:'calculator'},
-    {text:"Be clear about what you want and do not let them push you around",map:'dominator'},
-    {text:"Build rapport first and focus on finding things you both agree on",map:'yielder'},
-    {text:"Understand what the other side really needs and look for creative trades",map:'integrator'},
-  ]},
-  { type:'style', text:"You're offered a deal that's good but not great. You:", options:[
-    {text:"Push it back and make clear you expect better",map:'dominator'},
-    {text:"Suggest specific adjustments that could improve it for both sides",map:'integrator'},
-    {text:"Take it because a good deal in hand is better than risking everything",map:'yielder'},
-    {text:"Request time to evaluate it properly against your benchmarks",map:'calculator'},
-  ]},
-  { type:'shadow', text:"You find out the other party is under serious time pressure to close. You:", options:[
-    {text:"Use it openly to push for better terms; leverage is leverage",shadow:false},
-    {text:"Pretend you don't know while quietly using their urgency to extract more",shadow:true},
-    {text:"Acknowledge it and offer to help find a fast solution",shadow:false},
-    {text:"Factor it into your analysis without changing your approach",shadow:false},
-  ]},
-  { type:'style', text:"The other party brings a team of four to the table. You:", options:[
-    {text:"Notice the imbalance and adjust your approach to stay comfortable",map:'yielder'},
-    {text:"Watch their team dynamics carefully before deciding how to engage",map:'calculator'},
-    {text:"Take it as a compliment and focus on commanding the room yourself",map:'dominator'},
-    {text:"Work out who holds the real authority and direct your energy there",map:'integrator'},
-  ]},
-  { type:'style', text:"You've just closed a deal. Your first thought:", options:[
-    {text:"I wonder whether I could have pushed for even more",map:'dominator'},
-    {text:"Both sides walked away with real value so that is a solid outcome",map:'integrator'},
-    {text:"I am glad it is done and the relationship is still in good shape",map:'yielder'},
-    {text:"Time to review the process and note what worked and what did not",map:'calculator'},
-  ]},
-  { type:'shadow', text:"You are close to agreement but you know the other party would accept even less than what is currently on the table. You:", options:[
-    {text:"Close the deal at the current terms because they are already good for you",shadow:false},
-    {text:"See how much further you can move them before they push back",shadow:false},
-    {text:"Lock in the current terms quickly before anything changes",shadow:false},
-    {text:"Hint that you have other options to see if they will sweeten the deal, even though you do not",shadow:true},
-  ]},
-{ type:'style', text:"Six months after closing a deal, the other party tells you the terms are not working for them. You:", options:[
-    {text:"Review the original agreement and assess whether their concern is justified by the data",map:'calculator'},
-    {text:"Hold firm because a deal is a deal and renegotiating sets a bad precedent",map:'dominator'},
-    {text:"Reopen the conversation and look for adjustments that could work better for both sides going forward",map:'integrator'},
-    {text:"Feel concerned about the relationship and look for ways to help them even if it costs you something",map:'yielder'},
-  ]},
-  { type:'shadow', text:"You got a great deal but the other party looks disappointed. You:", options:[
-    {text:"Think, its not your problem, a deal is a deal",shadow:false},
-    {text:"Feel genuinely bad for them and wonder if you pushed too hard",shadow:false},
-    {text:"Reassure them they got a great deal too; even though you know they didn't",shadow:true},
-    {text:"Go through your detailed notes to check whether the outcome was fair",shadow:false},
-  ]},
-  { type:'style', text:"Your counterpart is clearly inexperienced. You:", options:[
-    {text:"Adapt your approach to find value that works for both sides",map:'integrator'},
-    {text:"Focus on your own goals because their preparation level is their responsibility",map:'dominator'},
-    {text:"Naturally ease off because pushing hard here feels unnecessary",map:'yielder'},
-    {text:"Follow your process the same way regardless of who is across the table",map:'calculator'},
-  ]},
-  { type:'shadow', text:"A colleague who is negotiating against someone you recently dealt with asks you about that person's approach. You:", options:[
-    {text:"Share what you know openly because it helps your colleague",shadow:false},
-    {text:"Give a general overview but keep the specific details to yourself",shadow:false},
-    {text:"Share enough to look generous but not enough for them to match the deal you got",shadow:true},
-    {text:"Decline to share because it feels like a breach of confidence",shadow:false},
-  ]},
-  { type:'style', text:"You discover the other party has been dishonest about something. You:", options:[
-    {text:"Confront them directly and make clear it changes the terms",map:'dominator'},
-    {text:"Raise it openly and work to reset the conversation on honest ground",map:'integrator'},
-    {text:"Feel disappointed but avoid bringing it up to keep things from escalating",map:'yielder'},
-    {text:"Record it, reassess your entire position, and adjust your strategy",map:'calculator'},
-  ]},
-];
+{ type:'style', text:"When the other side rejects my proposal outright, I tend to:", options:[
+    {text:"Wonder what I can give up to keep the deal alive.",map:'yielder'},
+    {text:"Pause and reassess my proposal before I say anything else.",map:'calculator'},
+    {text:"Push back and explain why my position makes sense.",map:'dominator'},
+    {text:"Ask them to explain what specifically is not working.",map:'integrator'},
+]},
 
+{ type:'style', text:"Before entering an important negotiation, I tend to:", options:[
+    {text:"Consider what outcome would feel fair and workable on both sides.",map:'integrator'},
+    {text:"Define the outcome I expect to secure.",map:'dominator'},
+    {text:"Pressure test my assumptions and review my tacics one more time.",map:'calculator'},
+    {text:"Think about how to keep the interaction constructive and positive.",map:'yielder'},
+]},
+
+{ type:'style', text:"When my team is competing with another team for the same limited budget, I tend to:", options:[
+    {text:"Analyse the expected returns to determine the most logical split.",map:'calculator'},
+    {text:"Protect the working relationship even if it means accepting a smaller share.",map:'yielder'},
+    {text:"Fight for the share my team needs to succeed.",map:'dominator'},
+    {text:"Search for a structure that gives both teams what they actually need.",map:'integrator'},
+]},
+
+{ type:'shadow', text:"Before a negotiation begins, the other side shares something personal about their situation. I tend to:", options:[
+    {text:"Listen politely but keep my focus on the business at hand.",shadow:false},
+    {text:"Think how that detail could be useful for leverage later.",shadow:true},
+    {text:"Share something personal back because real connection matters.",shadow:false},
+    {text:"Acknowledge it briefly and steer back to the agenda.",shadow:false},
+]},
+
+{ type:'style', text:"When a negotiation reaches deadlock I tend to:", options:[
+    {text:"Offer a small concession to restart momentum.",map:'yielder'},
+    {text:"Push harder and add some pressure to break the deadlock.",map:'dominator'},
+    {text:"Step back and reassess the facts before moving forward.",map:'calculator'},
+    {text:"Ask questions to uncover what is really blocking agreement.",map:'integrator'},
+]},
+
+{ type:'style', text:"If the other side gets angry or raises their voice during a negotiation, I tend to:", options:[
+    {text:"Slow the pace and refocus on the key facts.",map:'calculator'},
+    {text:"Ease off the pressure point and find calmer ground.",map:'yielder'},
+    {text:"Hold my position and make it clear that the terms are not changing.",map:'dominator'},
+    {text:"Acknowledge what they are feeling and redirect toward the underlying concern.",map:'integrator'},
+]},
+
+{ type:'style', text:"When I realise I have significantly more leverage than the other side, I tend to:", options:[
+    {text:"Hold back from using it because the relationship matters more than the margin.",map:'yielder'},
+    {text:"Reassess what this really allows me to secure.",map:'calculator'},
+    {text:"Use it to shape a win-win deal that works well for both sides.",map:'integrator'},
+    {text:"Press my advantage to improve the outcome I want.",map:'dominator'},
+]},
+
+{ type:'shadow', text:"If I discover the other side has made a calculation error that works in my favour, I tend to:", options:[
+    {text:"Point it out immediately because I want a clean deal.",shadow:false},
+    {text:"Mention it to build trust and bank goodwill for later.",shadow:false},
+    {text:"Keep quiet and act surprised if they ever notice.",shadow:true},
+    {text:"Say nothing because checking their own numbers is their responsibility.",shadow:false},
+]},
+
+{ type:'style', text:"When a client asks me to deliver earlier than agreed and the issue is capacity not cost, I tend to:", options:[
+    {text:"Ask what they actually need by the earlier date and whether a partial solution works.",map:'integrator'},
+    {text:"Reorganise my priorities to accommodate them because the relationship matters.",map:'yielder'},
+    {text:"Assess capacity limits and present realistic options based on the data.",map:'calculator'},
+    {text:"Push back and remind them the original timeline was agreed for good reasons.",map:'dominator'},
+]},
+
+{ type:'style', text:"When the other side makes a small concession during a negotiation, I tend to:", options:[
+    {text:"Consider what that concession really changes in the deal.",map:'calculator'},
+    {text:"Thank them and offer a concession in return.",map:'yielder'},
+    {text:"Note it and move straight to the next item I want to secure.",map:'dominator'},
+    {text:"Build on it by suggesting a trade that moves us closer to agreement.",map:'integrator'},
+]},
+
+{ type:'style', text:"When negotiating with someone I will likely work with for years, I tend to:", options:[
+    {text:"Negotiate just as firmly because the tone I set now shapes future interactions.",map:'dominator'},
+    {text:"Examine the long term risk exposure before committing to any position.",map:'calculator'},
+    {text:"Prioritise long term stability over short term gains.",map:'yielder'},
+    {text:"Look for terms both sides can operate under sustainably.",map:'integrator'},
+]},
+
+{ type:'shadow', text:"When the other side clearly trusts me completely, I tend to:", options:[
+    {text:"Treat the negotiation the same way regardless of how much they trust me.",shadow:false},
+    {text:"Use that trust to quietly steer the outcome more in my favour.",shadow:true},
+    {text:"Use that trust to move toward a deal that genuinely works for both sides.",shadow:false},
+    {text:"Appreciate the trust and make sure I do not take advantage of it.",shadow:false},
+]},
+
+{ type:'style', text:"When a colleague asks for my advice before their negotiation, I tend to say:", options:[
+    {text:"Build a positive relationship early because people share more when they feel respected.",map:'yielder'},
+    {text:"Understand the other side's priorities so you can propose something creative.",map:'integrator'},
+    {text:"Prepare your numbers thoroughly because the other side will challenge every claim.",map:'calculator'},
+    {text:"Know exactly what you want and go get it.",map:'dominator'},
+]},
+
+{ type:'style', text:"When I am offered a deal that is acceptable but not ideal, I tend to:", options:[
+    {text:"Benchmark it against my alternatives before committing.",map:'calculator'},
+    {text:"Push for better terms because acceptable is not good enough.",map:'dominator'},
+    {text:"Lock it in because a solid deal in hand has real value.",map:'yielder'},
+    {text:"Propose targeted adjustments that could improve it for both sides.",map:'integrator'},
+]},
+
+{ type:'style', text:"When the other side tells me six months later that the agreed terms are not working for them, I tend to:", options:[
+    {text:"Explore specific changes that could make it workable for both sides going forward.",map:'integrator'},
+    {text:"Re-evaluate the original terms against the actual data from the last six months before responding.",map:'calculator'},
+    {text:"Hold firm because re-negotiating sets a precedent I do not want.",map:'dominator'},
+    {text:"Look for ways to help them because the ongoing partnership matters.",map:'yielder'},
+]},
+
+{ type:'style', text:"When I discover the other side has been dishonest about something important, I tend to:", options:[
+    {text:"Pause and reassess the risks before responding.",map:'calculator'},
+    {text:"Raise it with them directly and state my expectations.",map:'dominator'},
+    {text:"Contain the issue so it does not derail the deal.",map:'yielder'},
+    {text:"Raise it transparently and redirect toward honest terms.",map:'integrator'},
+]},
+
+{ type:'shadow', text:"When I am close to agreement and know the other side would accept less than what is currently on the table, I tend to:", options:[
+    {text:"Lock in the current terms quickly before anything changes.",shadow:false},
+    {text:"Hint that I have other options to see if they sweeten the deal even though I do not.",shadow:true},
+    {text:"Close at the current terms because they are already good for me.",shadow:false},
+    {text:"See how much further I can move them before they push back.",shadow:false},
+]},
+
+{ type:'style', text:"When the person across the table is clearly less experienced than me, I tend to:", options:[
+    {text:"Follow the same process and preparation I would use with anyone.",map:'calculator'},
+    {text:"Reduce my intensity because it does not feel right to take advantage of them.",map:'yielder'},
+    {text:"Adjust my approach and explore whether there is value for both sides.",map:'integrator'},
+    {text:"Stay focused on getting what I want regardless of their experience level.",map:'dominator'},
+]},
+
+{ type:'style', text:"When the other side introduces a new demand late in the negotiation, I tend to:", options:[
+    {text:"Challenge it and push back firmly.",map:'dominator'},
+    {text:"Explore what is behind the new demand before reacting.",map:'integrator'},
+    {text:"Adjust something on my side to keep the deal going.",map:'yielder'},
+    {text:"Pause and evaluate how it affects the overall deal.",map:'calculator'},
+]},
+
+{ type:'shadow', text:"When I secure a great deal but the other side looks disappointed, I tend to:", options:[
+    {text:"Review my notes to check whether the outcome was actually fair.",shadow:false},
+    {text:"Think, it is not my problem because a deal is a deal.",shadow:false},
+    {text:"Reassure them they got a great deal too even though I know they did not.",shadow:true},
+    {text:"Feel genuinely bad and wonder if I pushed too hard.",shadow:false},
+]},
+
+{ type:'style', text:"After closing a negotiation, I tend to think:", options:[
+    {text:"I hope we're still on good terms.",map:'yielder'},
+    {text:"What specifically did I do well that I can repeat next time?",map:'calculator'},
+    {text:"Could I have got more?",map:'dominator'},
+    {text:"Will this agreement hold up for both of us?",map:'integrator'},
+]},
+];
 const stylePrimary = {
   dominator: "You lead with power and assertiveness. In any negotiation, your first instinct is to establish control, set the terms, and drive toward the outcome you want. You are direct, decisive, and completely unafraid of confrontation. Where others see conflict as something to avoid, you see it as the fastest route to clarity.\n\nDominators are the closers of the negotiation world. When a deal needs to get done, when someone needs to make a tough call, when the room has stalled and everyone is dancing around the issue, you are the one who cuts through. You say what others are thinking. You push when others hesitate. You never leave value on the table simply because you feel too polite to ask for it.\n\nYour competitive nature delivers strong results in the short term, but it can blind you to relational dynamics that matter over time. Not every negotiation is a single encounter. Many are rounds in a relationship that spans years or even decades. The Dominator's greatest asset is courage and conviction. The Dominator's greatest risk is isolation, because pushing too hard and too often means people eventually stop wanting to sit across from you.",
   integrator: "You lead with strategy and collaboration. Your natural instinct is to understand the full landscape before making your move, asking what each side truly needs, where there is overlap, and how the deal can be structured so everyone walks away with something meaningful. You are not naive about competition, but you believe the best outcomes come from creative problem solving rather than brute force.\n\nIntegrators are the deal architects of the negotiation world. Where Dominators fight over a fixed pie, you are asking whether the pie can be made bigger. You look for creative trades, package deals, and solutions that address underlying interests rather than surface positions. This approach consistently produces better total outcomes for all parties involved.\n\nYour collaborative nature is genuine, not performative. You actually care whether the other side gets a fair deal, not because you are soft, but because you understand that people who feel respected come back, refer others, and implement agreements willingly. The Integrator's greatest asset is vision and strategic depth. The Integrator's greatest risk is excessive optimism, because not everyone shares your values, and some will exploit your openness without hesitation.",
@@ -880,9 +887,9 @@ function genHTML(r,name){
   const total=16;
   const pct=k=>Math.round((sc[k]/total)*100);
   const nl=t=>t.replace(/\n\n/g,'</p><p style="margin-top:14px;">');
- const shBg=r.shadow>=5?'#FEF2F2':r.shadow>=3?'#FFFBEB':r.shadow>=2?'#FEFCE8':'#F0FDF4';
-const shBd=r.shadow>=5?'#FECACA':r.shadow>=3?'#FDE68A':r.shadow>=2?'#FEF08A':'#BBF7D0';
-const shTx=r.shadow>=5?'#DC2626':r.shadow>=3?'#D97706':r.shadow>=2?'#CA8A04':'#16A34A';
+const shBg=r.shadow>=4?'#FEF2F2':r.shadow>=3?'#FFFBEB':r.shadow>=2?'#FEFCE8':'#F0FDF4';
+const shBd=r.shadow>=4?'#FECACA':r.shadow>=3?'#FDE68A':r.shadow>=2?'#FEF08A':'#BBF7D0';
+const shTx=r.shadow>=4?'#DC2626':r.shadow>=3?'#D97706':r.shadow>=2?'#CA8A04':'#16A34A';
 const safeName=name?sanitize(name):'';
 const greeting=safeName?`<p style="font-size:18px;color:#6B7280;margin-bottom:8px;">Prepared for: <strong style="color:#1F2937;">${safeName}</strong></p>`:'';  const svg=genSVGPetal(sc);
   const spotStyles=['dominator','integrator','yielder','calculator'];
@@ -1266,47 +1273,50 @@ if(phase==='intro') return(
   <div className="min-h-screen flex flex-col min-w-0 overflow-x-hidden">
 
     {/* ═══ HERO ═══ */}
-    <div className="relative min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 flex flex-col items-center justify-center px-6 overflow-hidden">
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
+   <div className="relative min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 flex flex-col items-center justify-center px-6 overflow-hidden pb-12">
+  <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
 
-      <motion.div initial={{opacity:0,y:30}} animate={{opacity:1,y:0}} transition={{duration:1}} className="relative z-10 text-center max-w-2xl">
-        <p className="text-blue-400/80 text-xs font-semibold tracking-widest uppercase mb-10">The Buckingham Academy</p>
+  <motion.div initial={{opacity:0,y:30}} animate={{opacity:1,y:0}} transition={{duration:1}} className="relative z-10 text-center max-w-2xl">
+    <p className="text-blue-400/90 text-sm font-semibold tracking-widest uppercase mb-8">The Buckingham Academy</p>
 
-        <h1 className="text-4xl sm:text-5xl font-bold mb-6 leading-tight tracking-tight text-white">
-          You're Leaving Value<br/>on the Table.{' '}
-          <span className="bg-gradient-to-r from-blue-400 to-blue-300 bg-clip-text text-transparent">Let's Fix That.</span>
-        </h1>
+    <h1 className="text-4xl sm:text-5xl font-bold mb-3 leading-tight tracking-tight text-white">
+      You're Leaving Value<br/>on the Table.
+    </h1>
 
-        <p className="text-blue-200/50 text-lg mb-12 max-w-lg mx-auto leading-relaxed">
-          Take the 7‑minute Negotiation Style Assessment and uncover the hidden patterns shaping every deal you walk into.
-        </p>
+    <p className="text-3xl sm:text-4xl font-bold mb-8 leading-tight tracking-tight bg-gradient-to-r from-blue-400 to-blue-300 bg-clip-text text-transparent">
+      Let's Fix That.
+    </p>
 
-        <div className="flex items-center justify-center gap-6 sm:gap-8 text-xs text-blue-100/60 mb-10">
-          {[['23','Questions'],['4','Styles'],['12','Archetypes'],['7','Minutes']].map(([num,label],i)=>(
-            <div key={i} className="flex flex-col items-center gap-1">
-              <span className="text-2xl font-bold text-white">{num}</span>
-              <span className="uppercase tracking-widest text-xs opacity-60">{label}</span>
-            </div>
-          ))}
+    <p className="text-blue-200/70 text-lg sm:text-xl mb-12 max-w-lg mx-auto leading-relaxed">
+      Take the 7 minute Negotiation Style Assessment and uncover the hidden patterns shaping every deal you walk into.
+    </p>
+
+    <div className="flex items-center justify-center gap-6 sm:gap-8 text-xs text-blue-100/60 mb-10">
+      {[['21','Questions'],['4','Styles'],['12','Archetypes'],['7','Minutes']].map(([num,label],i)=>(
+        <div key={i} className="flex flex-col items-center gap-1">
+          <span className="text-2xl font-bold text-white">{num}</span>
+          <span className="uppercase tracking-widest text-xs opacity-60">{label}</span>
         </div>
-
-        <motion.div animate={{y:[0,8,0]}} transition={{repeat:Infinity,duration:2}} className="text-blue-300/40 text-sm">
-          ↓ Scroll to learn more
-        </motion.div>
-      </motion.div>
+      ))}
     </div>
 
+    <motion.div animate={{y:[0,8,0]}} transition={{repeat:Infinity,duration:2}} className="text-blue-300/40 text-sm">
+      ↓ Scroll to learn more
+    </motion.div>
+  </motion.div>
+</div>
+
    {/* ═══ PROBLEM ═══ */}
-    <div className="bg-slate-950 px-6 py-24">
-      <motion.div initial={{opacity:0,y:30}} whileInView={{opacity:1,y:0}} viewport={{once:true,margin:'-100px'}} transition={{duration:0.8}} className="max-w-2xl mx-auto text-center">
-        <p className="text-red-400/80 text-xs font-semibold tracking-widest uppercase mb-6">The Problem</p>
-        <h2 className="text-3xl sm:text-4xl font-bold mb-8 leading-tight text-white">Most Professionals Negotiate<br/>on Autopilot</h2>
-        <div className="space-y-5 text-blue-100/60 text-base leading-relaxed max-w-xl mx-auto">
-          <p>You've developed habits over years, ways you handle pushback, make concessions, build (or avoid) tension. Most of it is <span className="text-white font-medium">invisible to you</span>.</p>
-          <p>Some of those instincts give you a genuine edge. Others are <span className="text-white font-medium">quietly costing you</span> in margin, in trust, in outcomes you never realise you missed.</p>
-          <p className="text-white/80 font-medium text-lg pt-4">You can't fix what you can't see.</p>
-        </div>
-        <div className="flex justify-center mt-10">
+   <div className="bg-slate-950 px-6 py-24">
+  <motion.div initial={{opacity:0,y:30}} whileInView={{opacity:1,y:0}} viewport={{once:true,margin:'-100px'}} transition={{duration:0.8}} className="max-w-2xl mx-auto text-center">
+    <p className="text-red-400/90 text-sm font-semibold tracking-widest uppercase mb-6">The Problem</p>
+    <h2 className="text-3xl sm:text-4xl font-bold mb-8 leading-tight text-white">Most Professionals Negotiate<br/>on Autopilot</h2>
+    <div className="space-y-5 text-blue-100/70 text-lg leading-relaxed max-w-xl mx-auto">
+      <p>You've developed habits over years, ways you handle pushback, make concessions, build (or avoid) tension. Most of it is <span className="text-white font-medium">invisible to you</span>.</p>
+      <p>Some of those instincts give you a genuine edge. Others are <span className="text-white font-medium">quietly costing you</span> in margin, in trust, in outcomes you never realise you missed.</p>
+      <p className="text-white/90 font-medium text-xl pt-4">You can't fix what you can't see.</p>
+    </div>
+    <div className="flex justify-center mt-10">
           <button
             onClick={()=>document.getElementById('start').scrollIntoView({behavior:'smooth'})}
             className="bg-gradient-to-r from-blue-800 to-blue-900 hover:from-blue-900 hover:to-slate-900 text-white font-bold px-10 py-3 rounded-xl text-base transition-all shadow-lg hover:shadow-2xl transform hover:-translate-y-0.5"
@@ -1317,19 +1327,19 @@ if(phase==='intro') return(
       </motion.div>
     </div>
     {/* ═══ 4 STYLES ═══ */}
-    <div className="bg-gradient-to-b from-slate-950 to-slate-900 px-6 py-24">
-      <motion.div initial={{opacity:0,y:30}} whileInView={{opacity:1,y:0}} viewport={{once:true,margin:'-100px'}} transition={{duration:0.8}} className="max-w-3xl mx-auto text-center">
-        <p className="text-blue-400/80 text-xs font-semibold tracking-widest uppercase mb-6">Four Distinct Styles</p>
-        <h2 className="text-3xl sm:text-4xl font-bold mb-4 leading-tight text-white">Which One Drives You?</h2>
-        <p className="text-blue-200/50 mb-14 text-base max-w-md mx-auto">Everyone leans towards one dominant style, often without knowing it.</p>
+<div className="bg-gradient-to-b from-slate-950 to-slate-900 px-6 py-24">
+  <motion.div initial={{opacity:0,y:30}} whileInView={{opacity:1,y:0}} viewport={{once:true,margin:'-100px'}} transition={{duration:0.8}} className="max-w-3xl mx-auto text-center">
+    <p className="text-blue-400/90 text-sm font-semibold tracking-widest uppercase mb-6">Four Distinct Styles</p>
+    <h2 className="text-3xl sm:text-4xl font-bold mb-4 leading-tight text-white">Which One Drives You?</h2>
+    <p className="text-blue-200/70 mb-14 text-lg max-w-md mx-auto">Everyone leans towards one dominant style, often without knowing it.</p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
-          {[
-            {name:'Dominator',bg:'from-red-600 to-red-700',border:'border-red-500/30',desc:'Drives hard for results. Decisive under pressure — but may leave value on the table by moving too fast.',icon:'⚡'},
-            {name:'Integrator',bg:'from-purple-600 to-purple-700',border:'border-purple-500/30',desc:'Builds relationships and consensus. Creates trust — but may concede too much to keep the peace.',icon:'🤝'},
-            {name:'Yielder',bg:'from-green-600 to-green-700',border:'border-green-500/30',desc:'Accommodating and patient. Keeps doors open — but risks being overlooked or outmanoeuvred.',icon:'🌿'},
-            {name:'Calculator',bg:'from-blue-600 to-blue-700',border:'border-blue-500/30',desc:'Analytical and methodical. Masters the detail — but may stall momentum or miss the human dynamic.',icon:'📐'},
-          ].map((s,i)=>(
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
+      {[
+        {name:'Dominator',bg:'from-red-600 to-red-700',border:'border-red-500/30',desc:'Drives hard for results. Decisive under pressure, but may leave value on the table by moving too fast.',icon:'⚡'},
+        {name:'Integrator',bg:'from-purple-600 to-purple-700',border:'border-purple-500/30',desc:'Builds relationships and consensus. Creates trust, but may concede too much to keep the peace.',icon:'🤝'},
+        {name:'Yielder',bg:'from-green-600 to-green-700',border:'border-green-500/30',desc:'Accommodating and patient. Keeps doors open, but risks being overlooked or outmanoeuvred.',icon:'🌿'},
+        {name:'Calculator',bg:'from-blue-600 to-blue-700',border:'border-blue-500/30',desc:'Analytical and methodical. Masters the detail, but may delay momentum or miss the human dynamic.',icon:'📐'},
+      ].map((s,i)=>(
             <motion.div key={s.name} initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{delay:i*0.1,duration:0.6}}
               className={`bg-slate-800/50 ${s.border} border rounded-2xl p-6 text-left hover:bg-slate-800/80 transition-all`}>
               <div className="flex items-center gap-3 mb-3">
@@ -1347,18 +1357,18 @@ if(phase==='intro') return(
 
     {/* ═══ BENEFITS ═══ */}
     <div className="bg-slate-900 px-6 py-24">
-      <motion.div initial={{opacity:0,y:30}} whileInView={{opacity:1,y:0}} viewport={{once:true,margin:'-100px'}} transition={{duration:0.8}} className="max-w-3xl mx-auto text-center">
-        <p className="text-blue-400/80 text-xs font-semibold tracking-widest uppercase mb-6">Your Personalised Diagnostic</p>
-        <h2 className="text-3xl sm:text-4xl font-bold mb-4 leading-tight text-white">This Isn't a Quiz.<br/>It's a Strategic Mirror.</h2>
-        <p className="text-blue-200/50 mb-16 max-w-lg mx-auto">In 7 minutes you'll receive a detailed profile that most negotiators never get access to, giving you the EDGE.</p>
+  <motion.div initial={{opacity:0,y:30}} whileInView={{opacity:1,y:0}} viewport={{once:true,margin:'-100px'}} transition={{duration:0.8}} className="max-w-3xl mx-auto text-center">
+    <p className="text-blue-400/90 text-sm font-semibold tracking-widest uppercase mb-6">Your Personalised Diagnostic</p>
+    <h2 className="text-3xl sm:text-4xl font-bold mb-4 leading-tight text-white">This Isn't a Quiz.<br/>It's a Strategic Mirror.</h2>
+    <p className="text-blue-200/70 text-lg mb-16 max-w-lg mx-auto">In 7 minutes you'll receive a detailed profile that most negotiators never get access to, giving you the EDGE.</p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left max-w-2xl mx-auto">
-          {[
-            {title:'Your Negotiation DNA',desc:'Understand your dominant style, your secondary tendencies, and the archetype that makes you unique among the 12 profiles.',icon:'🧬'},
-            {title:'Your Natural Edge',desc:"See exactly where your instincts serve you — the advantages most people in your style never consciously leverage.",icon:'🎯'},
-            {title:'Your Blind Spots',desc:'Uncover the patterns that quietly erode trust, margin, or momentum — before your next high‑stakes conversation.',icon:'🔍'},
-            {title:'How to Read Others',desc:'Learn to identify each style across the table and adapt your approach in real time to create better outcomes — for everyone.',icon:'🧭'},
-          ].map((b,i)=>(
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left max-w-2xl mx-auto">
+      {[
+        {title:'Your Negotiation DNA',desc:'Understand your dominant style, your secondary tendencies, and the archetype that makes you unique among the 12 profiles.',icon:'🧬'},
+        {title:'Your Natural Edge',desc:"See exactly where your instincts serve you — the advantages most people in your style never consciously leverage.",icon:'🎯'},
+        {title:'Your Blind Spots',desc:'Uncover the patterns that quietly erode trust, margin, or momentum — before your next high stakes conversation.',icon:'🔍'},
+        {title:'How to Read Others',desc:'Learn to identify each style across the table and adapt your approach in real time to create better outcomes — for everyone.',icon:'🧭'},
+      ].map((b,i)=>(
             <motion.div key={b.title} initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{delay:i*0.1,duration:0.6}}
               className="bg-slate-800/40 border border-slate-700/50 rounded-2xl p-6 hover:border-blue-500/30 transition-all">
               <div className="text-2xl mb-3">{b.icon}</div>
@@ -1432,9 +1442,9 @@ if(phase==='intro') return(
             <span className="text-xs uppercase tracking-widest">until 27 April 2026</span>
           </div>
         </div>
-        <p className="text-blue-200/30 text-xs mt-8 max-w-md mx-auto leading-relaxed">
-          Grounded in established behavioural science frameworks used by negotiation professionals worldwide.
-        </p>
+       <p className="text-blue-200/60 text-sm mt-8 max-w-md mx-auto leading-relaxed">
+  Grounded in established behavioural science frameworks measured by psychologists and used by elite negotiators.
+</p>
       </motion.div>
     </div>
 
@@ -1443,7 +1453,7 @@ if(phase==='intro') return(
       <motion.div initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} transition={{delay:0.4}} className="text-center max-w-md w-full">
 
         <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">Ready to See Yourself Clearly?</h2>
-        <p className="text-slate-500 text-sm mb-10 max-w-xs mx-auto">7 minutes. 23 questions. A profile you'll reference before every important conversation.</p>
+        <p className="text-slate-500 text-sm mb-10 max-w-xs mx-auto">7 minutes. 21 questions. A profile you'll reference before every important conversation.</p>
 
         <div className="mb-8">
           <label className="block text-xs text-gray-400 mb-2 uppercase tracking-widest">Your initials (optional)</label>
@@ -1877,7 +1887,7 @@ const renderWithQuote=(text)=>{
           <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:1.2}}
             className={`border-2 rounded-xl p-6 mb-6 ${shC}`}>
             <h3 className={`font-bold text-lg mb-1 ${shT}`}>Shadow Assessment: {sl.title}</h3>
-            <p className={`font-semibold text-sm mb-3 ${shT}`}>{sl.sub} — Shadow Score: {sh}/7</p>
+            <p className={`font-semibold text-sm mb-3 ${shT}`}>{sl.sub} — Shadow Score: {sh}/5</p>
             {renderParagraphs(sl.msg)}
           </motion.div>
 
