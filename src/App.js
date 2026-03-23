@@ -856,9 +856,10 @@ function genHTML(r,name){
   const total=16;
   const pct=k=>Math.round((sc[k]/total)*100);
   const nl=t=>t.replace(/\n\n/g,'</p><p style="margin-top:14px;">');
-const shBg=r.shadow>=4?'#FEF2F2':r.shadow>=3?'#FFFBEB':r.shadow>=2?'#FEFCE8':'#F0FDF4';
-const shBd=r.shadow>=4?'#FECACA':r.shadow>=3?'#FDE68A':r.shadow>=2?'#FEF08A':'#BBF7D0';
-const shTx=r.shadow>=4?'#DC2626':r.shadow>=3?'#D97706':r.shadow>=2?'#CA8A04':'#16A34A';
+  const fmtSec=(text,color)=>{const dot=text.indexOf('.');if(dot===-1)return '<p style="font-size:13px;color:#4B5563;line-height:1.8;">'+text+'</p>';const quote=text.substring(0,dot+1);const rest=text.substring(dot+1).trim();const body=rest.split('\n\n').filter(p=>p.trim()).map(p=>'<p style="font-size:13px;color:#4B5563;line-height:1.8;margin-top:14px;">'+p+'</p>').join('');return '<div style="border-left:3px solid '+color+';padding-left:16px;margin:16px 0;"><p style="font-style:italic;font-weight:600;font-size:14px;color:#1F2937;line-height:1.6;">'+quote+'</p></div>'+body;};
+const shBg=r.shadow>=4?'#1C1917':r.shadow>=3?'#292524':r.shadow>=2?'#44403C':'#F0FDF4';
+const shBd=r.shadow>=4?'#DC2626':r.shadow>=3?'#F59E0B':r.shadow>=2?'#78716C':'#4ADE80';
+const shTx=r.shadow>=4?'#EF4444':r.shadow>=3?'#FBBF24':r.shadow>=2?'#D6D3D1':'#15803D';
 const safeName=name?sanitize(name):'';
 const greeting=safeName?`<p style="font-size:18px;color:#6B7280;margin-bottom:8px;">Prepared for: <strong style="color:#1F2937;">${safeName}</strong></p>`:'';  const svg=genSVGPetal(sc);
   const spotStyles=['dominator','integrator','yielder','calculator'];
@@ -930,8 +931,6 @@ ${matchupCards}
 </div>`;
   return `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Negotiation Profile Report</title>
 <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:Georgia,'Times New Roman',serif;max-width:760px;margin:0 auto;padding:48px 28px;color:#1F2937;line-height:1.75;background:#fff}
-.hdr{text-align:center;margin-bottom:36px;padding-bottom:24px;border-bottom:3px solid #1E40AF}
-.hdr h1{font-size:32px;color:#1E40AF;margin-bottom:4px}.hdr .arch{font-size:24px;color:#374151;margin:6px 0}.hdr .sub{font-size:15px;color:#6B7280}.hdr .tag{font-style:italic;color:#4B5563;margin-top:12px;font-size:17px}
 .radar{text-align:center;margin:24px 0 32px}
 .scores{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin:24px 0 32px}
 .si{text-align:center;padding:14px 24px;border-radius:8px;border:2px solid;min-width:120px}
@@ -941,10 +940,17 @@ ${matchupCards}
 .sh{margin-top:32px;padding:20px;border-radius:8px;border:2px solid}
 .sh h2{border:none;margin-bottom:4px}.sh .sub{font-weight:600;margin-bottom:8px}
 .ft{margin-top:48px;padding-top:20px;border-top:2px solid #E5E7EB;text-align:center;font-size:13px;color:#9CA3AF}
-@media print{body{padding:20px;font-size:11pt}.hdr h1{font-size:24pt}}</style></head><body>
-<div class="hdr">${greeting}<div style="font-size:48px">${a.emoji}</div><h1>${a.name}</h1>
-<div class="sub">Primary: ${styleMeta[p].label} | Secondary: ${styleMeta[s].label}</div>
-<div class="tag">"${a.tagline}"</div></div>
+@media print{body{padding:20px;font-size:11pt}.hdr h1{font-size:24pt}}</style></head><body style="font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+<div style="text-align:center;margin-bottom:32px;background:white;border-radius:12px;border:2px solid #1D4ED8;padding:32px;">
+${greeting}
+<p style="font-size:11px;color:rgba(29,78,216,0.6);font-weight:600;letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;">Your Negotiation Archetype</p>
+<h1 style="font-size:30px;font-weight:bold;color:#1E40AF;margin-bottom:8px;">${a.name}</h1>
+<p style="font-size:16px;color:#6B7280;margin-bottom:16px;">${a.tagline}</p>
+<div style="display:flex;align-items:center;justify-content:center;gap:12px;">
+<span style="padding:4px 12px;border-radius:999px;font-size:12px;font-weight:bold;color:white;background-color:${styleMeta[p].color};">Primary: ${styleMeta[p].label}</span>
+<span style="padding:4px 12px;border-radius:999px;font-size:12px;font-weight:bold;color:white;background-color:${styleMeta[s].color};">Secondary: ${styleMeta[s].label}</span>
+</div>
+</div>
 <div class="radar">${svg}</div>
 <div style="padding:20px 0;">
 ${['dominator','integrator','yielder','calculator'].map(k=>{
@@ -961,44 +967,93 @@ ${['dominator','integrator','yielder','calculator'].map(k=>{
   </div>`;
 }).join('')}
 </div>
-<div class="sec" style="margin-bottom:32px;">
-<h3 style="color:#1E40AF;font-size:18px;border-bottom:2px solid #1E40AF;padding-bottom:6px;">Style Intensity Profile</h2>
-<p style="color:#9CA3AF;font-size:13px;margin-top:4px;margin-bottom:16px;">How strongly each negotiation style influences your behaviour at the table.</p>
+<div style="background:white;border:1px solid #E5E7EB;border-radius:12px;padding:24px;margin-bottom:24px;">
+<h3 style="font-size:11px;font-weight:600;color:rgba(30,58,138,0.6);text-transform:uppercase;letter-spacing:3px;text-align:center;margin-bottom:4px;">Style Intensity Profile</h3>
+<p style="font-size:12px;color:#6B7280;text-align:center;margin-bottom:24px;">How strongly each negotiation style influences your behaviour at the table based upon your responses.</p>
 ${['dominator','integrator','yielder','calculator'].map(style=>{
   const score=sc[style];
   const level=score<=1?'negligible':score<=3?'low':score<=6?'moderate':score<=9?'high':'dominant';
   const levelText={negligible:'Negligible',low:'Low',moderate:'Moderate',high:'High',dominant:'Dominant'}[level];
+  const levelBg={negligible:'#F3F4F6',low:'#E5E7EB',moderate:'#DBEAFE',high:'#FEF3C7',dominant:'#FEE2E2'}[level];
+  const levelCol={negligible:'#94A3B8',low:'#64748B',moderate:'#3B82F6',high:'#F59E0B',dominant:'#EF4444'}[level];
   const col=styleMeta[style].color;
   const pctVal=pct(style);
   const desc=styleLevels[style][level];
-  return `<div style="border:1px solid #F3F4F6;border-radius:8px;padding:16px;margin-bottom:12px;">
+  return `<div style="border:1px solid #F3F4F6;border-radius:8px;padding:16px;margin-bottom:16px;">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-<span style="font-weight:bold;font-size:14px;color:${col};">● ${styleMeta[style].label}</span>
-<span style="font-size:13px;font-weight:bold;color:#6B7280;">${levelText} — ${pctVal}%</span>
+<div style="display:flex;align-items:center;gap:8px;">
+<div style="width:12px;height:12px;border-radius:50%;background-color:${col};"></div>
+<span style="font-weight:bold;font-size:14px;color:${col};">${styleMeta[style].label}</span>
 </div>
-<div style="height:8px;background:#F3F4F6;border-radius:99px;overflow:hidden;margin-bottom:12px;">
+<div style="display:flex;align-items:center;gap:12px;">
+<span style="padding:2px 8px;border-radius:4px;font-size:12px;font-weight:bold;background:${levelBg};color:${levelCol};">${levelText}</span>
+<span style="font-size:14px;font-weight:bold;color:#6B7280;">${pctVal}%</span>
+</div>
+</div>
+<div style="height:10px;background:#F3F4F6;border-radius:99px;overflow:hidden;margin-bottom:12px;">
 <div style="height:100%;width:${pctVal}%;background:${col};border-radius:99px;"></div>
 </div>
-<p style="font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;">${styleMeta[style].brief}</p>
+<p style="font-size:13px;font-weight:600;color:#1F2937;margin-bottom:6px;">${styleMeta[style].brief}</p>
 <p style="font-size:13px;color:#4B5563;line-height:1.7;">${desc}</p>
 </div>`;
 }).join('')}
 </div>
-<div class="sec"><h2 style="color:#1E40AF;">${a.emoji} Your Archetype: ${a.name}</h2><p>${nl(a.narrative)}</p></div>
-<div class="sec"><h2 style="color:${styleMeta[p].color};">Your Primary Style: ${styleMeta[p].label}</h2><p>${nl(stylePrimary[p])}</p></div>
-<div class="sec"><h2 style="color:${styleMeta[s].color};">Your Secondary Influence: ${styleMeta[s].label}</h2><p>${nl(styleSecondary[s])}</p></div>
-<div class="sec"><h2 style="color:#1E40AF;">How Others Experience You</h2><p>${nl(a.howOthersSeeYou)}</p></div>
-<div class="sec"><h2 style="color:#16A34A;">Your Strengths</h2><p>${nl(a.strengths)}</p></div>
-<div class="sec"><h2 style="color:#DC2626;">Your Weaknesses</h2><p>${nl(a.weaknesses)}</p></div>
-<div class="sec"><h2 style="color:#9333EA;">Your Blind Spots</h2><p>${nl(a.blindSpots)}</p></div>
-<div class="sec"><h2 style="color:#D97706;">Under Pressure</h2><p>${nl(a.underPressure)}</p></div>
-<div class="sec"><h2 style="color:#DC2626;">Watch Out</h2><p>${nl(a.watchOut)}</p></div>
-<div class="sec"><h2 style="color:#16A34A;">Your Growth Edge</h2><p>${nl(a.growthEdge)}</p></div>
+<div style="background:white;border:1px solid #E5E7EB;border-radius:12px;padding:24px;margin-bottom:24px;">
+<h3 style="font-size:11px;font-weight:600;color:rgba(30,58,138,0.6);text-transform:uppercase;letter-spacing:3px;text-align:center;margin-bottom:4px;">${a.emoji} Your Archetype</h3>
+<p style="font-size:22px;font-weight:bold;color:#1E40AF;text-align:center;margin-bottom:16px;">${a.name}</p>
+<p style="font-size:13px;color:#4B5563;line-height:1.8;">${nl(a.narrative)}</p>
+</div>
+<div style="background:white;border:1px solid #E5E7EB;border-radius:12px;padding:24px;margin-bottom:24px;">
+<h3 style="font-size:11px;font-weight:600;color:rgba(30,58,138,0.6);text-transform:uppercase;letter-spacing:3px;text-align:center;margin-bottom:4px;">Your Primary Style</h3>
+<p style="font-size:22px;font-weight:bold;color:${styleMeta[p].color};text-align:center;margin-bottom:16px;">${styleMeta[p].label}</p>
+${fmtSec(stylePrimary[p], styleMeta[p].color)}
+</div>
+<div style="background:white;border:1px solid #E5E7EB;border-radius:12px;padding:24px;margin-bottom:24px;">
+<h3 style="font-size:11px;font-weight:600;color:rgba(30,58,138,0.6);text-transform:uppercase;letter-spacing:3px;text-align:center;margin-bottom:4px;">Your Secondary Influence</h3>
+<p style="font-size:22px;font-weight:bold;color:${styleMeta[s].color};text-align:center;margin-bottom:16px;">${styleMeta[s].label}</p>
+${fmtSec(styleSecondary[s], styleMeta[s].color)}
+</div>
+<div style="background:#EFF6FF;border:1px solid #BFDBFE;border-left:4px solid #1E40AF;border-radius:12px;padding:24px;margin-bottom:24px;">
+<h3 style="font-size:16px;font-weight:700;color:#1E40AF;margin-bottom:16px;"> How Others Experience You</h3>${fmtSec(a.howOthersSeeYou, '#1E40AF')}
+</div>
+<table style="width:100%;border-collapse:separate;border-spacing:16px 0;margin-bottom:24px;"><tr>
+<td style="width:50%;vertical-align:top;background:#F0FDF4;border:1px solid #BBF7D0;border-left:4px solid #16A34A;border-radius:12px;padding:20px;">
+<h3 style="font-size:14px;font-weight:700;color:#16A34A;margin-bottom:16px;">💪 Your Strengths</h3>
+${a.strengths.split('. ').filter(s=>s.trim().length>10).map(s=>
+'<div style="display:flex;gap:8px;margin-bottom:10px;"><span style="color:#16A34A;font-weight:700;flex-shrink:0;">✓</span><p style="font-size:12px;color:#4B5563;line-height:1.6;margin:0;">'+s.trim().replace(/\.$/,'')+'.</p></div>'
+).join('')}
+</td>
+<td style="width:50%;vertical-align:top;background:#FEF2F2;border:1px solid #FECACA;border-left:4px solid #DC2626;border-radius:12px;padding:20px;">
+<h3 style="font-size:14px;font-weight:700;color:#DC2626;margin-bottom:16px;">⚡ Your Weaknesses</h3>
+${a.weaknesses.split('. ').filter(s=>s.trim().length>10).map(s=>
+'<div style="display:flex;gap:8px;margin-bottom:10px;"><span style="color:#DC2626;font-weight:700;flex-shrink:0;">✗</span><p style="font-size:12px;color:#4B5563;line-height:1.6;margin:0;">'+s.trim().replace(/\.$/,'')+'.</p></div>'
+).join('')}
+</td>
+</tr></table>
+<div style="background:#FAF5FF;border:1px solid #E9D5FF;border-left:4px solid #9333EA;border-radius:12px;padding:24px;margin-bottom:24px;">
+<h3 style="font-size:16px;font-weight:700;color:#9333EA;margin-bottom:16px;"> Your Blind Spots</h3>
+${fmtSec(a.blindSpots, '#9333EA')}
+</div>
+<div style="background:#FFF7ED;border:1px solid #FED7AA;border-left:4px solid #D97706;border-radius:12px;padding:24px;margin-bottom:24px;">
+<h3 style="font-size:16px;font-weight:700;color:#D97706;margin-bottom:16px;"> Under Pressure</h3>${fmtSec(a.underPressure, '#D97706')}
+</div>
+<div style="background:#FEF2F2;border:1px solid #FECACA;border-left:4px solid #DC2626;border-radius:12px;padding:24px;margin-bottom:24px;">
+<h3 style="font-size:16px;font-weight:700;color:#DC2626;margin-bottom:16px;">⚠️ Watch Out</h3>
+${fmtSec(a.watchOut, '#DC2626')}
+</div>
+<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-left:4px solid #16A34A;border-radius:12px;padding:24px;margin-bottom:24px;">
+<h3 style="font-size:16px;font-weight:700;color:#16A34A;margin-bottom:16px;">🌱 Your Growth Edge</h3>
+${fmtSec(a.growthEdge, '#16A34A')}
+${a.growthSteps.map((step,i)=>`
+<div style="display:flex;align-items:flex-start;margin:12px 0;">
+<div style="min-width:28px;height:28px;background:#16A34A;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;margin-right:12px;">${i+1}</div>
+<p style="font-size:13px;color:#4B5563;line-height:1.6;margin:0;padding-top:4px;">${step}</p>
+</div>
+`).join('')}
+</div>
 ${readingRoom}
 
-<div class="sh" style="background:${shBg};border-color:${shBd};"><h2 style="color:${shTx};">Shadow Assessment: ${sl.title}</h2><div class="sub" style="color:${shTx};">${sl.sub}</div><p>${nl(sl.msg)}</p></div>
-<div class="ft"><p style="font-weight:600;">The Buckingham Academy Negotiation Profile Assessment</p><p>&copy; 2026 The Buckingham Academy Limited. All rights reserved.</p>
-<p style="margin-top:8px;">To book a custom negotiation programme: admin@bucademy.com</p></div></body></html>`;
+<div class="sh" style="background:${shBg};border:2px solid ${shBd};border-left:6px solid ${shTx};border-radius:12px;padding:28px;margin-bottom:24px;"><h2 style="color:${shTx};font-size:22px;font-weight:800;margin-bottom:8px;">⚡ Shadow Assessment: ${sl.title}</h2><div class="sub" style="color:${shTx};font-weight:600;font-size:15px;margin-bottom:12px;">${sl.sub}</div><p style="color:${r.shadow>=2?'#E7E5E4':'#1C1917'};font-size:14px;line-height:1.7;">${nl(sl.msg)}</p></div><p style="margin-top:8px;">To book a custom negotiation programme: admin@bucademy.com</p></div></body></html>`;
 }
 
 const PetalChart = ({ scores }) => {
@@ -1800,7 +1855,7 @@ const renderWithQuote=(text)=>{
 
           <div className="text-center text-xs text-gray-400 mt-8 pt-6 border-t border-gray-200">
             <p className="font-semibold">&copy; 2026 The Buckingham Academy Limited. All rights reserved.</p>
-            <p className="mt-1">To book a custom negotiation programme: admin@bucademy.com</p>
+            <p className="mt-1">To hear about our negotiation coaching email us: admin@bucademy.com</p>
           </div>
         </div>
       </div>
