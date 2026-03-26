@@ -14,7 +14,7 @@ const questions = [
 { type:'style', text:"Before entering an important negotiation, I tend to:", options:[
     {text:"Consider what outcome would feel fair and workable on both sides.",map:'integrator'},
     {text:"Define the outcome I expect to secure.",map:'dominator'},
-    {text:"Pressure test my assumptions and review my tacics one more time.",map:'calculator'},
+    {text:"Review my numbers and run through my tactics one more time.",map:'calculator'},
     {text:"Think about how to keep the interaction constructive and positive.",map:'yielder'},
 ]},
 
@@ -940,12 +940,11 @@ ${matchupCards}
 .sh{margin-top:32px;padding:20px;border-radius:8px;border:2px solid}
 .sh h2{border:none;margin-bottom:4px}.sh .sub{font-weight:600;margin-bottom:8px}
 .ft{margin-top:48px;padding-top:20px;border-top:2px solid #E5E7EB;text-align:center;font-size:13px;color:#9CA3AF}
-@media print{body{padding:20px;font-size:11pt}.hdr h1{font-size:24pt}}</style></head><body style="font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
-<div style="text-align:center;margin-bottom:32px;background:white;border-radius:12px;border:2px solid #1D4ED8;padding:32px;">
+@page{size:portrait;margin:12mm 14mm}@media print{body{padding:0;font-size:10.5pt;zoom:0.98;-webkit-print-color-adjust:exact;print-color-adjust:exact}body>div{break-inside:avoid!important;page-break-inside:avoid!important}body>table{break-inside:avoid!important;page-break-inside:avoid!important}h3{break-after:avoid!important;page-break-after:avoid!important}div[style*="border-radius:8px"]{break-inside:avoid!important;page-break-inside:avoid!important}}</style></head><body style="font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
 ${greeting}
-<p style="font-size:11px;color:rgba(29,78,216,0.6);font-weight:600;letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;">Your Negotiation Archetype</p>
-<h1 style="font-size:30px;font-weight:bold;color:#1E40AF;margin-bottom:8px;">${a.name}</h1>
-<p style="font-size:16px;color:#6B7280;margin-bottom:16px;">${a.tagline}</p>
+<p style="font-size:11px;color:rgba(29,78,216,0.6);font-weight:600;letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;text-align:center;">Your Negotiation Archetype</p>
+<h1 style="font-size:30px;font-weight:bold;color:#1E40AF;margin-bottom:8px;text-align:center;">${a.name}</h1>
+<p style="font-size:16px;color:#6B7280;margin-bottom:16px;text-align:center;">${a.tagline}</p>
 <div style="display:flex;align-items:center;justify-content:center;gap:12px;">
 <span style="padding:4px 12px;border-radius:999px;font-size:12px;font-weight:bold;color:white;background-color:${styleMeta[p].color};">Primary: ${styleMeta[p].label}</span>
 <span style="padding:4px 12px;border-radius:999px;font-size:12px;font-weight:bold;color:white;background-color:${styleMeta[s].color};">Secondary: ${styleMeta[s].label}</span>
@@ -967,37 +966,7 @@ ${['dominator','integrator','yielder','calculator'].map(k=>{
   </div>`;
 }).join('')}
 </div>
-<div style="background:white;border:1px solid #E5E7EB;border-radius:12px;padding:24px;margin-bottom:24px;">
-<h3 style="font-size:11px;font-weight:600;color:rgba(30,58,138,0.6);text-transform:uppercase;letter-spacing:3px;text-align:center;margin-bottom:4px;">Style Intensity Profile</h3>
-<p style="font-size:12px;color:#6B7280;text-align:center;margin-bottom:24px;">How strongly each negotiation style influences your behaviour at the table based upon your responses.</p>
-${['dominator','integrator','yielder','calculator'].map(style=>{
-  const score=sc[style];
-  const level=score<=1?'negligible':score<=3?'low':score<=6?'moderate':score<=9?'high':'dominant';
-  const levelText={negligible:'Negligible',low:'Low',moderate:'Moderate',high:'High',dominant:'Dominant'}[level];
-  const levelBg={negligible:'#F3F4F6',low:'#E5E7EB',moderate:'#DBEAFE',high:'#FEF3C7',dominant:'#FEE2E2'}[level];
-  const levelCol={negligible:'#94A3B8',low:'#64748B',moderate:'#3B82F6',high:'#F59E0B',dominant:'#EF4444'}[level];
-  const col=styleMeta[style].color;
-  const pctVal=pct(style);
-  const desc=styleLevels[style][level];
-  return `<div style="border:1px solid #F3F4F6;border-radius:8px;padding:16px;margin-bottom:16px;">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-<div style="display:flex;align-items:center;gap:8px;">
-<div style="width:12px;height:12px;border-radius:50%;background-color:${col};"></div>
-<span style="font-weight:bold;font-size:14px;color:${col};">${styleMeta[style].label}</span>
-</div>
-<div style="display:flex;align-items:center;gap:12px;">
-<span style="padding:2px 8px;border-radius:4px;font-size:12px;font-weight:bold;background:${levelBg};color:${levelCol};">${levelText}</span>
-<span style="font-size:14px;font-weight:bold;color:#6B7280;">${pctVal}%</span>
-</div>
-</div>
-<div style="height:10px;background:#F3F4F6;border-radius:99px;overflow:hidden;margin-bottom:12px;">
-<div style="height:100%;width:${pctVal}%;background:${col};border-radius:99px;"></div>
-</div>
-<p style="font-size:13px;font-weight:600;color:#1F2937;margin-bottom:6px;">${styleMeta[style].brief}</p>
-<p style="font-size:13px;color:#4B5563;line-height:1.7;">${desc}</p>
-</div>`;
-}).join('')}
-</div>
+
 <div style="background:white;border:1px solid #E5E7EB;border-radius:12px;padding:24px;margin-bottom:24px;">
 <h3 style="font-size:11px;font-weight:600;color:rgba(30,58,138,0.6);text-transform:uppercase;letter-spacing:3px;text-align:center;margin-bottom:4px;">${a.emoji} Your Archetype</h3>
 <p style="font-size:22px;font-weight:bold;color:#1E40AF;text-align:center;margin-bottom:16px;">${a.name}</p>
@@ -1051,6 +1020,39 @@ ${a.growthSteps.map((step,i)=>`
 </div>
 `).join('')}
 </div>
+
+<div style="background:white;border:1px solid #E5E7EB;border-radius:12px;padding:24px;margin-bottom:24px;">
+<h3 style="font-size:11px;font-weight:600;color:rgba(30,58,138,0.6);text-transform:uppercase;letter-spacing:3px;text-align:center;margin-bottom:4px;">Style Intensity Profile</h3>
+<p style="font-size:12px;color:#6B7280;text-align:center;margin-bottom:24px;">How strongly each negotiation style influences your behaviour at the table based upon your responses.</p>
+${['dominator','integrator','yielder','calculator'].map(style=>{
+  const score=sc[style];
+  const level=score<=1?'negligible':score<=3?'low':score<=6?'moderate':score<=9?'high':'dominant';
+  const levelText={negligible:'Negligible',low:'Low',moderate:'Moderate',high:'High',dominant:'Dominant'}[level];
+  const levelBg={negligible:'#F3F4F6',low:'#E5E7EB',moderate:'#DBEAFE',high:'#FEF3C7',dominant:'#FEE2E2'}[level];
+  const levelCol={negligible:'#94A3B8',low:'#64748B',moderate:'#3B82F6',high:'#F59E0B',dominant:'#EF4444'}[level];
+  const col=styleMeta[style].color;
+  const pctVal=pct(style);
+  const desc=styleLevels[style][level];
+  return `<div style="border:1px solid #F3F4F6;border-radius:8px;padding:16px;margin-bottom:16px;">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+<div style="display:flex;align-items:center;gap:8px;">
+<div style="width:12px;height:12px;border-radius:50%;background-color:${col};"></div>
+<span style="font-weight:bold;font-size:14px;color:${col};">${styleMeta[style].label}</span>
+</div>
+<div style="display:flex;align-items:center;gap:12px;">
+<span style="padding:2px 8px;border-radius:4px;font-size:12px;font-weight:bold;background:${levelBg};color:${levelCol};">${levelText}</span>
+<span style="font-size:14px;font-weight:bold;color:#6B7280;">${pctVal}%</span>
+</div>
+</div>
+<div style="height:10px;background:#F3F4F6;border-radius:99px;overflow:hidden;margin-bottom:12px;">
+<div style="height:100%;width:${pctVal}%;background:${col};border-radius:99px;"></div>
+</div>
+<p style="font-size:13px;font-weight:600;color:#1F2937;margin-bottom:6px;">${styleMeta[style].brief}</p>
+<p style="font-size:13px;color:#4B5563;line-height:1.7;">${desc}</p>
+</div>`;
+}).join('')}
+</div>
+
 ${readingRoom}
 
 <div class="sh" style="background:${shBg};border:2px solid ${shBd};border-left:6px solid ${shTx};border-radius:12px;padding:28px;margin-bottom:24px;"><h2 style="color:${shTx};font-size:22px;font-weight:800;margin-bottom:8px;">⚡ Shadow Assessment: ${sl.title}</h2><div class="sub" style="color:${shTx};font-weight:600;font-size:15px;margin-bottom:12px;">${sl.sub}</div><p style="color:${r.shadow>=2?'#E7E5E4':'#1C1917'};font-size:14px;line-height:1.7;">${nl(sl.msg)}</p></div><p style="margin-top:8px;">To book a custom negotiation programme: admin@bucademy.com</p></div></body></html>`;
@@ -1059,8 +1061,8 @@ ${readingRoom}
 const PetalChart = ({ scores }) => {
   const cx = 200, cy = 200;
   const maxR = 125;
-  const ringOuterR = 170;
-  const ringInnerR = 140;
+  const ringOuterR = 178;
+  const ringInnerR = 128;
   const total = 16;
 
   const styles = [
@@ -1085,7 +1087,7 @@ const PetalChart = ({ scores }) => {
   };
 
   return (
-    <svg viewBox="0 0 400 400" className="w-full h-full">
+   <svg viewBox="-30 -30 460 460" className="w-full h-full">
       {/* Background */}
       <circle cx={cx} cy={cy} r={ringOuterR + 2} fill="#F8FAFC"/>
 
@@ -1149,7 +1151,7 @@ const PetalChart = ({ scores }) => {
         const r = (ringOuterR + ringInnerR) / 2;
         const spread = Math.PI / 5;
         let pathD;
-        if (s.angle === Math.PI) {
+        if (s.angle === Math.PI || s.angle === Math.PI/2) {
           const sa = s.angle + spread, ea = s.angle - spread;
           pathD = `M${cx + r * Math.cos(sa)},${cy + r * Math.sin(sa)} A${r},${r} 0 0 0 ${cx + r * Math.cos(ea)},${cy + r * Math.sin(ea)}`;
         } else {
@@ -1161,8 +1163,8 @@ const PetalChart = ({ scores }) => {
             <path id={`tp2-${s.key}`} d={pathD} fill="none"/>
             <text>
               <textPath href={`#tp2-${s.key}`} startOffset="50%" textAnchor="middle"
-                fill="white" fontSize="12" fontWeight="bold" fontFamily="system-ui,sans-serif"
-                letterSpacing="3">{s.label}</textPath>
+               fill="white" fontSize="16" fontWeight="bold" fontFamily="system-ui,sans-serif"
+                letterSpacing="4">{s.label}</textPath>
             </text>
           </g>
         );
@@ -1216,8 +1218,7 @@ useEffect(() => {
 
 const next=()=>{if(sel===null)return;const na=[...answers,sel];setAnswers(na);setSel(null);if(qi<questions.length-1)setQi(qi+1);else{const r=calcResults(na);if(r.tied){setTieData(r);setPhase('tiebreak');}else{setResults(r);setPhase('results');}}};  const back=()=>{if(qi>0){const na=[...answers];const prev=na.pop();setAnswers(na);setSel(prev);setQi(qi-1);}};
 const restart=()=>{setPhase('intro');setQi(0);setAnswers([]);setSel(null);setResults(null);setUserName('');setSaved(false);};
-  const download=()=>{if(!results)return;const blob=new Blob([genHTML(results,userName)],{type:'text/html'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Negotiation-Profile-'+results.archetype.name.replace(/\s/g,'-')+'.html';a.click();URL.revokeObjectURL(url);};
-
+const download=()=>{if(!results)return;const html=genHTML(results,userName);const w=window.open('','_blank');if(!w)return;w.document.write(html);w.document.close();setTimeout(()=>{w.print();},500);};
 if(phase==='intro') return(
   <div className="min-h-screen flex flex-col min-w-0 overflow-x-hidden">
 
@@ -1416,7 +1417,17 @@ if(phase==='intro') return(
           />
         </div>
  {/* ═══ TEMP BUTTON HERE 0828 ═══ */}
-
+<button
+  onClick={() => {
+    const scores = { dominator: 2, integrator: 7, yielder: 2, calculator: 5 };
+    const p = 'integrator', s = 'calculator';
+    setResults({ scores, shadow: 3, primary: p, secondary: s, archetype: archetypes[p + '-' + s] });
+    setPhase('results');
+  }}
+  className="w-full max-w-xs mx-auto block mb-4 px-6 py-3 rounded-lg border border-dashed border-yellow-500/50 text-yellow-400 text-sm font-medium hover:bg-yellow-500/10 transition-colors"
+>
+  ⚡ Skip to Draft Report (Dev)
+</button>
 
 
         <button
@@ -1560,7 +1571,7 @@ const renderWithQuote=(text)=>{
         <div className="max-w-2xl mx-auto py-8">
          <motion.div initial={{opacity:0,scale:0.9}} animate={{opacity:1,scale:1}} transition={{duration:0.5,type:'spring'}} className="text-center mb-8 bg-white rounded-xl border-2 border-blue-700 p-8">
   {userName && <p className="text-gray-500 mb-2">Prepared for: <span className="font-bold text-gray-900">{userName}</span></p>}
-  <p className="text-xs text-blue-700/60 font-semibold tracking-widest uppercase mb-4">Your Negotiation Archetype</p>
+  <p className="text-xs text-blue-700/60 font-semibold tracking-widest uppercase mb-4 text-center">Your Negotiation Archetype</p>
   <h1 className="text-3xl font-bold text-blue-800 mb-2">{arch.name}</h1>
   <p className="text-base text-gray-500 mb-4">{arch.tagline}</p>
   <div className="flex items-center justify-center gap-3">
@@ -1843,11 +1854,11 @@ const renderWithQuote=(text)=>{
             {renderParagraphs(sl.msg)}
           </motion.div>
 
-          <motion.div initial={{opacity:0}} animate={{opacity:1}} transition={{delay:1.4}} className="flex flex-col items-center gap-3 mt-8 mb-4">
+<motion.div initial={{opacity:0}} animate={{opacity:1}} transition={{delay:1.4}} className="flex flex-col items-center gap-3 mt-8 mb-4">
             <button onClick={download} className="flex items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white font-bold px-8 py-3 rounded-lg text-lg transition-colors shadow-lg">
-              <Download className="w-5 h-5"/>Download Full Report (.PDF)
+              <Download className="w-5 h-5"/>Download as PDF
             </button>
-            <p className="text-xs text-gray-400">Downloads as HTML. Open in your browser and select Print then Save as PDF for a professional document.</p>
+            <p className="text-xs text-gray-400">Opens your report in a new window. Choose "Save as PDF" in the print dialog.</p>
             <button onClick={restart} className="flex items-center gap-2 text-gray-400 hover:text-gray-600 mt-2 transition-colors">
               <RotateCcw className="w-4 h-4"/>Retake Assessment
             </button>
