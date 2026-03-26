@@ -1417,17 +1417,7 @@ if(phase==='intro') return(
           />
         </div>
  {/* ═══ TEMP BUTTON HERE 0828 ═══ */}
-<button
-  onClick={() => {
-    const scores = { dominator: 2, integrator: 7, yielder: 2, calculator: 5 };
-    const p = 'integrator', s = 'calculator';
-    setResults({ scores, shadow: 3, primary: p, secondary: s, archetype: archetypes[p + '-' + s] });
-    setPhase('results');
-  }}
-  className="w-full max-w-xs mx-auto block mb-4 px-6 py-3 rounded-lg border border-dashed border-yellow-500/50 text-yellow-400 text-sm font-medium hover:bg-yellow-500/10 transition-colors"
->
-  ⚡ Skip to Draft Report (Dev)
-</button>
+
 
 
         <button
