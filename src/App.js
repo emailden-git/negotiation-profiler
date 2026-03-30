@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight, ChevronLeft, Download, RotateCcw } from 'lucide-react';
+import { ChevronRight, ChevronLeft, Download } from 'lucide-react';
 import { supabase } from './supabaseClient'
 
 const questions = [
@@ -1221,11 +1221,12 @@ useEffect(() => {
   if (phase === 'results' && results && userEmail && emailStatus === 'idle') {
     sendReportEmail();
   }
-}, [phase, results]);
+}, [phase, results]); // eslint-disable-line react-hooks/exhaustive-deps
 
 
 
 const next=()=>{if(sel===null)return;const na=[...answers,sel];setAnswers(na);setSel(null);if(qi<questions.length-1)setQi(qi+1);else{const r=calcResults(na);if(r.tied){setTieData(r);setPhase('tiebreak');}else{setResults(r);setPhase('results');}}};  const back=()=>{if(qi>0){const na=[...answers];const prev=na.pop();setAnswers(na);setSel(prev);setQi(qi-1);}};
+// eslint-disable-next-line no-unused-vars
 const restart=()=>{setPhase('intro');setQi(0);setAnswers([]);setSel(null);setResults(null);setUserName('');setSaved(false);};
 const download=()=>{if(!results)return;const html=genHTML(results,userName);const w=window.open('','_blank');if(!w)return;w.document.write(html);w.document.close();setTimeout(()=>{w.print();},500);};
 const sendReportEmail = async () => {
@@ -1941,10 +1942,10 @@ const renderWithQuote=(text)=>{
                 <button onClick={sendReportEmail} className="text-sm text-blue-600 underline mt-1">Try again</button>
               </div>
             )}
-
-            <button onClick={download} className="flex items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white font-bold px-8 py-3 rounded-lg text-lg transition-colors shadow-lg">
+<button onClick={download} className="flex items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white font-bold px-8 py-3 rounded-lg text-lg transition-colors shadow-lg">
               <Download className="w-5 h-5"/>Download as PDF
             </button>
+          </motion.div>
 
           <div className="text-center text-xs text-gray-400 mt-8 pt-6 border-t border-gray-200">
             <p className="font-semibold">&copy; 2026 The Buckingham Academy Limited. All rights reserved.</p>
