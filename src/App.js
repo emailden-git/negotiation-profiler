@@ -1196,6 +1196,9 @@ export default function NegotiationAssessment(){
   const[userName,setUserName]=useState('');
 const[tieData,setTieData]=useState(null); 
 const[saved,setSaved]=useState(false);
+const [userEmail, setUserEmail] = useState('');
+const [emailError, setEmailError] = useState('');
+const [emailStatus, setEmailStatus] = useState('idle');
 
 useEffect(() => {
   if (phase === 'results' && results && !saved) {
@@ -1214,11 +1217,77 @@ useEffect(() => {
   }
 }, [phase, results, userName, saved])
 
+useEffect(() => {
+  if (phase === 'results' && results && userEmail && emailStatus === 'idle') {
+    sendReportEmail();
+  }
+}, [phase, results]);
+
 
 
 const next=()=>{if(sel===null)return;const na=[...answers,sel];setAnswers(na);setSel(null);if(qi<questions.length-1)setQi(qi+1);else{const r=calcResults(na);if(r.tied){setTieData(r);setPhase('tiebreak');}else{setResults(r);setPhase('results');}}};  const back=()=>{if(qi>0){const na=[...answers];const prev=na.pop();setAnswers(na);setSel(prev);setQi(qi-1);}};
 const restart=()=>{setPhase('intro');setQi(0);setAnswers([]);setSel(null);setResults(null);setUserName('');setSaved(false);};
 const download=()=>{if(!results)return;const html=genHTML(results,userName);const w=window.open('','_blank');if(!w)return;w.document.write(html);w.document.close();setTimeout(()=>{w.print();},500);};
+const sendReportEmail = async () => {
+  if (!results || !userEmail) return;
+  setEmailStatus('sending');
+
+  try {
+    const htmlContent = genHTML(results, userName);
+
+    // Create off-screen container
+    const container = document.createElement('div');
+    container.innerHTML = htmlContent;
+    container.style.position = 'fixed';
+    container.style.left = '-10000px';
+    container.style.top = '0';
+    container.style.width = '760px';
+    document.body.appendChild(container);
+
+    // Generate real PDF
+    const html2pdf = (await import('html2pdf.js')).default;
+    const pdfBlob = await html2pdf()
+      .set({
+        margin: [12, 14, 12, 14],
+        image: { type: 'jpeg', quality: 0.95 },
+        html2canvas: { scale: 2, useCORS: true, logging: false },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      })
+      .from(container)
+      .toPdf()
+      .output('blob');
+
+    document.body.removeChild(container);
+
+    // Convert blob to base64
+    const base64 = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(pdfBlob);
+    });
+
+    // Send to API
+    const res = await fetch('/api/send-report', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: userEmail.trim(),
+        pdfBase64: base64,
+        userName: userName || '',
+        archetype: results.archetype?.name || ''
+      })
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Failed to send');
+
+    setEmailStatus('sent');
+  } catch (err) {
+    console.error('Failed to send report email:', err);
+    setEmailStatus('failed');
+  }
+};
 if(phase==='intro') return(
   <div className="min-h-screen flex flex-col min-w-0 overflow-x-hidden">
 
@@ -1398,36 +1467,50 @@ if(phase==='intro') return(
       </motion.div>
     </div>
 
-    {/* ═══ CTA — YOUR EXISTING BUTTON & INPUT ═══ */}
-    <div id="start" className="bg-white px-6 py-14 flex flex-col items-center">
-      <motion.div initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} transition={{delay:0.4}} className="text-center max-w-md w-full">
+{/* ═══ CTA — YOUR EXISTING BUTTON & INPUT ═══ */}
+<div id="start" className="bg-white px-6 py-14 flex flex-col items-center">
+  <motion.div initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} transition={{delay:0.4}} className="text-center max-w-md w-full">
 
-        <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">Ready to See Yourself Clearly?</h2>
-        <p className="text-slate-500 text-sm mb-10 max-w-xs mx-auto">7 minutes. 21 questions. A profile you'll reference before every important conversation.</p>
+    <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">Ready to See Yourself Clearly?</h2>
+    <p className="text-slate-500 text-sm mb-10 max-w-xs mx-auto">7 minutes. 21 questions. A profile you'll reference before every important conversation.</p>
 
-        <div className="mb-8">
-          <label className="block text-xs text-gray-400 mb-2 uppercase tracking-widest">Your initials (optional)</label>
-          <input
-            type="text"
-            value={userName}
-            onChange={e=>setUserName(e.target.value.toUpperCase().replace(/[^A-Z]/g,'').slice(0,5))}
-            maxLength={5}
-            placeholder="e.g. JDS"
-            className="w-72 px-5 py-3 border border-gray-200 rounded-lg text-center text-gray-700 bg-gray-50 focus:outline-none focus:border-blue-700 focus:ring-2 focus:ring-blue-50 focus:bg-white transition-all text-sm tracking-widest uppercase"
-          />
-        </div>
- {/* ═══ TEMP BUTTON HERE 0828 ═══ */}
+    <div className="mb-6">
+      <label className="block text-xs text-gray-400 mb-2 uppercase tracking-widest">Your initials (optional)</label>
+      <input
+        type="text"
+        value={userName}
+        onChange={e=>setUserName(e.target.value.toUpperCase().replace(/[^A-Z]/g,'').slice(0,5))}
+        maxLength={5}
+        placeholder="e.g. JDS"
+        className="w-72 px-5 py-3 border border-gray-200 rounded-lg text-center text-gray-700 bg-gray-50 focus:outline-none focus:border-blue-700 focus:ring-2 focus:ring-blue-50 focus:bg-white transition-all text-sm tracking-widest uppercase"
+      />
+    </div>
 
+    <div className="mb-8">
+      <label className="block text-xs text-gray-400 mb-2 uppercase tracking-widest">Your email address</label>
+      <input
+        type="email"
+        value={userEmail}
+        onChange={e=>{setUserEmail(e.target.value);setEmailError('');}}
+        placeholder="you@example.com"
+        className={`w-72 px-5 py-3 border rounded-lg text-center text-gray-700 bg-gray-50 focus:outline-none focus:border-blue-700 focus:ring-2 focus:ring-blue-50 focus:bg-white transition-all text-sm ${emailError ? 'border-red-400' : 'border-gray-200'}`}
+      />
+      {emailError && <p className="text-red-500 text-xs mt-2">{emailError}</p>}
+      <p className="text-xs text-gray-400 mt-2">We'll send your full report here. No spam, ever.</p>
+    </div>
 
+    <button
+      onClick={()=>{
+        const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userEmail.trim());
+        if(!valid){setEmailError('Please enter a valid email address');return;}
+        setPhase('quiz');
+      }}
+      className="mb-6 bg-gradient-to-r from-blue-800 to-blue-900 hover:from-blue-900 hover:to-slate-900 text-white font-bold px-12 py-4 rounded-xl text-lg transition-all shadow-lg hover:shadow-2xl transform hover:-translate-y-0.5"
+    >
+      Begin Assessment <ChevronRight className="inline w-5 h-5 ml-1"/>
+    </button>
 
-        <button
-          onClick={()=>setPhase('quiz')}
-          className="mb-6 bg-gradient-to-r from-blue-800 to-blue-900 hover:from-blue-900 hover:to-slate-900 text-white font-bold px-12 py-4 rounded-xl text-lg transition-all shadow-lg hover:shadow-2xl transform hover:-translate-y-0.5"
-        >
-          Begin Assessment <ChevronRight className="inline w-5 h-5 ml-1"/>
-        </button>
-
-        <p className="text-xs text-gray-400 italic mb-8">Don't overthink it. Your first instinct is your truest answer.</p>
+    <p className="text-xs text-gray-400 italic mb-8">Don't overthink it. Your first instinct is your truest answer.</p>
 
         <div className="flex items-center justify-center gap-4 text-xs text-slate-400 uppercase tracking-widest">
         </div>
@@ -1845,14 +1928,23 @@ const renderWithQuote=(text)=>{
           </motion.div>
 
 <motion.div initial={{opacity:0}} animate={{opacity:1}} transition={{delay:1.4}} className="flex flex-col items-center gap-3 mt-8 mb-4">
+            
+            {emailStatus === 'sending' && (
+              <p className="text-sm text-blue-600 animate-pulse mb-4">📧 Sending report to {userEmail}...</p>
+            )}
+            {emailStatus === 'sent' && (
+              <p className="text-sm text-green-600 mb-4">✅ Report sent to {userEmail}</p>
+            )}
+            {emailStatus === 'failed' && (
+              <div className="text-center mb-4">
+                <p className="text-sm text-red-500">❌ Failed to send email. Use the download button instead.</p>
+                <button onClick={sendReportEmail} className="text-sm text-blue-600 underline mt-1">Try again</button>
+              </div>
+            )}
+
             <button onClick={download} className="flex items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white font-bold px-8 py-3 rounded-lg text-lg transition-colors shadow-lg">
               <Download className="w-5 h-5"/>Download as PDF
             </button>
-            <p className="text-xs text-gray-400">Opens your report in a new window. Choose "Save as PDF" in the print dialog.</p>
-            <button onClick={restart} className="flex items-center gap-2 text-gray-400 hover:text-gray-600 mt-2 transition-colors">
-              <RotateCcw className="w-4 h-4"/>Retake Assessment
-            </button>
-          </motion.div>
 
           <div className="text-center text-xs text-gray-400 mt-8 pt-6 border-t border-gray-200">
             <p className="font-semibold">&copy; 2026 The Buckingham Academy Limited. All rights reserved.</p>
