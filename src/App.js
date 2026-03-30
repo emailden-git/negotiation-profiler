@@ -1232,57 +1232,18 @@ const download=()=>{if(!results)return;const html=genHTML(results,userName);cons
 const sendReportEmail = async () => {
   if (!results || !userEmail) return;
   setEmailStatus('sending');
-
   try {
-    const htmlContent = genHTML(results, userName);
-
-    // Create off-screen container
-    const container = document.createElement('div');
-    container.innerHTML = htmlContent;
-    container.style.position = 'fixed';
-    container.style.left = '-10000px';
-    container.style.top = '0';
-    container.style.width = '760px';
-    document.body.appendChild(container);
-
-    // Generate real PDF
-    const html2pdf = (await import('html2pdf.js')).default;
-    const pdfBlob = await html2pdf()
-      .set({
-        margin: [12, 14, 12, 14],
-        image: { type: 'jpeg', quality: 0.95 },
-        html2canvas: { scale: 2, useCORS: true, logging: false },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      })
-      .from(container)
-      .toPdf()
-      .output('blob');
-
-    document.body.removeChild(container);
-
-    // Convert blob to base64
-    const base64 = await new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result.split(',')[1]);
-      reader.onerror = reject;
-      reader.readAsDataURL(pdfBlob);
-    });
-
-    // Send to API
-    const res = await fetch('/api/send-report', {
+    const response = await fetch('/api/send-report', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         email: userEmail.trim(),
-        pdfBase64: base64,
         userName: userName || '',
-        archetype: results.archetype?.name || ''
-      })
+        results: results,
+      }),
     });
-
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Failed to send');
-
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Failed to send');
     setEmailStatus('sent');
   } catch (err) {
     console.error('Failed to send report email:', err);
