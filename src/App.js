@@ -1225,10 +1225,6 @@ useEffect(() => {
 
 
 
-const next=()=>{if(sel===null)return;const na=[...answers,sel];setAnswers(na);setSel(null);if(qi<questions.length-1)setQi(qi+1);else{const r=calcResults(na);if(r.tied){setTieData(r);setPhase('tiebreak');}else{setResults(r);setPhase('results');}}};  const back=()=>{if(qi>0){const na=[...answers];const prev=na.pop();setAnswers(na);setSel(prev);setQi(qi-1);}};
-// eslint-disable-next-line no-unused-vars
-const restart=()=>{setPhase('intro');setQi(0);setAnswers([]);setSel(null);setResults(null);setUserName('');setSaved(false);};
-const download=()=>{if(!results)return;const html=genHTML(results,userName);const w=window.open('','_blank');if(!w)return;w.document.write(html);w.document.close();setTimeout(()=>{w.print();},500);};
 const sendReportEmail = async () => {
   if (!results || !userEmail) return;
   setEmailStatus('sending');
@@ -1239,7 +1235,17 @@ const sendReportEmail = async () => {
       body: JSON.stringify({
         email: userEmail.trim(),
         userName: userName || '',
-        results: results,
+        scores: results.scores,
+        shadow: results.shadow,
+        primary: results.primary,
+        secondary: results.secondary,
+        archetype: results.archetype,
+        primaryDesc: stylePrimary[results.primary],
+        secondaryDesc: styleSecondary[results.secondary],
+        shadowLevel: shadowLevels[results.shadow],
+        styleMeta: Object.fromEntries(
+          Object.entries(styleMeta).map(([k, v]) => [k, { label: v.label, color: v.color }])
+        ),
       }),
     });
     const data = await response.json();
@@ -1250,8 +1256,9 @@ const sendReportEmail = async () => {
     setEmailStatus('failed');
   }
 };
-if(phase==='intro') return(
-  <div className="min-h-screen flex flex-col min-w-0 overflow-x-hidden">
+
+if (phase === 'intro') return (
+  <div>
 
     {/* ═══ HERO ═══ */}
    <div className="relative min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 flex flex-col items-center justify-center px-6 overflow-hidden pb-12">
