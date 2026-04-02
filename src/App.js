@@ -857,9 +857,9 @@ function genHTML(r,name){
   const pct=k=>Math.round((sc[k]/total)*100);
   const nl=t=>t.replace(/\n\n/g,'</p><p style="margin-top:14px;">');
   const fmtSec=(text,color)=>{const dot=text.indexOf('.');if(dot===-1)return '<p style="font-size:13px;color:#4B5563;line-height:1.8;">'+text+'</p>';const quote=text.substring(0,dot+1);const rest=text.substring(dot+1).trim();const body=rest.split('\n\n').filter(p=>p.trim()).map(p=>'<p style="font-size:13px;color:#4B5563;line-height:1.8;margin-top:14px;">'+p+'</p>').join('');return '<div style="border-left:3px solid '+color+';padding-left:16px;margin:16px 0;"><p style="font-style:italic;font-weight:600;font-size:14px;color:#1F2937;line-height:1.6;">'+quote+'</p></div>'+body;};
-const shBg=r.shadow>=4?'#1C1917':r.shadow>=3?'#292524':r.shadow>=2?'#44403C':'#F0FDF4';
-const shBd=r.shadow>=4?'#DC2626':r.shadow>=3?'#F59E0B':r.shadow>=2?'#78716C':'#4ADE80';
-const shTx=r.shadow>=4?'#EF4444':r.shadow>=3?'#FBBF24':r.shadow>=2?'#D6D3D1':'#15803D';
+const shBg='#0F172A';
+const shBd='#DC2626';
+const shTx='#EF4444';
 const safeName=name?sanitize(name):'';
 const greeting=safeName?`<p style="font-size:18px;color:#6B7280;margin-bottom:8px;">Prepared for: <strong style="color:#1F2937;">${safeName}</strong></p>`:'';  const svg=genSVGPetal(sc);
   const spotStyles=['dominator','integrator','yielder','calculator'];
@@ -870,24 +870,27 @@ const spotGrid=spotStyles.map(style=>{
   return `<div style="border:2px solid ${col}30;border-radius:8px;padding:16px;background:${col}08;break-inside:avoid;">
 <div style="font-weight:bold;color:${col};font-size:15px;margin-bottom:10px;">${lab}</div>
 <div style="font-size:12px;color:#374151;line-height:1.8;">
-<p><strong style="color:#6B7280;">Pace:</strong> ${sg.pace}</p>
-<p><strong style="color:#6B7280;">Tone:</strong> ${sg.tone}</p>
-<p><strong style="color:#6B7280;">Focus:</strong> ${sg.focus}</p>
-<p style="margin-top:8px;"><strong style="color:#6B7280;">You will hear:</strong> ${sg.phrases.join(' · ')}</p>
-<p style="margin-top:8px;"><strong style="color:#6B7280;">They will:</strong></p>
+<table style="border-collapse:collapse;margin-bottom:8px;">
+<tr><td style="font-size:12px;color:#6B7280;font-weight:600;padding:2px 12px 2px 0;">Pace:</td><td style="font-size:12px;color:#374151;">${sg.pace}</td></tr>
+<tr><td style="font-size:12px;color:#6B7280;font-weight:600;padding:2px 12px 2px 0;">Tone:</td><td style="font-size:12px;color:#374151;">${sg.tone}</td></tr>
+<tr><td style="font-size:12px;color:#6B7280;font-weight:600;padding:2px 12px 2px 0;">Focus:</td><td style="font-size:12px;color:#374151;">${sg.focus}</td></tr>
+</table>
+<p style="margin-top:8px;"><strong style="color:#6B7280;">You will hear:</strong></p>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 8px;">${sg.phrases.map(ph=>`<span style="display:inline-block;background:#F3F4F6;border:1px solid #E5E7EB;padding:2px 8px;border-radius:4px;font-size:11px;color:#374151;">"${ph}"</span>`).join('')}</div>
+<p><strong style="color:#6B7280;">They will:</strong></p>
 ${sg.behaviours.map(b=>`<p style="margin-left:8px;">• ${b}</p>`).join('')}
 </div></div>`;
 }).join('');
 
 const opponents=spotStyles.filter(st=>st!==p);
-const matchupCards=opponents.map(opp=>{
+const matchupCards=opponents.map((opp,i)=>{
   const key=p+'-'+opp;
   const m=matchupAdvice[key];
   const oppCol=styleMeta[opp].color;
   const oppLab=styleMeta[opp].label;
   const myCol=styleMeta[p].color;
   const myLab=styleMeta[p].label;
-  return `<div style="border:1px solid #E5E7EB;border-radius:8px;margin-bottom:16px;overflow:hidden;break-inside:avoid;">
+  return `<div style="border:1px solid #E5E7EB;border-radius:8px;margin-bottom:16px;overflow:hidden;${i>0?'page-break-before:always;':''}">
 <div style="padding:12px 20px;background:${myCol}10;">
 <span style="font-weight:bold;color:${myCol};">You (${myLab})</span>
 <span style="color:#9CA3AF;margin:0 8px;">vs</span>
@@ -908,16 +911,16 @@ ${m.risks.map(ri=>`<p style="font-size:13px;color:#374151;margin-bottom:4px;">�
 </div>
 <h4 style="font-size:11px;font-weight:bold;color:#1E40AF;text-transform:uppercase;letter-spacing:1px;margin-top:16px;margin-bottom:8px;">Your Playbook</h4>
 ${m.playbook.map((step,i)=>`<p style="font-size:13px;color:#374151;margin-bottom:4px;"><strong style="color:#1E40AF;">${i+1}.</strong> ${step}</p>`).join('')}
-<div style="margin-top:16px;padding:14px;background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;">
-<h4 style="font-size:11px;font-weight:bold;color:#B45309;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">⚠️ Watch For The Fake</h4>
-<p style="font-size:13px;color:#92400E;">${m.fakeWarning}</p>
+<div style="margin-top:16px;padding:14px;background:#111827;border:1px solid #DC2626;border-radius:8px;">
+<h4 style="font-size:11px;font-weight:bold;color:#EF4444;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">⚠️ WATCH FOR THE FAKE STYLE</h4>
+<p style="font-size:13px;color:#D1D5DB;">${m.fakeWarning}</p>
 </div>
 </div></div>`;
 }).join('');
 
 const readingRoom=`<div class="sec" style="margin-top:32px;">
 <h2 style="color:#1E40AF;font-size:20px;border-bottom:2px solid #1E40AF;padding-bottom:6px;">Reading The Room</h2>
-<p style="color:#6B7280;font-size:14px;margin-top:8px;margin-bottom:20px;">How to spot each negotiation style and what to do when you are sitting across from them.</p>
+<p style="color:#6B7280;font-size:14px;margin-top:8px;margin-bottom:20px;">This section gives you your elite edge. Knowing yourself is a great start. But spotting others' negotiation style and adapting your approach is the skill of a master.</p>
 <h3 style="font-size:12px;font-weight:bold;color:#9CA3AF;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Spot Their Style</h3>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;">
 ${spotGrid}
@@ -983,7 +986,7 @@ ${fmtSec(stylePrimary[p], styleMeta[p].color)}
 ${fmtSec(styleSecondary[s], styleMeta[s].color)}
 </div>
 <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-left:4px solid #1E40AF;border-radius:12px;padding:24px;margin-bottom:24px;">
-<h3 style="font-size:16px;font-weight:700;color:#1E40AF;margin-bottom:16px;"> How Others Experience You</h3>${fmtSec(a.howOthersSeeYou, '#1E40AF')}
+<h3 style="font-size:16px;font-weight:700;color:#1E40AF;margin-bottom:16px;">👥 How Others Experience You</h3>${fmtSec(a.howOthersSeeYou, '#1E40AF')}
 </div>
 <table style="width:100%;border-collapse:separate;border-spacing:16px 0;margin-bottom:24px;"><tr>
 <td style="width:50%;vertical-align:top;background:#F0FDF4;border:1px solid #BBF7D0;border-left:4px solid #16A34A;border-radius:12px;padding:20px;">
@@ -1000,11 +1003,11 @@ ${a.weaknesses.split('. ').filter(s=>s.trim().length>10).map(s=>
 </td>
 </tr></table>
 <div style="background:#FAF5FF;border:1px solid #E9D5FF;border-left:4px solid #9333EA;border-radius:12px;padding:24px;margin-bottom:24px;">
-<h3 style="font-size:16px;font-weight:700;color:#9333EA;margin-bottom:16px;"> Your Blind Spots</h3>
+<h3 style="font-size:16px;font-weight:700;color:#9333EA;margin-bottom:16px;">🔍 Your Blind Spots</h3>
 ${fmtSec(a.blindSpots, '#9333EA')}
 </div>
 <div style="background:#FFF7ED;border:1px solid #FED7AA;border-left:4px solid #D97706;border-radius:12px;padding:24px;margin-bottom:24px;">
-<h3 style="font-size:16px;font-weight:700;color:#D97706;margin-bottom:16px;"> Under Pressure</h3>${fmtSec(a.underPressure, '#D97706')}
+<h3 style="font-size:16px;font-weight:700;color:#D97706;margin-bottom:16px;">🔥 Under Pressure</h3>${fmtSec(a.underPressure, '#D97706')}
 </div>
 <div style="background:#FEF2F2;border:1px solid #FECACA;border-left:4px solid #DC2626;border-radius:12px;padding:24px;margin-bottom:24px;">
 <h3 style="font-size:16px;font-weight:700;color:#DC2626;margin-bottom:16px;">⚠️ Watch Out</h3>
@@ -1023,7 +1026,7 @@ ${a.growthSteps.map((step,i)=>`
 
 <div style="background:white;border:1px solid #E5E7EB;border-radius:12px;padding:24px;margin-bottom:24px;">
 <h3 style="font-size:11px;font-weight:600;color:rgba(30,58,138,0.6);text-transform:uppercase;letter-spacing:3px;text-align:center;margin-bottom:4px;">Style Intensity Profile</h3>
-<p style="font-size:12px;color:#6B7280;text-align:center;margin-bottom:24px;">How strongly each negotiation style influences your behaviour at the table based upon your responses.</p>
+<p style="font-size:12px;color:#6B7280;text-align:center;margin-bottom:24px;">This shows how strongly each negotiation style influences your behaviour at the table based upon your responses.</p>
 ${['dominator','integrator','yielder','calculator'].map(style=>{
   const score=sc[style];
   const level=score<=1?'negligible':score<=3?'low':score<=6?'moderate':score<=9?'high':'dominant';
@@ -1055,7 +1058,9 @@ ${['dominator','integrator','yielder','calculator'].map(style=>{
 
 ${readingRoom}
 
-<div class="sh" style="background:${shBg};border:2px solid ${shBd};border-left:6px solid ${shTx};border-radius:12px;padding:28px;margin-bottom:24px;"><h2 style="color:${shTx};font-size:22px;font-weight:800;margin-bottom:8px;">⚡ Shadow Assessment: ${sl.title}</h2><div class="sub" style="color:${shTx};font-weight:600;font-size:15px;margin-bottom:12px;">${sl.sub}</div><p style="color:${r.shadow>=2?'#E7E5E4':'#1C1917'};font-size:14px;line-height:1.7;">${nl(sl.msg)}</p></div><p style="margin-top:8px;">To book a custom negotiation programme: admin@bucademy.com</p></div></body></html>`;
+<div style="height:0;page-break-after:always;"></div><div class="sh" style="background:${shBg};border:2px solid ${shBd};border-radius:12px;padding:28px;margin-bottom:24px;"><h2 style="color:${shTx};font-size:22px;font-weight:800;margin-bottom:8px;border:none;">Shadow Assessment: ${sl.title}</h2><div class="sub" style="color:${shTx};font-weight:600;font-size:15px;margin-bottom:12px;">${sl.sub} : Shadow Score: ${r.shadow}/5</div><p style="color:#E5E7EB;font-size:14px;line-height:1.7;">${nl(sl.msg)}</p></div>
+<div class="ft"><p style="font-weight:600;color:#374151;margin-bottom:4px;">© 2026 The Buckingham Academy Limited. All rights reserved.</p><p>To hear about our negotiation coaching email us: admin@bucademy.com</p></div>
+</body></html>`;
 }
 
 const PetalChart = ({ scores }) => {
@@ -1199,6 +1204,41 @@ const[saved,setSaved]=useState(false);
 const [userEmail, setUserEmail] = useState('');
 const [emailError, setEmailError] = useState('');
 const [emailStatus, setEmailStatus] = useState('idle');
+const back = () => {
+  if (qi > 0) {
+    setQi(qi - 1);
+    setSel(answers[qi - 1] ?? null);
+  }
+};
+
+const next = () => {
+  if (sel === null) return;
+  const na = [...answers];
+  na[qi] = sel;
+  setAnswers(na);
+  if (qi === questions.length - 1) {
+    const r = calcResults(na);
+    if (r.tied) { setTieData(r); setPhase('tiebreak'); }
+    else { setResults(r); setPhase('results'); }
+  } else {
+    setQi(qi + 1);
+    setSel(na[qi + 1] ?? null);
+  }
+};
+
+const download = () => {
+  const html = genHTML(results, userName);
+  const win = window.open('', '_blank');
+  if (!win) {
+    alert('Please allow pop-ups to download your report.');
+    return;
+  }
+  win.document.write(html);
+  win.document.close();
+  win.onload = () => {
+    setTimeout(() => win.print(), 300);
+  };
+};
 
 useEffect(() => {
   if (phase === 'results' && results && !saved) {
@@ -1474,10 +1514,24 @@ if (phase === 'intro') return (
         if(!valid){setEmailError('Please enter a valid email address');return;}
         setPhase('quiz');
       }}
+      
       className="mb-6 bg-gradient-to-r from-blue-800 to-blue-900 hover:from-blue-900 hover:to-slate-900 text-white font-bold px-12 py-4 rounded-xl text-lg transition-all shadow-lg hover:shadow-2xl transform hover:-translate-y-0.5"
     >
       Begin Assessment <ChevronRight className="inline w-5 h-5 ml-1"/>
     </button>
+
+  {/* ═══ TEMP RESULTS BUTTON HERE ═══ */}
+    <button
+  onClick={() => {
+    const scores = { dominator: 2, integrator: 7, yielder: 2, calculator: 5 };
+    const p = 'integrator', s = 'calculator';
+    setResults({ scores, shadow: 3, primary: p, secondary: s, archetype: archetypes[p + '-' + s] });
+    setPhase('results');
+  }}
+  className="w-full max-w-xs mx-auto block mb-4 px-6 py-3 rounded-lg border border-dashed border-yellow-500/50 text-yellow-400 text-sm font-medium hover:bg-yellow-500/10 transition-colors"
+>
+  ⚡ Skip to Draft Report (Dev)
+</button>
 
     <p className="text-xs text-gray-400 italic mb-8">Don't overthink it. Your first instinct is your truest answer.</p>
 
@@ -1581,7 +1635,7 @@ if(phase==='tiebreak'&&tieData) return(
 
   
 
-
+// eslint-disable-next-line no-unused-vars
     const shColors={green:'border-green-600 bg-green-50',yellow:'border-yellow-500 bg-yellow-50',amber:'border-amber-500 bg-amber-50',red:'border-red-600 bg-red-50'};
     const shTextColors={green:'text-green-700',yellow:'text-yellow-700',amber:'text-amber-700',red:'text-red-700'};
     const shC=shColors[sl.color]||shColors.green;
@@ -1609,9 +1663,9 @@ const renderWithQuote=(text)=>{
 
 
     return(
-      <div className="min-h-screen bg-gray-50 text-gray-900 p-4 overflow-y-auto">
+   <div id="report" className="min-h-screen bg-gray-50 text-gray-900 p-4 overflow-y-auto">
         <div className="max-w-2xl mx-auto py-8">
-         <motion.div initial={{opacity:0,scale:0.9}} animate={{opacity:1,scale:1}} transition={{duration:0.5,type:'spring'}} className="text-center mb-8 bg-white rounded-xl border-2 border-blue-700 p-8">
+         <motion.div initial={{opacity:0,scale:0.9}} animate={{opacity:1,scale:1}} transition={{duration:0.5,type:'spring'}} className="text-center mb-8 bg-white rounded-xl border-2 border-blue-700 p-8 pdf-avoid-break">
   {userName && <p className="text-gray-500 mb-2">Prepared for: <span className="font-bold text-gray-900">{userName}</span></p>}
   <p className="text-xs text-blue-700/60 font-semibold tracking-widest uppercase mb-4 text-center">Your Negotiation Archetype</p>
   <h1 className="text-3xl font-bold text-blue-800 mb-2">{arch.name}</h1>
@@ -1622,14 +1676,14 @@ const renderWithQuote=(text)=>{
   </div>
 </motion.div>
 
-          <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.2}} className="bg-white border border-gray-200 rounded-xl p-6 mb-6">
+          <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.2}} className="pdf-avoid-break bg-white border border-gray-200 rounded-xl p-6 mb-6">
 <h3 className="text-xs font-semibold text-blue-700/60 uppercase tracking-widest mb-4 text-center">Style Distribution</h3>
   <div style={{width:'100%',maxWidth:400,margin:'0 auto',aspectRatio:'1'}}>
     <PetalChart scores={sc}/>
   </div>
 </motion.div>
 
-<motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.3}} className="bg-white border border-gray-200 rounded-xl p-6 mb-6">
+<motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.3}} className="pdf-avoid-break bg-white border border-gray-200 rounded-xl p-6 mb-6">
   <div className="space-y-4">
     {[
       {k:'dominator',label:'Dominator',color:'#DC2626',bg:'bg-red-600'},
@@ -1661,13 +1715,13 @@ const renderWithQuote=(text)=>{
 
 {/* Archetype Narrative */}
 <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.3}}
-  className="bg-gradient-to-r from-blue-50/50 to-white border border-blue-100 rounded-xl p-6 mb-4 border-l-4 border-l-blue-700">
+  className="bg-gradient-to-r from-blue-50/50 to-white border border-blue-100 rounded-xl p-6 mb-4 border-l-4 border-l-blue-700 pdf-avoid-break">
   <h3 className="font-bold text-lg mb-3 text-blue-800">{arch.emoji} Your Archetype: {arch.name}</h3>
   {renderWithQuote(arch.narrative)}
 </motion.div>
 
 {/* Primary and Secondary side by side on desktop */}
-<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 pdf-avoid-break">
   <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.38}}
     className="bg-white rounded-xl p-5 border-l-4" style={{borderLeftColor:styleMeta[p].color}}>
     <h3 className="font-bold text-base mb-2" style={{color:styleMeta[p].color}}>🎯 Primary: {styleMeta[p].label}</h3>
@@ -1682,13 +1736,13 @@ const renderWithQuote=(text)=>{
 
 {/* How Others See You */}
 <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.46}}
-  className="bg-white border-l-4 border-l-blue-700 rounded-xl p-6 mb-4">
+  className="bg-white border-l-4 border-l-blue-700 rounded-xl p-6 mb-4 pdf-avoid-break">
   <h3 className="font-bold text-lg mb-3 text-blue-800">👥 How Others Experience You</h3>
   {renderWithQuote(arch.howOthersSeeYou)}
 </motion.div>
 
 {/* Strengths and Weaknesses side by side as bullets */}
-<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 pdf-avoid-break">
   <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.5}}
     className="bg-green-50/50 border border-green-100 rounded-xl p-5 border-l-4 border-l-green-600">
     <h3 className="font-bold text-base mb-4 text-green-700">💪 Your Strengths</h3>
@@ -1717,28 +1771,29 @@ const renderWithQuote=(text)=>{
 
 {/* Blind Spots - distinct visual treatment */}
 <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.58}}
-  className="bg-purple-50/30 border border-purple-100 rounded-xl p-6 mb-4 border-l-4 border-l-purple-600">
+  className="bg-purple-50/30 border border-purple-100 rounded-xl p-6 mb-4 border-l-4 border-l-purple-600 pdf-avoid-break">
   <h3 className="font-bold text-lg mb-3 text-purple-700">🔍 Your Blind Spots</h3>
   {renderWithQuote(arch.blindSpots)}
 </motion.div>
 
 {/* Under Pressure - warning style */}
 <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.62}}
-  className="bg-amber-50/30 border border-amber-100 rounded-xl p-6 mb-4 border-l-4 border-l-amber-500">
+  className="bg-amber-50/30 border border-amber-100 rounded-xl p-6 mb-4 border-l-4 border-l-amber-500 pdf-avoid-break">
   <h3 className="font-bold text-lg mb-3 text-amber-700">🌡️ Under Pressure</h3>
   {renderWithQuote(arch.underPressure)}
 </motion.div>
 
 {/* Watch Out - alert style */}
 <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.66}}
-  className="bg-red-50/30 border border-red-100 rounded-xl p-6 mb-4 border-l-4 border-l-red-600">
+  className="bg-red-50/30 border border-red-100 rounded-xl p-6 mb-4 border-l-4 border-l-red-600 pdf-avoid-break">
   <h3 className="font-bold text-lg mb-3 text-red-700">⚠️ Watch Out</h3>
   {renderWithQuote(arch.watchOut)}
 </motion.div>
 
 {/* Growth Edge - action steps */}
+<div className="pdf-break-before" style={{height:1}}></div>
 <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.7}}
-  className="bg-gradient-to-r from-green-50/50 to-emerald-50/30 border border-green-100 rounded-xl p-6 mb-4 border-l-4 border-l-green-600">
+  className="pdf-avoid-break bg-gradient-to-r from-green-50/50 to-emerald-50/30 border border-green-100 rounded-xl p-6 mb-4 border-l-4 border-l-green-600">
   <h3 className="font-bold text-lg mb-3 text-green-700">🌱 Your Growth Edge</h3>
   <p className="text-lg font-medium text-gray-900 border-l-4 border-green-300 pl-4 mb-5 leading-relaxed italic">
     {arch.growthEdge.split('. ')[0]}.
@@ -1758,7 +1813,7 @@ const renderWithQuote=(text)=>{
 
 {/* Style Intensity Profile */}
 <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.25}}
-  className="bg-white border border-gray-200 rounded-xl p-6 mb-4">
+  className="pdf-break-before bg-white border border-gray-200 rounded-xl p-6 mb-4">
   <h3 className="text-xs font-semibold text-blue-900/60 uppercase tracking-widest mb-1 text-center">Style Intensity Profile</h3>
   <p className="text-xs text-gray-500 text-center mb-6">This shows how strongly each negotiation style influences your behaviour at the table based upon your responses.</p>
   <div className="space-y-6">
@@ -1769,7 +1824,7 @@ const renderWithQuote=(text)=>{
       const lbl=levelLabels[level];
       const pct=Math.round((score/16)*100);
       return(
-        <div key={style} className="border border-gray-100 rounded-lg p-4">
+        <div key={style} className="border border-gray-100 rounded-lg p-4 pdf-avoid-break">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full" style={{backgroundColor:meta.color}}/>
@@ -1799,10 +1854,10 @@ const renderWithQuote=(text)=>{
 
 {/* Reading The Room */}
           <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:1.0}}
-            className="bg-white border border-gray-200 rounded-xl p-6 mb-4">
+            className="pdf-break-before bg-white border border-gray-200 rounded-xl p-6 mb-4">
             <h3 className="font-bold text-lg mb-2 text-blue-800">Reading The Room</h3>
             <p className="text-gray-500 text-sm mb-6">This section gives you your elite edge. Knowing yourself is a great start. But spotting others' negotiation style and adapting your approach is the skill of a master.</p>
-
+           
             {/* 2x2 Spotting Grid */}
             <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Spot Their Style</h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
@@ -1810,7 +1865,7 @@ const renderWithQuote=(text)=>{
                 const sg=spottingGuide[style];
                 const sm=styleMeta[style];
                 return(
-                  <div key={style} className="border rounded-lg p-4" style={{borderColor:sm.color+'40',backgroundColor:sm.color+'08'}}>
+                  <div key={style} className="border rounded-lg p-4 pdf-avoid-break" style={{borderColor:sm.color+'40',backgroundColor:sm.color+'08'}}>
                     <div className="font-bold text-sm mb-3" style={{color:sm.color}}>{sm.label}</div>
                     <div className="space-y-2 text-xs text-gray-700">
                       <div className="flex gap-2"><span className="font-semibold text-gray-500 w-12 shrink-0">Pace:</span><span>{sg.pace}</span></div>
@@ -1833,17 +1888,17 @@ const renderWithQuote=(text)=>{
             </div>
 
             {/* Matchup Cards */}
-            <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Your Tactical Playbook</h4>
+<h4 className="pdf-break-before text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 pt-4">Your Tactical Playbook</h4>
             <div className="space-y-4">
               {['dominator','integrator','yielder','calculator']
                 .filter(style=>style!==p)
-                .map(opponent=>{
+                .map((opponent,i)=>{
                   const key=p+'-'+opponent;
                   const m=matchupAdvice[key];
                   const oppMeta=styleMeta[opponent];
                   const myMeta=styleMeta[p];
                   return(
-                    <div key={key} className="border border-gray-200 rounded-lg overflow-hidden">
+                    <div key={key} className={`${i>0?'pdf-break-before':''} border border-gray-200 rounded-lg overflow-hidden pdf-avoid-break`}>
                       <div className="px-5 py-3 flex items-center gap-3" style={{backgroundColor:myMeta.color+'10'}}>
                         <span className="font-bold text-sm" style={{color:myMeta.color}}>You ({myMeta.label})</span>
                         <span className="text-gray-400 text-sm">vs</span>
@@ -1872,9 +1927,9 @@ const renderWithQuote=(text)=>{
                           <div className="space-y-1">{m.playbook.map((step,i)=><div key={i} className="text-sm text-gray-700 flex gap-2"><span className="font-bold text-blue-700">{i+1}.</span><span>{step}</span></div>)}</div>
                         </div>
 
-                        <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
-                          <h5 className="text-xs font-bold text-amber-700 uppercase tracking-wider mb-1">⚠️ Watch For The Fake</h5>
-                          <p className="text-sm text-amber-800">{m.fakeWarning}</p>
+                       <div className="bg-gray-900 border border-red-600 rounded-lg p-4">
+                          <h5 className="text-xs font-bold text-red-500 uppercase tracking-wider mb-1">⚠️ Watch For The Fake Style</h5>
+                          <p className="text-sm" style={{color:'#d1d5db'}}>{m.fakeWarning}</p>
                         </div>
                       </div>
                     </div>
@@ -1882,19 +1937,21 @@ const renderWithQuote=(text)=>{
                 })}
             </div>
 
-            {/* General Shadow Warning */}
-            <div className="mt-6 bg-gray-900 text-white rounded-lg p-5">
-              <h5 className="font-bold text-sm mb-2">The Most Important Rule</h5>
-              <p className="text-sm text-gray-300">The most dangerous negotiator is not the one who is aggressive. It is the one who is pretending to be something they are not. If someone's words say collaboration but their proposals say competition, trust the proposals. If their warmth appeared suddenly and conveniently, question what it is designed to achieve. Behaviour reveals intention far more reliably than language ever will.</p>
+          {/* General Shadow Warning */}
+            <div className="break-inside-avoid mt-6 bg-gray-900 text-white rounded-lg p-5">
+              <h5 className="font-bold text-base mb-2 text-white">The Most Important Rule</h5>
+              <p className="text-sm leading-relaxed" style={{color:'#ffffff'}}>The most dangerous negotiator is not the one who is aggressive. It is the one who is pretending to be something they are not. If someone's words say collaboration but their proposals say competition, trust the proposals. If their warmth appeared suddenly and conveniently, question what it is designed to achieve. Behaviour reveals intention far more reliably than language ever will.</p> 
             </div>
           </motion.div>
 
-          <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:1.2}}
-            className={`border-2 rounded-xl p-6 mb-6 ${shC}`}>
-            <h3 className={`font-bold text-lg mb-1 ${shT}`}>Shadow Assessment: {sl.title}</h3>
-            <p className={`font-semibold text-sm mb-3 ${shT}`}>{sl.sub} — Shadow Score: {sh}/5</p>
-            {renderParagraphs(sl.msg)}
-          </motion.div>
+<div className="pdf-break-before pdf-avoid-break">
+  <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:1.2}}
+    className="shadow-assessment-card mb-6">
+    <h3 className="shadow-title font-bold text-lg mb-1">Shadow Assessment: {sl.title}</h3>
+    <p className="shadow-subtitle font-semibold text-sm mb-3">{sl.sub} : Shadow Score: {sh}/5</p>
+    {renderParagraphs(sl.msg)}
+  </motion.div>
+</div>
 
 <motion.div initial={{opacity:0}} animate={{opacity:1}} transition={{delay:1.4}} className="flex flex-col items-center gap-3 mt-8 mb-4">
             
@@ -1905,10 +1962,14 @@ const renderWithQuote=(text)=>{
               <p className="text-sm text-green-600 mb-4">✅ Report sent to {userEmail}</p>
             )}
             {emailStatus === 'failed' && (
-              <div className="text-center mb-4">
-                <p className="text-sm text-red-500">❌ Failed to send email. Use the download button instead.</p>
-                <button onClick={sendReportEmail} className="text-sm text-blue-600 underline mt-1">Try again</button>
-              </div>
+              <div className="no-pdf">
+  {emailStatus === 'error' && (
+    <div className="text-center mb-4">
+      <p className="text-sm text-red-500">❌ Failed to send email. Use the download button instead.</p>
+      <button onClick={sendReportEmail} className="text-sm text-blue-600 underline mt-1">Try again</button>
+    </div>
+  )}
+</div>
             )}
 <button onClick={download} className="flex items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white font-bold px-8 py-3 rounded-lg text-lg transition-colors shadow-lg">
               <Download className="w-5 h-5"/>Download as PDF

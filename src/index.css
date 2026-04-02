@@ -1,3 +1,112 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#report {
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #1a1a2e;
+}
+
+#report h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+#report h2 { font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
+#report h3 { font-size: 14px; font-weight: 600; }
+#report p  { font-size: 12.5px; line-height: 1.6; color: #374151; }
+#report li { font-size: 12.5px; line-height: 1.6; }
+
+#report .text-sm  { font-size: 11.5px; }
+#report .text-xs  { font-size: 10px; }
+#report .text-lg  { font-size: 14px; }
+#report .text-xl  { font-size: 16px; }
+#report .text-2xl { font-size: 18px; }
+#report .text-3xl { font-size: 22px; }
+#report .text-4xl { font-size: 26px; }
+
+#report .space-y-6 > * + * { margin-top: 1rem; }
+#report .space-y-8 > * + * { margin-top: 1.25rem; }
+#report .p-6  { padding: 1rem; }
+#report .p-8  { padding: 1.25rem; }
+#report .mb-8 { margin-bottom: 1.25rem; }
+#report .gap-6 { gap: 1rem; }
+#report .gap-8 { gap: 1.25rem; }
+#report .rounded-2xl { border-radius: 0.75rem; }
+
+#report .shadow-lg,
+#report .shadow-xl {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+}
+
+/* ── Shadow Assessment card restyle ── */
+.shadow-assessment-card {
+  background: #1e1e2e !important;
+  border: 2px solid #dc2626 !important;
+  border-radius: 12px !important;
+  padding: 1.5rem !important;
+  color: #e5e5e5 !important;
+}
+.shadow-assessment-card h3,
+.shadow-assessment-card .shadow-title { color: #ef4444 !important; font-weight: 700 !important; }
+.shadow-assessment-card p,
+.shadow-assessment-card span,
+.shadow-assessment-card div { color: #d1d5db !important; }
+.shadow-assessment-card .shadow-subtitle { color: #f87171 !important; font-weight: 600 !important; }
+
+/* ── PDF page break classes (outside @media print so html2pdf css mode picks them up) ── */
+.pdf-break-before {
+  break-before: page !important;
+  page-break-before: always !important;
+}
+
+.pdf-avoid-break {
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+}
+
+/* ── Print styles ── */
+@media print {
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ═══ THIS IS THE FIX ═══
+     Flex and grid containers silently swallow page-break rules in Chrome/Puppeteer.
+     Force #report and ALL ancestors/descendants to block layout so breaks work. */
+  #report,
+  #report > *,
+  #report > * > *,
+  #report div,
+  #report section,
+  #report main {
+    display: block !important;
+    flex-direction: unset !important;
+    flex-wrap: unset !important;
+  }
+
+  /* Re-enable grid ONLY where you specifically need it (e.g. 2-column cards) */
+  #report .grid {
+    display: grid !important;
+  }
+
+  /* Kill framer-motion inline transforms */
+  [style*="transform"] { transform: none !important; }
+  [style*="opacity"]   { opacity: 1 !important; }
+
+  /* Force page break before shadow assessment */
+  .pdf-break-before {
+    break-before: page !important;
+    page-break-before: always !important;
+    display: block !important;
+  }
+
+  /* Selective break avoidance — only small/medium cards */
+  .pdf-avoid-break,
+  .shadow-assessment-card,
+  #report .border-2,
+  #report .border-l-4,
+  #report .bg-gray-900 {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+}
