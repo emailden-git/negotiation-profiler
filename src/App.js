@@ -1300,44 +1300,65 @@ const sendReportEmail = async () => {
 };
 
 if (phase === 'intro') return (
-  <div>
+  <div className="min-h-screen bg-slate-950">
 
-   {/* ═══ HERO ═══ */}
-    <div className="relative min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center px-6 overflow-hidden py-20">
+    {/* ═══ HERO ═══ */}
+    <div id="start" className="relative min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center px-6 overflow-hidden py-20">
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
 
-      <motion.div initial={{opacity:0,y:30}} animate={{opacity:1,y:0}} transition={{duration:1}} className="relative z-10 max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-        
-        {/* Left - Hero text */}
-        <div className="text-center lg:text-left">
-          <p className="text-blue-400/90 text-sm font-semibold tracking-widest uppercase mb-8">The Buckingham Academy</p>
+      <motion.div 
+        initial={{opacity:0, y:30}} 
+        animate={{opacity:1, y:0}} 
+        transition={{duration:1}} 
+        className="relative z-10 max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center"
+      >
+       {/* Left - Hero text */}
+<div className="text-center lg:text-left">
+  <p className="text-blue-400 text-sm font-semibold tracking-widest uppercase mb-8">
+    The Buckingham Academy
+  </p>
 
-          <h1 className="text-4xl sm:text-5xl font-bold mb-3 leading-tight tracking-tight text-white">
-            You're Leaving Value<br/>on the Table.
-          </h1>
+  <h1 className="text-4xl sm:text-5xl font-bold mb-3 leading-tight tracking-tight text-white">
+    You're Leaving Value<br/>on the Table.
+  </h1>
 
-          <p className="text-3xl sm:text-4xl font-bold mb-8 leading-tight tracking-tight bg-gradient-to-r from-blue-400 to-blue-300 bg-clip-text text-transparent">
-            Let's Fix That.
-          </p>
+  <p className="text-3xl sm:text-4xl font-bold mb-6 leading-tight tracking-tight bg-gradient-to-r from-blue-400 to-blue-300 bg-clip-text text-transparent">
+    Let's Fix That.
+  </p>
 
-          <p className="text-blue-200/70 text-lg sm:text-xl mb-12 max-w-lg leading-relaxed">
-            Take the 7 minute Negotiation Style Assessment and uncover the hidden patterns shaping every deal you walk into.
-          </p>
+  <p className="text-slate-300 text-lg sm:text-xl mb-8 max-w-lg leading-relaxed mx-auto lg:mx-0">
+    Take the 7-minute Negotiation Style Assessment and uncover your hidden patterns affecting every deal outcome.
+  </p>
 
-          <div className="flex items-center justify-center lg:justify-start gap-6 sm:gap-8 text-xs text-blue-100/60">
-            {[['21','Questions'],['4','Styles'],['12','Archetypes'],['7','Minutes']].map(([num,label],i)=>(
-              <div key={i} className="flex flex-col items-center gap-1">
-                <span className="text-2xl font-bold text-white">{num}</span>
-                <span className="uppercase tracking-widest text-xs opacity-60">{label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+  {/* ═══ NEW BULLET POINTS ═══ */}
+  <ul className="space-y-3 mb-12 max-w-lg mx-auto lg:mx-0 text-left">
+    {[
+      "A personalised diagnostic on your current negotiation style",
+      "Insights on where you excel and where you can improve",
+      "Solid recommendations to improve your deal outcomes"
+    ].map((item, i) => (
+      <li key={i} className="flex items-start gap-3">
+        <span className="text-amber-400 text-xl leading-none mt-0.5">⚡</span>
+        <span className="text-slate-300 text-base sm:text-lg leading-relaxed">{item}</span>
+      </li>
+    ))}
+  </ul>
+
+  {/* Stats row */}
+  <div className="flex items-center justify-center lg:justify-start gap-6 sm:gap-8 text-xs">
+    {[['21','Questions'],['4','Styles'],['12','Archetypes'],['7','Minutes']].map(([num,label],i)=>(
+      <div key={i} className="flex flex-col items-center gap-1">
+        <span className="text-2xl font-bold text-white">{num}</span>
+        <span className="uppercase tracking-widest text-slate-400 text-xs">{label}</span>
+      </div>
+    ))}
+  </div>
+</div>
 
         {/* Right - Form card */}
         <div className="bg-white rounded-2xl shadow-2xl p-8 sm:p-10">
           <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Start here</h2>
-          <p className="text-slate-500 text-base mb-8">Enter your details to start.</p>
+          <p className="text-slate-500 text-base mb-8">Enter your details to begin.</p>
 
           <div className="mb-5 text-left">
             <label className="block text-sm text-slate-700 mb-2 uppercase tracking-widest font-bold">First Name</label>
@@ -1346,7 +1367,7 @@ if (phase === 'intro') return (
               value={userName}
               onChange={e=>setUserName(e.target.value)}
               placeholder="e.g. Alex"
-              className="w-full px-5 py-4 border border-gray-200 rounded-lg text-gray-700 bg-gray-50 focus:outline-none focus:border-blue-700 focus:ring-2 focus:ring-blue-50 focus:bg-white transition-all text-base"
+              className="w-full px-5 py-4 border border-gray-200 rounded-lg text-gray-800 bg-gray-50 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all text-base"
             />
           </div>
 
@@ -1357,7 +1378,7 @@ if (phase === 'intro') return (
               value={userEmail}
               onChange={e=>{setUserEmail(e.target.value);setEmailError('');}}
               placeholder="you@email.com"
-              className={`w-full px-5 py-4 border rounded-lg text-gray-700 bg-gray-50 focus:outline-none focus:border-blue-700 focus:ring-2 focus:ring-blue-50 focus:bg-white transition-all text-base ${emailError ? 'border-red-400' : 'border-gray-200'}`}
+              className={`w-full px-5 py-4 border rounded-lg text-gray-800 bg-gray-50 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all text-base ${emailError ? 'border-red-400' : 'border-gray-200'}`}
             />
             {emailError && <p className="text-red-500 text-xs mt-2">{emailError}</p>}
           </div>
@@ -1369,7 +1390,7 @@ if (phase === 'intro') return (
               value={accessCode}
               onChange={e=>{setAccessCode(e.target.value);setAccessError('');}}
               placeholder="Enter your invite code"
-              className={`w-full px-5 py-4 border rounded-lg text-gray-700 bg-gray-50 focus:outline-none focus:border-blue-700 focus:ring-2 focus:ring-blue-50 focus:bg-white transition-all text-base ${accessError ? 'border-red-400' : 'border-gray-200'}`}
+              className={`w-full px-5 py-4 border rounded-lg text-gray-800 bg-gray-50 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all text-base ${accessError ? 'border-red-400' : 'border-gray-200'}`}
             />
             {accessError && <p className="text-red-500 text-xs mt-2">{accessError}</p>}
           </div>
@@ -1382,83 +1403,134 @@ if (phase === 'intro') return (
               if(accessCode.trim().toUpperCase() !== 'NEGOTIATOR2026'){setAccessError('Invalid access code');return;}
               setPhase('quiz');
             }}
-            className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold px-8 py-4 rounded-xl text-lg transition-all shadow-lg"
+            className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold px-8 py-4 rounded-xl text-lg transition-all shadow-lg hover:shadow-xl"
           >
             Begin Assessment
           </button>
         </div>
-
       </motion.div>
     </div>
 
-   {/* ═══ PROBLEM ═══ */}
-   <div className="bg-slate-950 px-6 py-24">
-  <motion.div initial={{opacity:0,y:30}} whileInView={{opacity:1,y:0}} viewport={{once:true,margin:'-100px'}} transition={{duration:0.8}} className="max-w-2xl mx-auto text-center">
-    <p className="text-red-400/90 text-sm font-semibold tracking-widest uppercase mb-6">The Problem</p>
-    <h2 className="text-3xl sm:text-4xl font-bold mb-8 leading-tight text-white">Most Professionals Negotiate<br/>on Autopilot</h2>
-    <div className="space-y-5 text-blue-100/70 text-lg leading-relaxed max-w-xl mx-auto">
-      <p>You've developed habits over years, ways you handle pushback, make concessions, build (or avoid) tension. Most of it is <span className="text-white font-medium">invisible to you</span>.</p>
-      <p>Some of those instincts give you a genuine edge. Others are <span className="text-white font-medium">quietly costing you</span> in margin, in trust, in outcomes you never realise you missed.</p>
-      <p className="text-white/90 font-medium text-xl pt-4">You can't fix what you can't see.</p>
-    </div>
-    <div className="flex justify-center mt-10">
+    {/* ═══ PROBLEM ═══ */}
+    <div className="bg-slate-950 px-6 py-24">
+      <motion.div 
+        initial={{opacity:0, y:30}} 
+        whileInView={{opacity:1, y:0}} 
+        viewport={{once:true, margin:'-100px'}} 
+        transition={{duration:0.8}} 
+        className="max-w-2xl mx-auto text-center"
+      >
+        <p className="text-red-400 text-sm font-semibold tracking-widest uppercase mb-6">The Problem</p>
+        <h2 className="text-3xl sm:text-4xl font-bold mb-8 leading-tight text-white">
+          Most Professionals Negotiate<br/>on Autopilot
+        </h2>
+        
+        <div className="space-y-5 text-slate-300 text-lg leading-relaxed max-w-xl mx-auto">
+          <p>
+            You've developed habits over years — ways you handle pushback, make concessions, build (or avoid) tension. 
+            Most of it is <span className="text-white font-medium">invisible to you</span>.
+          </p>
+          <p>
+            Some of those instincts give you a genuine edge. Others are <span className="text-white font-medium">quietly costing you</span> in margin, in trust, in outcomes you never realise you missed.
+          </p>
+          <p className="text-white font-medium text-xl pt-4">
+            You can't fix what you can't see.
+          </p>
+        </div>
+
+        <div className="flex justify-center mt-10">
           <button
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}k={()=>document.getElementById('start').scrollIntoView({behavior:'smooth'})}
-            className="bg-gradient-to-r from-blue-800 to-blue-900 hover:from-blue-900 hover:to-slate-900 text-white font-bold px-10 py-3 rounded-xl text-base transition-all shadow-lg hover:shadow-2xl transform hover:-translate-y-0.5"
+            onClick={() => document.getElementById('start')?.scrollIntoView({behavior:'smooth'})}
+            className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-10 py-3.5 rounded-xl text-base transition-all shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5 flex items-center gap-1"
           >
-            Take The Assessment <ChevronRight className="inline w-5 h-5 ml-1"/>
+            Take The Assessment <ChevronRight className="w-5 h-5" />
           </button>
         </div>
       </motion.div>
     </div>
-    {/* ═══ 4 STYLES ═══ */}
-<div className="bg-gradient-to-b from-slate-950 to-slate-900 px-6 py-24">
-  <motion.div initial={{opacity:0,y:30}} whileInView={{opacity:1,y:0}} viewport={{once:true,margin:'-100px'}} transition={{duration:0.8}} className="max-w-3xl mx-auto text-center">
-    <p className="text-blue-400/90 text-sm font-semibold tracking-widest uppercase mb-6">Four Distinct Styles</p>
-    <h2 className="text-3xl sm:text-4xl font-bold mb-4 leading-tight text-white">Which One Drives You?</h2>
-    <p className="text-blue-200/70 mb-14 text-lg max-w-md mx-auto">Everyone leans towards one dominant style, often without knowing it.</p>
 
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
-      {[
-        {name:'Dominator',bg:'from-red-600 to-red-700',border:'border-red-500/30',desc:'Drives hard for results. Decisive under pressure, but may leave value on the table by moving too fast.',icon:'⚡'},
-        {name:'Integrator',bg:'from-purple-600 to-purple-700',border:'border-purple-500/30',desc:'Builds relationships and consensus. Creates trust, but may concede too much to keep the peace.',icon:'🤝'},
-        {name:'Yielder',bg:'from-green-600 to-green-700',border:'border-green-500/30',desc:'Accommodating and patient. Keeps doors open, but risks being overlooked or outmanoeuvred.',icon:'🌿'},
-        {name:'Calculator',bg:'from-blue-600 to-blue-700',border:'border-blue-500/30',desc:'Analytical and methodical. Masters the detail, but may delay momentum or miss the human dynamic.',icon:'📐'},
-      ].map((s,i)=>(
-            <motion.div key={s.name} initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{delay:i*0.1,duration:0.6}}
-              className={`bg-slate-800/50 ${s.border} border rounded-2xl p-6 text-left hover:bg-slate-800/80 transition-all`}>
+    {/* ═══ 4 STYLES ═══ */}
+    <div className="bg-gradient-to-b from-slate-950 to-slate-900 px-6 py-24">
+      <motion.div 
+        initial={{opacity:0, y:30}} 
+        whileInView={{opacity:1, y:0}} 
+        viewport={{once:true, margin:'-100px'}} 
+        transition={{duration:0.8}} 
+        className="max-w-3xl mx-auto text-center"
+      >
+        <p className="text-blue-400 text-sm font-semibold tracking-widest uppercase mb-6">Four Distinct Styles</p>
+        <h2 className="text-3xl sm:text-4xl font-bold mb-4 leading-tight text-white">Which One Drives You?</h2>
+        <p className="text-slate-300 mb-14 text-lg max-w-md mx-auto">
+          Everyone leans towards one dominant style, often without knowing it.
+        </p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
+          {[
+            {name:'Dominator', bg:'from-red-600 to-red-700', border:'border-red-500/40', desc:'Drives hard for results. Decisive under pressure, but may leave value on the table by moving too fast.', icon:'⚡'},
+            {name:'Integrator', bg:'from-purple-600 to-purple-700', border:'border-purple-500/40', desc:'Builds relationships and consensus. Creates trust, but may concede too much to keep the peace.', icon:'🤝'},
+            {name:'Yielder', bg:'from-emerald-600 to-emerald-700', border:'border-emerald-500/40', desc:'Accommodating and patient. Keeps doors open, but risks being overlooked or outmanoeuvred.', icon:'🌿'},
+            {name:'Calculator', bg:'from-blue-600 to-blue-700', border:'border-blue-500/40', desc:'Analytical and methodical. Masters the detail, but may delay momentum or miss the human dynamic.', icon:'📐'},
+          ].map((s,i)=>(
+            <motion.div 
+              key={s.name} 
+              initial={{opacity:0, y:20}} 
+              whileInView={{opacity:1, y:0}} 
+              viewport={{once:true}} 
+              transition={{delay:i*0.1, duration:0.6}}
+              className={`bg-slate-800/60 ${s.border} border rounded-2xl p-6 text-left hover:bg-slate-800/90 transition-all duration-300`}
+            >
               <div className="flex items-center gap-3 mb-3">
-                <div className={`bg-gradient-to-r ${s.bg} w-10 h-10 rounded-lg flex items-center justify-center text-lg shadow-lg`}>{s.icon}</div>
+                <div className={`bg-gradient-to-r ${s.bg} w-10 h-10 rounded-lg flex items-center justify-center text-lg shadow-lg`}>
+                  {s.icon}
+                </div>
                 <h3 className="text-white font-bold text-lg">{s.name}</h3>
               </div>
-              <p className="text-blue-100/50 text-sm leading-relaxed">{s.desc}</p>
+              <p className="text-slate-300 text-sm leading-relaxed">{s.desc}</p>
             </motion.div>
           ))}
         </div>
 
-        <p className="text-blue-200/40 text-sm mt-10 italic">Your style is only the starting point, your unique archetype goes much deeper.</p>
+        <p className="text-slate-400 text-sm mt-10 italic">
+          Your style is only the starting point — your unique archetype goes much deeper.
+        </p>
       </motion.div>
     </div>
 
     {/* ═══ BENEFITS ═══ */}
     <div className="bg-slate-900 px-6 py-24">
-  <motion.div initial={{opacity:0,y:30}} whileInView={{opacity:1,y:0}} viewport={{once:true,margin:'-100px'}} transition={{duration:0.8}} className="max-w-3xl mx-auto text-center">
-    <p className="text-blue-400/90 text-sm font-semibold tracking-widest uppercase mb-6">Your Personalised Diagnostic</p>
-    <h2 className="text-3xl sm:text-4xl font-bold mb-4 leading-tight text-white">This Isn't a Quiz.<br/>It's a Strategic Mirror.</h2>
-    <p className="text-blue-200/70 text-lg mb-16 max-w-lg mx-auto">In 7 minutes you'll receive a detailed profile that most negotiators never get access to, giving you the EDGE.</p>
+      <motion.div 
+        initial={{opacity:0, y:30}} 
+        whileInView={{opacity:1, y:0}} 
+        viewport={{once:true, margin:'-100px'}} 
+        transition={{duration:0.8}} 
+        className="max-w-3xl mx-auto text-center"
+      >
+        <p className="text-blue-400 text-sm font-semibold tracking-widest uppercase mb-6">Your Personalised Diagnostic</p>
+        <h2 className="text-3xl sm:text-4xl font-bold mb-4 leading-tight text-white">
+          This Isn't a Quiz.<br/>It's a Strategic Mirror.
+        </h2>
+        <p className="text-slate-300 text-lg mb-16 max-w-lg mx-auto">
+          In 7 minutes you'll receive a detailed profile that most negotiators never get access to — giving you the edge.
+        </p>
 
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left max-w-2xl mx-auto">
-      {[
-        {title:'Your Negotiation DNA',desc:'Understand your dominant style, your secondary tendencies, and the archetype that makes you unique among the 12 profiles.',icon:'🧬'},
-        {title:'Your Natural Edge',desc:"See exactly where your instincts serve you; the advantages most people in your style never consciously leverage.",icon:'🎯'},
-        {title:'Your Blind Spots',desc:'Uncover the patterns that quietly erode trust, margin, or momentum before your next high stakes conversation.',icon:'🔍'},
-        {title:'How to Read Others',desc:'Learn to identify each style across the table and adapt your approach in real time to create better outcomes for everyone.',icon:'🧭'},
-      ].map((b,i)=>(
-            <motion.div key={b.title} initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{delay:i*0.1,duration:0.6}}
-              className="bg-slate-800/40 border border-slate-700/50 rounded-2xl p-6 hover:border-blue-500/30 transition-all">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left max-w-2xl mx-auto">
+          {[
+            {title:'Your Negotiation DNA', desc:'Understand your dominant style, your secondary tendencies, and the archetype that makes you unique among the 12 profiles.', icon:'🧬'},
+            {title:'Your Natural Edge', desc:"See exactly where your instincts serve you — the advantages most people in your style never consciously leverage.", icon:'🎯'},
+            {title:'Your Blind Spots', desc:'Uncover the patterns that quietly erode trust, margin, or momentum before your next high-stakes conversation.', icon:'🔍'},
+            {title:'How to Read Others', desc:'Learn to identify each style across the table and adapt your approach in real time to create better outcomes for everyone.', icon:'🧭'},
+          ].map((b,i)=>(
+            <motion.div 
+              key={b.title} 
+              initial={{opacity:0, y:20}} 
+              whileInView={{opacity:1, y:0}} 
+              viewport={{once:true}} 
+              transition={{delay:i*0.1, duration:0.6}}
+              className="bg-slate-800/50 border border-slate-700/60 rounded-2xl p-6 hover:border-blue-500/40 hover:bg-slate-800/80 transition-all duration-300"
+            >
               <div className="text-2xl mb-3">{b.icon}</div>
               <h3 className="text-white font-bold text-base mb-2">{b.title}</h3>
-              <p className="text-blue-100/50 text-sm leading-relaxed">{b.desc}</p>
+              <p className="text-slate-300 text-sm leading-relaxed">{b.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -1467,41 +1539,61 @@ if (phase === 'intro') return (
 
     {/* ═══ RESULTS PREVIEW / TEASER ═══ */}
     <div className="bg-gradient-to-b from-slate-900 to-slate-950 px-6 py-24">
-      <motion.div initial={{opacity:0,y:30}} whileInView={{opacity:1,y:0}} viewport={{once:true,margin:'-100px'}} transition={{duration:0.8}} className="max-w-2xl mx-auto text-center">
-        <p className="text-blue-400/80 text-xs font-semibold tracking-widest uppercase mb-6">What You'll Receive</p>
-        <h2 className="text-3xl sm:text-4xl font-bold mb-12 leading-tight text-white">A Profile Built Around You</h2>
+      <motion.div 
+        initial={{opacity:0, y:30}} 
+        whileInView={{opacity:1, y:0}} 
+        viewport={{once:true, margin:'-100px'}} 
+        transition={{duration:0.8}} 
+        className="max-w-2xl mx-auto text-center"
+      >
+        <p className="text-blue-400 text-xs font-semibold tracking-widest uppercase mb-6">What You'll Receive</p>
+        <h2 className="text-3xl sm:text-4xl font-bold mb-12 leading-tight text-white">
+          A Profile Built Around You
+        </h2>
 
-        <div className="bg-slate-800/60 border border-slate-700/50 rounded-2xl p-8 relative overflow-hidden">
-          <div className="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-slate-800 via-slate-800/95 to-transparent z-10 flex items-end justify-center pb-8">
-            <p className="text-blue-300/70 text-sm font-medium">Complete the assessment to unlock your full profile →</p>
+        <div className="bg-slate-800/70 border border-slate-700/60 rounded-2xl p-8 relative overflow-hidden">
+          <div className="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-slate-900 via-slate-900/95 to-transparent z-10 flex items-end justify-center pb-8">
+            <button 
+              onClick={() => document.getElementById('start')?.scrollIntoView({behavior:'smooth'})}
+              className="text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors"
+            >
+              Complete the assessment to unlock your full profile →
+            </button>
           </div>
-          <div className="text-left space-y-5">
+
+          <div className="text-left space-y-5 relative z-0">
             <div className="flex items-center gap-3 mb-6">
-              <div className="bg-gradient-to-r from-red-600 to-red-700 w-12 h-12 rounded-xl flex items-center justify-center text-xl shadow-lg">⚡</div>
+              <div className="bg-gradient-to-r from-red-600 to-red-700 w-12 h-12 rounded-xl flex items-center justify-center text-xl shadow-lg">
+                ⚡
+              </div>
               <div>
                 <p className="text-white font-bold text-lg">Primary: Dominator</p>
-                <p className="text-blue-200/40 text-xs">Secondary: Calculator • Archetype: The Strategist</p>
+                <p className="text-slate-400 text-xs">Secondary: Calculator • Archetype: The Strategist</p>
               </div>
             </div>
+
             {[
-              {label:'Dominator',pct:82,color:'bg-red-500'},
-              {label:'Calculator',pct:64,color:'bg-blue-500'},
-              {label:'Integrator',pct:41,color:'bg-purple-500'},
-              {label:'Yielder',pct:23,color:'bg-green-500'},
+              {label:'Dominator', pct:82, color:'bg-red-500'},
+              {label:'Calculator', pct:64, color:'bg-blue-500'},
+              {label:'Integrator', pct:41, color:'bg-purple-500'},
+              {label:'Yielder', pct:23, color:'bg-emerald-500'},
             ].map((bar)=>(
               <div key={bar.label}>
-                <div className="flex justify-between text-xs mb-1">
-                  <span className="text-blue-100/60">{bar.label}</span>
-                  <span className="text-blue-100/40">{bar.pct}%</span>
+                <div className="flex justify-between text-xs mb-1.5">
+                  <span className="text-slate-300">{bar.label}</span>
+                  <span className="text-slate-400">{bar.pct}%</span>
                 </div>
-                <div className="w-full bg-slate-700/50 rounded-full h-2">
+                <div className="w-full bg-slate-700/60 rounded-full h-2">
                   <div className={`${bar.color} h-2 rounded-full`} style={{width:`${bar.pct}%`}}/>
                 </div>
               </div>
             ))}
+
             <div className="pt-4">
               <p className="text-white font-semibold text-sm mb-2">Your Natural Edge</p>
-              <p className="text-blue-100/40 text-sm">You bring decisiveness and momentum to negotiations that others often lack. Your instinct to...</p>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                You bring decisiveness and momentum to negotiations that others often lack. Your instinct to...
+              </p>
             </div>
           </div>
         </div>
@@ -1510,67 +1602,81 @@ if (phase === 'intro') return (
 
     {/* ═══ CREDIBILITY ═══ */}
     <div className="bg-slate-950 px-6 py-20">
-      <motion.div initial={{opacity:0}} whileInView={{opacity:1}} viewport={{once:true}} transition={{duration:0.8}} className="max-w-2xl mx-auto text-center">
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-14 text-blue-100/40 text-sm">
+      <motion.div 
+        initial={{opacity:0}} 
+        whileInView={{opacity:1}} 
+        viewport={{once:true}} 
+        transition={{duration:0.8}} 
+        className="max-w-2xl mx-auto text-center"
+      >
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-14">
           <div className="flex flex-col items-center gap-1">
             <span className="text-3xl font-bold text-white">12+</span>
-            <span className="text-xs uppercase tracking-widest">Years of Research</span>
+            <span className="text-xs uppercase tracking-widest text-slate-400">Years of Research</span>
           </div>
-          <div className="hidden sm:block w-px h-12 bg-slate-700"/>
+          <div className="hidden sm:block w-px h-12 bg-slate-700" />
           <div className="flex flex-col items-center gap-1">
             <span className="text-3xl font-bold text-white">12</span>
-            <span className="text-xs uppercase tracking-widest">Unique Archetypes</span>
+            <span className="text-xs uppercase tracking-widest text-slate-400">Unique Archetypes</span>
           </div>
-          <div className="hidden sm:block w-px h-12 bg-slate-700"/>
+          <div className="hidden sm:block w-px h-12 bg-slate-700" />
           <div className="flex flex-col items-center gap-1">
-            <span className="text-3xl font-bold text-white">Free</span>
-            <span className="text-xs uppercase tracking-widest">until 27 April 2026</span>
+            <span className="text-3xl font-bold text-white">Cost</span>
+            <span className="text-xs uppercase tracking-widest text-slate-400">US$ 19</span>
           </div>
         </div>
-       <p className="text-blue-200/60 text-sm mt-8 max-w-md mx-auto leading-relaxed">
-  Grounded in established behavioural science frameworks measured by psychologists and used by elite negotiators.
-</p>
+
+        <p className="text-slate-400 text-sm mt-8 max-w-md mx-auto leading-relaxed">
+          Grounded in established behavioural science frameworks measured by psychologists and used by elite negotiators.
+        </p>
       </motion.div>
     </div>
 
-{/* ═══ CTA BOTTOM ═══ */}
-<div className="bg-white px-6 py-14 flex flex-col items-center">
-  <motion.div initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} transition={{delay:0.4}} className="text-center max-w-md w-full">
+    {/* ═══ CTA BOTTOM ═══ */}
+    <div className="bg-white px-6 py-16 flex flex-col items-center">
+      <motion.div 
+        initial={{opacity:0, y:10}} 
+        whileInView={{opacity:1, y:0}} 
+        viewport={{once:true}}
+        transition={{delay:0.2}} 
+        className="text-center max-w-md w-full"
+      >
+        <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">
+          Ready to See Yourself Clearly?
+        </h2>
+        <p className="text-slate-500 text-base mb-8 max-w-sm mx-auto">
+          7 minutes. 21 questions. A profile you'll reference before every important conversation.
+        </p>
 
-    <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">Ready to See Yourself Clearly?</h2>
-    <p className="text-slate-500 text-sm mb-10 max-w-xs mx-auto">7 minutes. 21 questions. A profile you'll reference before every important conversation.</p>
+        <button
+          onClick={() => document.getElementById('start')?.scrollIntoView({behavior:'smooth'})}
+          className="mb-6 bg-blue-600 hover:bg-blue-500 text-white font-bold px-12 py-4 rounded-xl text-lg transition-all shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5 flex items-center justify-center gap-2 mx-auto"
+        >
+          Begin Assessment <ChevronRight className="w-5 h-5" />
+        </button>
 
+        <p className="text-sm text-slate-500 italic mb-10">
+          Don't overthink it. Your first instinct is your truest answer.
+        </p>
+
+        <p className="text-xs text-slate-400 mt-8">
+          &copy; 2026 The Buckingham Academy Limited
+        </p>
+      </motion.div>
+    </div>
+
+    {/* ═══ TEMP DEV BUTTON ═══ */}
     <button
-      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-      className="mb-6 bg-gradient-to-r from-blue-800 to-blue-900 hover:from-blue-900 hover:to-slate-900 text-white font-bold px-12 py-4 rounded-xl text-lg transition-all shadow-lg hover:shadow-2xl transform hover:-translate-y-0.5"
+      onClick={() => {
+        const scores = { dominator: 2, integrator: 7, yielder: 2, calculator: 5 };
+        const p = 'integrator', s = 'calculator';
+        setResults({ scores, shadow: 3, primary: p, secondary: s, archetype: archetypes[p + '-' + s] });
+        setPhase('results');
+      }}
+      className="fixed bottom-4 left-4 z-50 text-[10px] text-gray-400 hover:text-gray-200 bg-slate-800/80 px-2 py-1 rounded transition-colors"
     >
-      Begin Assessment <ChevronRight className="inline w-5 h-5 ml-1"/>
+      ⚡ Dev
     </button>
-
-
-
-
-    <p className="text-xs text-black-400 italic mb-8">Don't overthink it. Your first instinct is your truest answer.</p>
-
-        <div className="flex items-center justify-center gap-4 text-xs text-slate-400 uppercase tracking-widest">
-        </div>
-
-        <p className="text-xs text-gray-300 mt-12">&copy; 2026 The Buckingham Academy Limited</p>
-
-        {/* ═══ TEMP RESULTS BUTTON HERE ═══ */}
-<button
-  onClick={() => {
-    const scores = { dominator: 2, integrator: 7, yielder: 2, calculator: 5 };
-    const p = 'integrator', s = 'calculator';
-    setResults({ scores, shadow: 3, primary: p, secondary: s, archetype: archetypes[p + '-' + s] });
-    setPhase('results');
-  }}
-  className="self-start text-[10px] text-gray-300 hover:text-gray-400 transition-colors px-1 py-0.5"
->
-  ⚡ Dev
-</button>
-      </motion.div>
-    </div>
 
   </div>
 );
