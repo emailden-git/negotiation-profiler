@@ -1204,6 +1204,8 @@ const[saved,setSaved]=useState(false);
 const [userEmail, setUserEmail] = useState('');
 const [emailError, setEmailError] = useState('');
 const [emailStatus, setEmailStatus] = useState('idle');
+const [accessCode, setAccessCode] = useState('');
+const [accessError, setAccessError] = useState('');
 const back = () => {
   if (qi > 0) {
     setQi(qi - 1);
@@ -1300,39 +1302,94 @@ const sendReportEmail = async () => {
 if (phase === 'intro') return (
   <div>
 
-    {/* ═══ HERO ═══ */}
-   <div className="relative min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 flex flex-col items-center justify-center px-6 overflow-hidden pb-12">
-  <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
+   {/* ═══ HERO ═══ */}
+    <div className="relative min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center px-6 overflow-hidden py-20">
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
 
-  <motion.div initial={{opacity:0,y:30}} animate={{opacity:1,y:0}} transition={{duration:1}} className="relative z-10 text-center max-w-2xl">
-    <p className="text-blue-400/90 text-sm font-semibold tracking-widest uppercase mb-8">The Buckingham Academy</p>
+      <motion.div initial={{opacity:0,y:30}} animate={{opacity:1,y:0}} transition={{duration:1}} className="relative z-10 max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        
+        {/* Left - Hero text */}
+        <div className="text-center lg:text-left">
+          <p className="text-blue-400/90 text-sm font-semibold tracking-widest uppercase mb-8">The Buckingham Academy</p>
 
-    <h1 className="text-4xl sm:text-5xl font-bold mb-3 leading-tight tracking-tight text-white">
-      You're Leaving Value<br/>on the Table.
-    </h1>
+          <h1 className="text-4xl sm:text-5xl font-bold mb-3 leading-tight tracking-tight text-white">
+            You're Leaving Value<br/>on the Table.
+          </h1>
 
-    <p className="text-3xl sm:text-4xl font-bold mb-8 leading-tight tracking-tight bg-gradient-to-r from-blue-400 to-blue-300 bg-clip-text text-transparent">
-      Let's Fix That.
-    </p>
+          <p className="text-3xl sm:text-4xl font-bold mb-8 leading-tight tracking-tight bg-gradient-to-r from-blue-400 to-blue-300 bg-clip-text text-transparent">
+            Let's Fix That.
+          </p>
 
-    <p className="text-blue-200/70 text-lg sm:text-xl mb-12 max-w-lg mx-auto leading-relaxed">
-      Take the 7 minute Negotiation Style Assessment and uncover the hidden patterns shaping every deal you walk into.
-    </p>
+          <p className="text-blue-200/70 text-lg sm:text-xl mb-12 max-w-lg leading-relaxed">
+            Take the 7 minute Negotiation Style Assessment and uncover the hidden patterns shaping every deal you walk into.
+          </p>
 
-    <div className="flex items-center justify-center gap-6 sm:gap-8 text-xs text-blue-100/60 mb-10">
-      {[['21','Questions'],['4','Styles'],['12','Archetypes'],['7','Minutes']].map(([num,label],i)=>(
-        <div key={i} className="flex flex-col items-center gap-1">
-          <span className="text-2xl font-bold text-white">{num}</span>
-          <span className="uppercase tracking-widest text-xs opacity-60">{label}</span>
+          <div className="flex items-center justify-center lg:justify-start gap-6 sm:gap-8 text-xs text-blue-100/60">
+            {[['21','Questions'],['4','Styles'],['12','Archetypes'],['7','Minutes']].map(([num,label],i)=>(
+              <div key={i} className="flex flex-col items-center gap-1">
+                <span className="text-2xl font-bold text-white">{num}</span>
+                <span className="uppercase tracking-widest text-xs opacity-60">{label}</span>
+              </div>
+            ))}
+          </div>
         </div>
-      ))}
-    </div>
 
-    <motion.div animate={{y:[0,8,0]}} transition={{repeat:Infinity,duration:2}} className="text-blue-300/40 text-sm">
-      ↓ Scroll to learn more
-    </motion.div>
-  </motion.div>
-</div>
+        {/* Right - Form card */}
+        <div className="bg-white rounded-2xl shadow-2xl p-8 sm:p-10">
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Start here</h2>
+          <p className="text-slate-500 text-base mb-8">Enter your details to start.</p>
+
+          <div className="mb-5 text-left">
+            <label className="block text-sm text-slate-700 mb-2 uppercase tracking-widest font-bold">First Name</label>
+            <input
+              type="text"
+              value={userName}
+              onChange={e=>setUserName(e.target.value)}
+              placeholder="e.g. Alex"
+              className="w-full px-5 py-4 border border-gray-200 rounded-lg text-gray-700 bg-gray-50 focus:outline-none focus:border-blue-700 focus:ring-2 focus:ring-blue-50 focus:bg-white transition-all text-base"
+            />
+          </div>
+
+          <div className="mb-5 text-left">
+            <label className="block text-sm text-slate-700 mb-2 uppercase tracking-widest font-bold">Email</label>
+            <input
+              type="email"
+              value={userEmail}
+              onChange={e=>{setUserEmail(e.target.value);setEmailError('');}}
+              placeholder="you@email.com"
+              className={`w-full px-5 py-4 border rounded-lg text-gray-700 bg-gray-50 focus:outline-none focus:border-blue-700 focus:ring-2 focus:ring-blue-50 focus:bg-white transition-all text-base ${emailError ? 'border-red-400' : 'border-gray-200'}`}
+            />
+            {emailError && <p className="text-red-500 text-xs mt-2">{emailError}</p>}
+          </div>
+
+          <div className="mb-8 text-left">
+            <label className="block text-sm text-slate-700 mb-2 uppercase tracking-widest font-bold">Access Code</label>
+            <input
+              type="text"
+              value={accessCode}
+              onChange={e=>{setAccessCode(e.target.value);setAccessError('');}}
+              placeholder="Enter your invite code"
+              className={`w-full px-5 py-4 border rounded-lg text-gray-700 bg-gray-50 focus:outline-none focus:border-blue-700 focus:ring-2 focus:ring-blue-50 focus:bg-white transition-all text-base ${accessError ? 'border-red-400' : 'border-gray-200'}`}
+            />
+            {accessError && <p className="text-red-500 text-xs mt-2">{accessError}</p>}
+          </div>
+
+          <button
+            onClick={()=>{
+              if(!userName.trim()){setEmailError('Please enter your first name');return;}
+              const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userEmail.trim());
+              if(!valid){setEmailError('Please enter a valid email address');return;}
+              if(accessCode.trim().toUpperCase() !== 'NEGOTIATOR2026'){setAccessError('Invalid access code');return;}
+              setPhase('quiz');
+            }}
+            className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold px-8 py-4 rounded-xl text-lg transition-all shadow-lg"
+          >
+            Begin Assessment
+          </button>
+        </div>
+
+      </motion.div>
+    </div>
 
    {/* ═══ PROBLEM ═══ */}
    <div className="bg-slate-950 px-6 py-24">
@@ -1346,7 +1403,7 @@ if (phase === 'intro') return (
     </div>
     <div className="flex justify-center mt-10">
           <button
-            onClick={()=>document.getElementById('start').scrollIntoView({behavior:'smooth'})}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}k={()=>document.getElementById('start').scrollIntoView({behavior:'smooth'})}
             className="bg-gradient-to-r from-blue-800 to-blue-900 hover:from-blue-900 hover:to-slate-900 text-white font-bold px-10 py-3 rounded-xl text-base transition-all shadow-lg hover:shadow-2xl transform hover:-translate-y-0.5"
           >
             Take The Assessment <ChevronRight className="inline w-5 h-5 ml-1"/>
@@ -1476,69 +1533,42 @@ if (phase === 'intro') return (
       </motion.div>
     </div>
 
-{/* ═══ CTA — YOUR EXISTING BUTTON & INPUT ═══ */}
-<div id="start" className="bg-white px-6 py-14 flex flex-col items-center">
+{/* ═══ CTA BOTTOM ═══ */}
+<div className="bg-white px-6 py-14 flex flex-col items-center">
   <motion.div initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} transition={{delay:0.4}} className="text-center max-w-md w-full">
 
     <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">Ready to See Yourself Clearly?</h2>
     <p className="text-slate-500 text-sm mb-10 max-w-xs mx-auto">7 minutes. 21 questions. A profile you'll reference before every important conversation.</p>
 
-    <div className="mb-6">
-      <label className="block text-xs text-gray-400 mb-2 uppercase tracking-widest">Your initials (optional)</label>
-      <input
-        type="text"
-        value={userName}
-        onChange={e=>setUserName(e.target.value.toUpperCase().replace(/[^A-Z]/g,'').slice(0,5))}
-        maxLength={5}
-        placeholder="e.g. JDS"
-        className="w-72 px-5 py-3 border border-gray-200 rounded-lg text-center text-gray-700 bg-gray-50 focus:outline-none focus:border-blue-700 focus:ring-2 focus:ring-blue-50 focus:bg-white transition-all text-sm tracking-widest uppercase"
-      />
-    </div>
-
-    <div className="mb-8">
-      <label className="block text-xs text-gray-400 mb-2 uppercase tracking-widest">Your email address</label>
-      <input
-        type="email"
-        value={userEmail}
-        onChange={e=>{setUserEmail(e.target.value);setEmailError('');}}
-        placeholder="you@example.com"
-        className={`w-72 px-5 py-3 border rounded-lg text-center text-gray-700 bg-gray-50 focus:outline-none focus:border-blue-700 focus:ring-2 focus:ring-blue-50 focus:bg-white transition-all text-sm ${emailError ? 'border-red-400' : 'border-gray-200'}`}
-      />
-      {emailError && <p className="text-red-500 text-xs mt-2">{emailError}</p>}
-      <p className="text-xs text-gray-400 mt-2">We'll send your full report here. No spam, ever.</p>
-    </div>
-
     <button
-      onClick={()=>{
-        const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userEmail.trim());
-        if(!valid){setEmailError('Please enter a valid email address');return;}
-        setPhase('quiz');
-      }}
-      
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       className="mb-6 bg-gradient-to-r from-blue-800 to-blue-900 hover:from-blue-900 hover:to-slate-900 text-white font-bold px-12 py-4 rounded-xl text-lg transition-all shadow-lg hover:shadow-2xl transform hover:-translate-y-0.5"
     >
       Begin Assessment <ChevronRight className="inline w-5 h-5 ml-1"/>
     </button>
 
-  {/* ═══ TEMP RESULTS BUTTON HERE ═══ */}
-    <button
+
+
+
+    <p className="text-xs text-black-400 italic mb-8">Don't overthink it. Your first instinct is your truest answer.</p>
+
+        <div className="flex items-center justify-center gap-4 text-xs text-slate-400 uppercase tracking-widest">
+        </div>
+
+        <p className="text-xs text-gray-300 mt-12">&copy; 2026 The Buckingham Academy Limited</p>
+
+        {/* ═══ TEMP RESULTS BUTTON HERE ═══ */}
+<button
   onClick={() => {
     const scores = { dominator: 2, integrator: 7, yielder: 2, calculator: 5 };
     const p = 'integrator', s = 'calculator';
     setResults({ scores, shadow: 3, primary: p, secondary: s, archetype: archetypes[p + '-' + s] });
     setPhase('results');
   }}
-  className="w-full max-w-xs mx-auto block mb-4 px-6 py-3 rounded-lg border border-dashed border-yellow-500/50 text-yellow-400 text-sm font-medium hover:bg-yellow-500/10 transition-colors"
+  className="self-start text-[10px] text-gray-300 hover:text-gray-400 transition-colors px-1 py-0.5"
 >
-  ⚡ Skip to Draft Report (Dev)
+  ⚡ Dev
 </button>
-
-    <p className="text-xs text-gray-400 italic mb-8">Don't overthink it. Your first instinct is your truest answer.</p>
-
-        <div className="flex items-center justify-center gap-4 text-xs text-slate-400 uppercase tracking-widest">
-        </div>
-
-        <p className="text-xs text-gray-300 mt-12">&copy; 2026 The Buckingham Academy Limited</p>
       </motion.div>
     </div>
 
@@ -1978,7 +2008,7 @@ const renderWithQuote=(text)=>{
 
           <div className="text-center text-xs text-gray-400 mt-8 pt-6 border-t border-gray-200">
             <p className="font-semibold">&copy; 2026 The Buckingham Academy Limited. All rights reserved.</p>
-            <p className="mt-1">To hear about our negotiation coaching email us: admin@bucademy.com</p>
+            <p className="mt-1">We coach teams to close deals. Email us: admin@bucademy.com</p>
           </div>
         </div>
       </div>
