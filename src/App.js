@@ -1436,23 +1436,28 @@ if (phase === 'intro') return (
   data-netlify-honeypot="bot-field"
   onSubmit={async (e) => {
           e.preventDefault();
-          const formData = new FormData(e.target);
+          const form = e.target;
+          const body = new URLSearchParams({
+            'form-name': 'access-request',
+            'name': form.querySelector('[name="name"]').value,
+            'email': form.querySelector('[name="email"]').value,
+            'reason': form.querySelector('[name="reason"]').value,
+          }).toString();
           try {
-            await fetch('/', {
+            const response = await fetch('/', {
               method: 'POST',
               headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-              body: new URLSearchParams(formData).toString(),
+              body: body,
             });
-            setRequestSubmitted(true);
+            console.log('Response status:', response.status);
+            if (response.ok) {
+              setRequestSubmitted(true);
+            }
           } catch (error) {
             console.error('Form submission error:', error);
           }
         }}
 >
-        <input type="hidden" name="form-name" value="access-request" />
-        <p className="hidden">
-          <label>Don't fill this out: <input name="bot-field" /></label>
-        </p>
         <input type="hidden" name="form-name" value="access-request" />
         <p className="hidden">
           <label>Don't fill this out: <input name="bot-field" /></label>
