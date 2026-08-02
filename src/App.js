@@ -1427,7 +1427,7 @@ if (phase === 'intro') return (
         
         <div className="space-y-5 text-slate-300 text-lg leading-relaxed max-w-xl mx-auto">
           <p>
-            You've developed habits over years — ways you handle pushback, make concessions, build (or avoid) tension. 
+            You've developed habits over years, the ways you handle pushback, make concessions, build (or avoid) tension. 
             Most of it is <span className="text-white font-medium">invisible to you</span>.
           </p>
           <p>
@@ -1491,7 +1491,7 @@ if (phase === 'intro') return (
         </div>
 
         <p className="text-slate-400 text-sm mt-10 italic">
-          Your style is only the starting point — your unique archetype goes much deeper.
+          Your style is only the starting point; your unique archetype gives you deeper knowledge.
         </p>
       </motion.div>
     </div>
@@ -1510,13 +1510,13 @@ if (phase === 'intro') return (
           This Isn't a Quiz.<br/>It's a Strategic Mirror.
         </h2>
         <p className="text-slate-300 text-lg mb-16 max-w-lg mx-auto">
-          In 7 minutes you'll receive a detailed profile that most negotiators never get access to — giving you the edge.
+          In 7 minutes you'll receive a detailed profile that most negotiators never get access to, giving you Deal Advantage.
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left max-w-2xl mx-auto">
           {[
             {title:'Your Negotiation DNA', desc:'Understand your dominant style, your secondary tendencies, and the archetype that makes you unique among the 12 profiles.', icon:'🧬'},
-            {title:'Your Natural Edge', desc:"See exactly where your instincts serve you — the advantages most people in your style never consciously leverage.", icon:'🎯'},
+            {title:'Your Natural Edge', desc:"See exactly where your instincts serve you, the advantages most people in your style never consciously leverage.", icon:'🎯'},
             {title:'Your Blind Spots', desc:'Uncover the patterns that quietly erode trust, margin, or momentum before your next high-stakes conversation.', icon:'🔍'},
             {title:'How to Read Others', desc:'Learn to identify each style across the table and adapt your approach in real time to create better outcomes for everyone.', icon:'🧭'},
           ].map((b,i)=>(
@@ -1642,7 +1642,7 @@ if (phase === 'intro') return (
         className="text-center max-w-md w-full"
       >
         <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">
-          Ready to See Yourself Clearly?
+          Ready to Increase Your Deal Advantage?
         </h2>
         <p className="text-slate-500 text-base mb-8 max-w-sm mx-auto">
           7 minutes. 21 questions. A profile you'll reference before every important conversation.
