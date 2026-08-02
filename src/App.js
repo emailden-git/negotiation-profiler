@@ -1206,6 +1206,8 @@ const [emailError, setEmailError] = useState('');
 const [emailStatus, setEmailStatus] = useState('idle');
 const [accessCode, setAccessCode] = useState('');
 const [accessError, setAccessError] = useState('');
+const [showRequestForm, setShowRequestForm] = useState(false);
+const [requestSubmitted, setRequestSubmitted] = useState(false);
 const back = () => {
   if (qi > 0) {
     setQi(qi - 1);
@@ -1356,59 +1358,167 @@ if (phase === 'intro') return (
 </div>
 
         {/* Right - Form card */}
-        <div className="bg-white rounded-2xl shadow-2xl p-8 sm:p-10">
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Start here</h2>
-          <p className="text-slate-500 text-base mb-8">Enter your details to begin.</p>
+<div className="bg-white rounded-2xl shadow-2xl p-8 sm:p-10">
 
-          <div className="mb-5 text-left">
-            <label className="block text-sm text-slate-700 mb-2 uppercase tracking-widest font-bold">First Name</label>
-            <input
-              type="text"
-              value={userName}
-              onChange={e=>setUserName(e.target.value)}
-              placeholder="e.g. Alex"
-              className="w-full px-5 py-4 border border-gray-200 rounded-lg text-gray-800 bg-gray-50 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all text-base"
-            />
-          </div>
+{!showRequestForm ? (
+    <>
+      <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Start here</h2>
+      <p className="text-slate-500 text-base mb-8">Enter your details to begin.</p>
 
-          <div className="mb-5 text-left">
-            <label className="block text-sm text-slate-700 mb-2 uppercase tracking-widest font-bold">Email</label>
-            <input
-              type="email"
-              value={userEmail}
-              onChange={e=>{setUserEmail(e.target.value);setEmailError('');}}
-              placeholder="you@email.com"
-              className={`w-full px-5 py-4 border rounded-lg text-gray-800 bg-gray-50 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all text-base ${emailError ? 'border-red-400' : 'border-gray-200'}`}
-            />
-            {emailError && <p className="text-red-500 text-xs mt-2">{emailError}</p>}
-          </div>
+      <div className="mb-5 text-left">
+        <label className="block text-sm text-slate-700 mb-2 uppercase tracking-widest font-bold">First Name</label>
+        <input
+          type="text"
+          value={userName}
+          onChange={e => setUserName(e.target.value)}
+          placeholder="e.g. Alex"
+          className="w-full px-5 py-4 border border-gray-200 rounded-lg text-gray-800 bg-gray-50 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all text-base"
+        />
+      </div>
 
-          <div className="mb-8 text-left">
-            <label className="block text-sm text-slate-700 mb-2 uppercase tracking-widest font-bold">Access Code</label>
-            <input
-              type="text"
-              value={accessCode}
-              onChange={e=>{setAccessCode(e.target.value);setAccessError('');}}
-              placeholder="Enter your invite code"
-              className={`w-full px-5 py-4 border rounded-lg text-gray-800 bg-gray-50 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all text-base ${accessError ? 'border-red-400' : 'border-gray-200'}`}
-            />
-            {accessError && <p className="text-red-500 text-xs mt-2">{accessError}</p>}
-          </div>
+      <div className="mb-5 text-left">
+        <label className="block text-sm text-slate-700 mb-2 uppercase tracking-widest font-bold">Email</label>
+        <input
+          type="email"
+          value={userEmail}
+          onChange={e => { setUserEmail(e.target.value); setEmailError(''); }}
+          placeholder="you@email.com"
+          className={`w-full px-5 py-4 border rounded-lg text-gray-800 bg-gray-50 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all text-base ${emailError ? 'border-red-400' : 'border-gray-200'}`}
+        />
+        {emailError && <p className="text-red-500 text-xs mt-2">{emailError}</p>}
+      </div>
 
-          <button
-            onClick={()=>{
-              if(!userName.trim()){setEmailError('Please enter your first name');return;}
-              const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userEmail.trim());
-              if(!valid){setEmailError('Please enter a valid email address');return;}
-              if(accessCode.trim().toUpperCase() !== 'NEGOTIATOR2026'){setAccessError('Invalid access code');return;}
-              setPhase('quiz');
-            }}
-            className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold px-8 py-4 rounded-xl text-lg transition-all shadow-lg hover:shadow-xl"
-          >
-            Begin Assessment
-          </button>
+      <div className="mb-4 text-left">
+        <label className="block text-sm text-slate-700 mb-2 uppercase tracking-widest font-bold">Access Code</label>
+        <input
+          type="text"
+          value={accessCode}
+          onChange={e => { setAccessCode(e.target.value); setAccessError(''); }}
+          placeholder="Enter your invite code"
+          className={`w-full px-5 py-4 border rounded-lg text-gray-800 bg-gray-50 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all text-base ${accessError ? 'border-red-400' : 'border-gray-200'}`}
+        />
+        {accessError && <p className="text-red-500 text-xs mt-2">{accessError}</p>}
+      </div>
+
+      <p className="text-sm text-slate-500 mb-8 text-left">
+        Don't have a code?{' '}
+        <button
+          type="button"
+          onClick={() => setShowRequestForm(true)}
+          className="text-blue-600 hover:underline font-medium"
+        >
+          Request access →
+        </button>
+      </p>
+
+      <button
+        onClick={() => {
+          if (!userName.trim()) { setEmailError('Please enter your first name'); return; }
+          const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userEmail.trim());
+          if (!valid) { setEmailError('Please enter a valid email address'); return; }
+          if (accessCode.trim().toUpperCase() !== 'NEGOTIATOR2026') { setAccessError('Invalid access code'); return; }
+          setPhase('quiz');
+        }}
+        className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold px-8 py-4 rounded-xl text-lg transition-all shadow-lg hover:shadow-xl"
+      >
+        Begin Assessment
+      </button>
+    </>
+  ) : !requestSubmitted ? (
+    <>
+      <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Request Access</h2>
+      <p className="text-slate-500 text-base mb-8">Tell us a bit about yourself and we'll send you an invite code.</p>
+
+      <form
+  name="access-request"
+  method="POST"
+  data-netlify="true"
+  data-netlify-honeypot="bot-field"
+  onSubmit={async (e) => {
+          e.preventDefault();
+          const formData = new FormData(e.target);
+          try {
+            await fetch('/', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+              body: new URLSearchParams(formData).toString(),
+            });
+            setRequestSubmitted(true);
+          } catch (error) {
+            console.error('Form submission error:', error);
+          }
+        }}
+      >
+        <input type="hidden" name="form-name" value="access-request" />
+        <p className="hidden">
+          <label>Don't fill this out: <input name="bot-field" /></label>
+        </p>
+
+        <div className="mb-5 text-left">
+          <label className="block text-sm text-slate-700 mb-2 uppercase tracking-widest font-bold">Name</label>
+          <input
+            type="text"
+            name="name"
+            required
+            placeholder="Your name"
+            className="w-full px-5 py-4 border border-gray-200 rounded-lg text-gray-800 bg-gray-50 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all text-base"
+          />
         </div>
-      </motion.div>
+
+        <div className="mb-5 text-left">
+          <label className="block text-sm text-slate-700 mb-2 uppercase tracking-widest font-bold">Email</label>
+          <input
+            type="email"
+            name="email"
+            required
+            placeholder="you@email.com"
+            className="w-full px-5 py-4 border border-gray-200 rounded-lg text-gray-800 bg-gray-50 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all text-base"
+          />
+        </div>
+
+        <div className="mb-8 text-left">
+          <label className="block text-sm text-slate-700 mb-2 uppercase tracking-widest font-bold">Why do you want access?</label>
+          <textarea
+            name="reason"
+            rows="3"
+            placeholder="Brief reason..."
+            className="w-full px-5 py-4 border border-gray-200 rounded-lg text-gray-800 bg-gray-50 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all text-base resize-none"
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold px-8 py-4 rounded-xl text-lg transition-all shadow-lg hover:shadow-xl"
+        >
+          Submit Request
+        </button>
+      </form>
+
+      <button
+        type="button"
+        onClick={() => setShowRequestForm(false)}
+        className="w-full mt-4 text-slate-500 text-sm hover:text-slate-700 transition-all"
+      >
+        ← Back to sign in
+      </button>
+    </>
+  ) : (
+    <div className="text-center py-10">
+      <div className="text-5xl mb-4">✓</div>
+      <h2 className="text-2xl font-bold text-slate-900 mb-2">Request Submitted</h2>
+      <p className="text-slate-500 mb-8">We'll review your request and send a code to your email.</p>
+      <button
+        type="button"
+        onClick={() => { setShowRequestForm(false); setRequestSubmitted(false); }}
+        className="text-blue-600 hover:underline font-medium text-sm"
+      >
+        ← Back to sign in
+      </button>
+    </div>
+  )}
+
+</div>
+ </motion.div>
     </div>
 
     {/* ═══ PROBLEM ═══ */}
@@ -1677,8 +1787,7 @@ if (phase === 'intro') return (
     >
       ⚡ Dev
     </button>
-
-  </div>
+</div>
 );
 
   if(phase==='quiz'){
