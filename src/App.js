@@ -1421,7 +1421,7 @@ if (phase === 'intro') return (
         }}
         className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold px-8 py-4 rounded-xl text-lg transition-all shadow-lg hover:shadow-xl"
       >
-        Begin Assessment
+     Begin Assessment
       </button>
     </>
   ) : !requestSubmitted ? (
@@ -1429,7 +1429,7 @@ if (phase === 'intro') return (
       <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Request Access</h2>
       <p className="text-slate-500 text-base mb-8">Tell us a bit about yourself and we'll send you an invite code.</p>
 
-      <form
+<form
   name="access-request"
   method="POST"
   data-netlify="true"
@@ -1448,7 +1448,11 @@ if (phase === 'intro') return (
             console.error('Form submission error:', error);
           }
         }}
-      >
+>
+        <input type="hidden" name="form-name" value="access-request" />
+        <p className="hidden">
+          <label>Don't fill this out: <input name="bot-field" /></label>
+        </p>
         <input type="hidden" name="form-name" value="access-request" />
         <p className="hidden">
           <label>Don't fill this out: <input name="bot-field" /></label>
@@ -1477,7 +1481,7 @@ if (phase === 'intro') return (
         </div>
 
         <div className="mb-8 text-left">
-          <label className="block text-sm text-slate-700 mb-2 uppercase tracking-widest font-bold">Why do you want access?</label>
+          <label className="block text-sm text-slate-700 mb-2 uppercase tracking-widest font-bold">Just to prove you're a human, why do you want access?</label>
           <textarea
             name="reason"
             rows="3"
