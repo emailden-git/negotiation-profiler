@@ -1774,8 +1774,8 @@ if(phase==='tiebreak'&&tieData) return(
 // eslint-disable-next-line no-unused-vars
     const shColors={green:'border-green-600 bg-green-50',yellow:'border-yellow-500 bg-yellow-50',amber:'border-amber-500 bg-amber-50',red:'border-red-600 bg-red-50'};
     const shTextColors={green:'text-green-700',yellow:'text-yellow-700',amber:'text-amber-700',red:'text-red-700'};
-    const shC=shColors[sl.color]||shColors.green;
-    const shT=shTextColors[sl.color]||shTextColors.green;
+  // const shC=shColors[sl.color]||shColors.green;
+// const shT=shTextColors[sl.color]||shTextColors.green;
 
 const renderParagraphs=(text)=>text.split('\n\n').map((para,i)=><p key={i} className={`text-gray-700 leading-relaxed ${i>0?'mt-3':''}`}>{para}</p>);
 
