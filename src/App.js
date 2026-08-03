@@ -1427,7 +1427,7 @@ if (phase === 'intro') return (
   ) : !requestSubmitted ? (
     <>
       <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Request Access</h2>
-      <p className="text-slate-500 text-base mb-8">Tell us a bit about yourself and we'll send you an invite code.</p>
+      <p className="text-slate-500 text-base mb-8">A few details and we'll get you set up. Each assessment costs US$19. Participants in our Negotiation Training receive free access.</p>
 
       <form
         name="access-request"
@@ -1443,7 +1443,7 @@ if (phase === 'intro') return (
             'reason': e.target.querySelector('[name="reason"]').value,
           }).toString();
           try {
-            const response = await fetch('/', {
+            const response = await fetch('https://negotiatesmarter.netlify.app/', {
               method: 'POST',
               headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
               body: body,
@@ -1468,7 +1468,7 @@ if (phase === 'intro') return (
             type="text"
             name="name"
             required
-            placeholder="Your name"
+            placeholder="First name only"
             className="w-full px-5 py-4 border border-gray-200 rounded-lg text-gray-800 bg-gray-50 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all text-base"
           />
         </div>
@@ -1485,11 +1485,11 @@ if (phase === 'intro') return (
         </div>
 
         <div className="mb-8 text-left">
-          <label className="block text-sm text-slate-700 mb-2 uppercase tracking-widest font-bold">Just to prove you're a human, why do you want access?</label>
+          <label className="block text-sm text-slate-700 mb-2 uppercase tracking-widest font-bold">Just to prove you're a human, how did you hear about us?</label>
           <textarea
             name="reason"
             rows="3"
-            placeholder="Brief reason..."
+            placeholder="Brief answer..."
             className="w-full px-5 py-4 border border-gray-200 rounded-lg text-gray-800 bg-gray-50 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all text-base resize-none"
           />
         </div>
