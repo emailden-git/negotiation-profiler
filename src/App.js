@@ -1754,10 +1754,66 @@ if (phase === 'intro') return (
         </div>
 
         <p className="text-slate-400 text-sm mt-8 max-w-md mx-auto leading-relaxed">
-          Grounded in established behavioural science frameworks measured by psychologists and used by elite negotiators.
+          Grounded in established behavioural science frameworks measured by psychologists and used by professional negotiators.
         </p>
       </motion.div>
     </div>
+{/* ===== CREDIBILITY SECTION ===== */}
+<section className="bg-slate-800 py-16 px-4">
+  <div className="max-w-6xl mx-auto">
+    <h2 className="text-white text-2xl md:text-3xl font-bold text-center mb-4">
+      Built on established research
+    </h2>
+    <p className="text-slate-300 text-center max-w-3xl mx-auto mb-10">
+      The Negotiate Smarter is a research-informed assessment integrating
+      <strong className="text-white"> negotiation psychology</strong>,
+      <strong className="text-white"> conflict management theory</strong>,
+      <strong className="text-white"> emotional dynamics in negotiation</strong>, and
+      <strong className="text-white"> cross-cultural bargaining models</strong> to
+      evaluate how professionals negotiate across routine and high-stakes contexts.
+    </p>
+
+    <h3 className="text-amber-200 font-semibold tracking-wide uppercase text-sm md:text-base mb-6">
+      12 years of experiential research. 8 years of academic research including:
+    </h3>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-slate-600 border border-slate-600 rounded-lg overflow-hidden">
+      <div className="bg-slate-800 p-6">
+        <h4 className="text-amber-200 font-bold uppercase tracking-wide text-xs mb-2">Conflict Management</h4>
+        <p className="text-slate-300 text-sm leading-relaxed">Khan, K., Iqbal, Y. and Hussainy, S.K. (2016) Causes, effects, and remedies in conflict management. <em className="text-slate-200">The South East Asian Journal of Management</em>, 10(2), p.152.</p>
+      </div>
+      <div className="bg-slate-800 p-6">
+        <h4 className="text-amber-200 font-bold uppercase tracking-wide text-xs mb-2">Negotiation Psychology</h4>
+        <p className="text-slate-300 text-sm leading-relaxed">De Dreu, C.K., Beersma, B., Steinel, W. and Van Kleef, G.A. (2007) The psychology of negotiation: Principles and basic processes.</p>
+      </div>
+      <div className="bg-slate-800 p-6">
+        <h4 className="text-amber-200 font-bold uppercase tracking-wide text-xs mb-2">Perspective-Taking</h4>
+        <p className="text-slate-300 text-sm leading-relaxed">Ward, A., Disston, L.G., Brenner, L. and Ross, L. (2008) Acknowledging the other side in negotiation. <em className="text-slate-200">Negotiation Journal</em>, 24(3), pp.269-285.</p>
+      </div>
+      <div className="bg-slate-800 p-6">
+        <h4 className="text-amber-200 font-bold uppercase tracking-wide text-xs mb-2">Conflict Resolution</h4>
+        <p className="text-slate-300 text-sm leading-relaxed">Lim, J.H. and Yazdanifard, R. (2012) The difference of conflict management styles and conflict resolution in workplace. <em className="text-slate-200">Business & Entrepreneurship Journal</em>, 1(1).</p>
+      </div>
+      <div className="bg-slate-800 p-6">
+        <h4 className="text-amber-200 font-bold uppercase tracking-wide text-xs mb-2">Emotions in Negotiation</h4>
+        <p className="text-slate-300 text-sm leading-relaxed">Steinel, W., Van Kleef, G.A. and Harinck, F. (2008) Are you talking to me?! Separating the people from the problem when expressing emotions in negotiation. <em className="text-slate-200">Journal of Experimental Social Psychology</em>, 44(2), pp.362-369.</p>
+      </div>
+      <div className="bg-slate-800 p-6">
+        <h4 className="text-amber-200 font-bold uppercase tracking-wide text-xs mb-2">Cross-Cultural Negotiation</h4>
+        <p className="text-slate-300 text-sm leading-relaxed">Ghauri, P. and Fang, T. (2001) Negotiating with the Chinese: A socio-cultural analysis. <em className="text-slate-200">Journal of World Business</em>, 36(3), pp.303-325.</p>
+      </div>
+      <div className="bg-slate-800 p-6">
+        <h4 className="text-amber-200 font-bold uppercase tracking-wide text-xs mb-2">Strategic Negotiation</h4>
+        <p className="text-slate-300 text-sm leading-relaxed">Camp, J. and Jordan, R. (2020) <em className="text-slate-200">Start with NO.</em> Penguin Random House Audio Publishing Group.</p>
+      </div>
+      <div className="bg-slate-800 p-6">
+        <h4 className="text-amber-200 font-bold uppercase tracking-wide text-xs mb-2">Tactical Empathy</h4>
+        <p className="text-slate-300 text-sm leading-relaxed">Voss, C. and Raz, T. (2016) <em className="text-slate-200">Never split the difference: Negotiating as if your life depended on it.</em> Random House.</p>
+      </div>
+    </div>
+  </div>
+</section>
+{/* ===== END CREDIBILITY ===== */}
 
     {/* ═══ CTA BOTTOM ═══ */}
     <div className="bg-white px-6 py-16 flex flex-col items-center">
