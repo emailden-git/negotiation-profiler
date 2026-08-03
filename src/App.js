@@ -1485,11 +1485,11 @@ if (phase === 'intro') return (
         </div>
 
         <div className="mb-8 text-left">
-          <label className="block text-sm text-slate-700 mb-2 uppercase tracking-widest font-bold">Just to prove you're a human, how did you hear about us?</label>
+          <label className="block text-sm text-slate-700 mb-2 uppercase tracking-widest font-bold">Are you a participant in our Negotiation Training? YES/NO</label>
           <textarea
             name="reason"
             rows="3"
-            placeholder="Brief answer..."
+            placeholder="YES I am / NO not yet"
             className="w-full px-5 py-4 border border-gray-200 rounded-lg text-gray-800 bg-gray-50 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all text-base resize-none"
           />
         </div>
@@ -1514,7 +1514,7 @@ if (phase === 'intro') return (
     <div className="text-center py-10">
       <div className="text-5xl mb-4">✓</div>
       <h2 className="text-2xl font-bold text-slate-900 mb-2">Request Submitted</h2>
-      <p className="text-slate-500 mb-8">We'll review your request and send a code to your email.</p>
+      <p className="text-slate-500 mb-8">We'll email you back with a Access Code or Stripe payment link.</p>
       <button
         type="button"
         onClick={() => { setShowRequestForm(false); setRequestSubmitted(false); }}
