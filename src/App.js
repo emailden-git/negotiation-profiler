@@ -1357,7 +1357,7 @@ if (phase === 'intro') return (
   </div>
 </div>
 
-        {/* Right - Form card */}
+{/* Right - Form card */}
 <div className="bg-white rounded-2xl shadow-2xl p-8 sm:p-10">
 
 {!showRequestForm ? (
@@ -1421,7 +1421,7 @@ if (phase === 'intro') return (
         }}
         className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold px-8 py-4 rounded-xl text-lg transition-all shadow-lg hover:shadow-xl"
       >
-     Begin Assessment
+        Begin Assessment
       </button>
     </>
   ) : !requestSubmitted ? (
@@ -1429,19 +1429,18 @@ if (phase === 'intro') return (
       <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Request Access</h2>
       <p className="text-slate-500 text-base mb-8">Tell us a bit about yourself and we'll send you an invite code.</p>
 
-<form
-  name="access-request"
-  method="POST"
-  data-netlify="true"
-  data-netlify-honeypot="bot-field"
-  onSubmit={async (e) => {
+      <form
+        name="access-request"
+        method="POST"
+        data-netlify="true"
+        data-netlify-honeypot="bot-field"
+        onSubmit={async (e) => {
           e.preventDefault();
-          const form = e.target;
           const body = new URLSearchParams({
             'form-name': 'access-request',
-            'name': form.querySelector('[name="name"]').value,
-            'email': form.querySelector('[name="email"]').value,
-            'reason': form.querySelector('[name="reason"]').value,
+            'name': e.target.querySelector('[name="name"]').value,
+            'email': e.target.querySelector('[name="email"]').value,
+            'reason': e.target.querySelector('[name="reason"]').value,
           }).toString();
           try {
             const response = await fetch('/', {
@@ -1457,7 +1456,7 @@ if (phase === 'intro') return (
             console.error('Form submission error:', error);
           }
         }}
->
+      >
         <input type="hidden" name="form-name" value="access-request" />
         <p className="hidden">
           <label>Don't fill this out: <input name="bot-field" /></label>
