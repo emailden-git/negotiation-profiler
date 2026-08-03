@@ -1357,6 +1357,8 @@ if (phase === 'intro') return (
   </div>
 </div>
 
+<WhatsAppButton />
+
 {/* Right - Form card */}
 <div className="bg-white rounded-2xl shadow-2xl p-8 sm:p-10">
 
@@ -1485,7 +1487,7 @@ if (phase === 'intro') return (
         </div>
 
         <div className="mb-8 text-left">
-          <label className="block text-sm text-slate-700 mb-2 uppercase tracking-widest font-bold">Are you a participant in our Negotiation Training? YES/NO</label>
+          <label className="block text-sm text-slate-700 mb-2 uppercase tracking-widest font-bold">Are you participating in our Negotiation Training? YES/NO</label>
           <textarea
             name="reason"
             rows="3"
