@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, ChevronLeft, Download } from 'lucide-react';
 import { supabase } from './supabaseClient'
+import WhatsAppButton from './components/WhatsAppButton';
 
 const questions = [
 { type:'style', text:"When the other side rejects my proposal outright, I tend to:", options:[
