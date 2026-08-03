@@ -1,14 +1,6 @@
 import React from 'react';
 
-interface WhatsAppButtonProps {
-  text?: string;
-  className?: string;
-}
-
-const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({ 
-  text = "Chat with us on WhatsApp", 
-  className = "" 
-}) => {
+const WhatsAppButton = ({ text = "WhatsApp Us For Training Info", className = "" }) => {
   return (
     <a
       href="/.netlify/functions/whatsapp"
