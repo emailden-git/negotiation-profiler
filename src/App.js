@@ -852,216 +852,1277 @@ function genSVGPetal(sc) {
 const sanitize = (str) => str.replace(/[<>&"']/g, c => ({
   '<':'&lt;', '>':'&gt;', '&':'&amp;', '"':'&quot;', "'":'&#39;'
 }[c]));
-function genHTML(r,name){
-  const a=r.archetype,sc=r.scores,sl=shadowLevels[r.shadow],p=r.primary,s=r.secondary;
-  const total=16;
-  const pct=k=>Math.round((sc[k]/total)*100);
-  const nl=t=>t.replace(/\n\n/g,'</p><p style="margin-top:14px;">');
-  const fmtSec=(text,color)=>{const dot=text.indexOf('.');if(dot===-1)return '<p style="font-size:13px;color:#4B5563;line-height:1.8;">'+text+'</p>';const quote=text.substring(0,dot+1);const rest=text.substring(dot+1).trim();const body=rest.split('\n\n').filter(p=>p.trim()).map(p=>'<p style="font-size:13px;color:#4B5563;line-height:1.8;margin-top:14px;">'+p+'</p>').join('');return '<div style="border-left:3px solid '+color+';padding-left:16px;margin:16px 0;"><p style="font-style:italic;font-weight:600;font-size:14px;color:#1F2937;line-height:1.6;">'+quote+'</p></div>'+body;};
-const shBg='#0F172A';
-const shBd='#DC2626';
-const shTx='#EF4444';
-const safeName=name?sanitize(name):'';
-const greeting=safeName?`<p style="font-size:18px;color:#6B7280;margin-bottom:8px;">Prepared for: <strong style="color:#1F2937;">${safeName}</strong></p>`:'';  const svg=genSVGPetal(sc);
-  const spotStyles=['dominator','integrator','yielder','calculator'];
-const spotGrid=spotStyles.map(style=>{
-  const sg=spottingGuide[style];
-  const col=styleMeta[style].color;
-  const lab=styleMeta[style].label;
-  return `<div style="border:2px solid ${col}30;border-radius:8px;padding:16px;background:${col}08;break-inside:avoid;">
-<div style="font-weight:bold;color:${col};font-size:15px;margin-bottom:10px;">${lab}</div>
-<div style="font-size:12px;color:#374151;line-height:1.8;">
-<table style="border-collapse:collapse;margin-bottom:8px;">
-<tr><td style="font-size:12px;color:#6B7280;font-weight:600;padding:2px 12px 2px 0;">Pace:</td><td style="font-size:12px;color:#374151;">${sg.pace}</td></tr>
-<tr><td style="font-size:12px;color:#6B7280;font-weight:600;padding:2px 12px 2px 0;">Tone:</td><td style="font-size:12px;color:#374151;">${sg.tone}</td></tr>
-<tr><td style="font-size:12px;color:#6B7280;font-weight:600;padding:2px 12px 2px 0;">Focus:</td><td style="font-size:12px;color:#374151;">${sg.focus}</td></tr>
-</table>
-<p style="margin-top:8px;"><strong style="color:#6B7280;">You will hear:</strong></p>
-<div style="display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 8px;">${sg.phrases.map(ph=>`<span style="display:inline-block;background:#F3F4F6;border:1px solid #E5E7EB;padding:2px 8px;border-radius:4px;font-size:11px;color:#374151;">"${ph}"</span>`).join('')}</div>
-<p><strong style="color:#6B7280;">They will:</strong></p>
-${sg.behaviours.map(b=>`<p style="margin-left:8px;">• ${b}</p>`).join('')}
-</div></div>`;
-}).join('');
+function genHTML(r, name) {
+  const a = r.archetype;
+  const sc = r.scores;
+  const sl = shadowLevels[r.shadow];
+  const p = r.primary;
+  const s = r.secondary;
+  const total = 16;
+  const pct = (k) => Math.round((sc[k] / total) * 100);
+  const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  const assessmentId = `NP-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 99999)).padStart(5, '0')}`;
+  const displayName = name ? sanitize(name) : 'Assessment Participant';
 
-const opponents=spotStyles.filter(st=>st!==p);
-const matchupCards=opponents.map((opp,i)=>{
-  const key=p+'-'+opp;
-  const m=matchupAdvice[key];
-  const oppCol=styleMeta[opp].color;
-  const oppLab=styleMeta[opp].label;
-  const myCol=styleMeta[p].color;
-  const myLab=styleMeta[p].label;
-  return `<div style="border:1px solid #E5E7EB;border-radius:8px;margin-bottom:16px;overflow:hidden;${i>0?'page-break-before:always;':''}">
-<div style="padding:12px 20px;background:${myCol}10;">
-<span style="font-weight:bold;color:${myCol};">You (${myLab})</span>
-<span style="color:#9CA3AF;margin:0 8px;">vs</span>
-<span style="font-weight:bold;color:${oppCol};">${oppLab}</span>
-</div>
-<div style="padding:20px;">
-<h4 style="font-size:11px;font-weight:bold;color:#9CA3AF;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Their Tells</h4>
-${m.tells.map(t=>`<p style="font-size:13px;color:#374151;margin-bottom:4px;">• ${t}</p>`).join('')}
-<div style="display:flex;gap:20px;margin-top:16px;">
-<div style="flex:1;">
-<h4 style="font-size:11px;font-weight:bold;color:#16A34A;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Your Advantages</h4>
-${m.advantages.map(av=>`<p style="font-size:13px;color:#374151;margin-bottom:4px;">✓ ${av}</p>`).join('')}
-</div>
-<div style="flex:1;">
-<h4 style="font-size:11px;font-weight:bold;color:#DC2626;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Your Risks</h4>
-${m.risks.map(ri=>`<p style="font-size:13px;color:#374151;margin-bottom:4px;">✗ ${ri}</p>`).join('')}
-</div>
-</div>
-<h4 style="font-size:11px;font-weight:bold;color:#1E40AF;text-transform:uppercase;letter-spacing:1px;margin-top:16px;margin-bottom:8px;">Your Playbook</h4>
-${m.playbook.map((step,i)=>`<p style="font-size:13px;color:#374151;margin-bottom:4px;"><strong style="color:#1E40AF;">${i+1}.</strong> ${step}</p>`).join('')}
-<div style="margin-top:16px;padding:14px;background:#111827;border:1px solid #DC2626;border-radius:8px;">
-<h4 style="font-size:11px;font-weight:bold;color:#EF4444;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">⚠️ WATCH FOR THE FAKE STYLE</h4>
-<p style="font-size:13px;color:#D1D5DB;">${m.fakeWarning}</p>
-</div>
-</div></div>`;
-}).join('');
+  const getIntensity = (style) => {
+    const val = pct(style);
+    if (val >= 35) return 'High';
+    if (val >= 20) return 'Moderate';
+    return 'Low';
+  };
 
-const readingRoom=`<div class="sec" style="margin-top:32px;">
-<h2 style="color:#1E40AF;font-size:20px;border-bottom:2px solid #1E40AF;padding-bottom:6px;">Reading The Room</h2>
-<p style="color:#6B7280;font-size:14px;margin-top:8px;margin-bottom:20px;">This section gives you your elite edge. Knowing yourself is a great start. But spotting others' negotiation style and adapting your approach is the skill of a master.</p>
-<h3 style="font-size:12px;font-weight:bold;color:#9CA3AF;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Spot Their Style</h3>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;">
-${spotGrid}
-</div>
-<h3 style="font-size:12px;font-weight:bold;color:#9CA3AF;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Your Tactical Playbook</h3>
-${matchupCards}
-<div style="margin-top:20px;padding:20px;background:#111827;color:white;border-radius:8px;">
-<h4 style="font-weight:bold;font-size:14px;margin-bottom:8px;">The Most Important Rule</h4>
-<p style="font-size:13px;color:#D1D5DB;">The most dangerous negotiator is not the one who is aggressive. It is the one who is pretending to be something they are not. If someone's words say collaboration but their proposals say competition, trust the proposals. If their warmth appeared suddenly and conveniently, question what it is designed to achieve. Behaviour reveals intention far more reliably than language ever will.</p>
-</div>
-</div>`;
-  return `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Negotiation Profile Report</title>
-<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:Georgia,'Times New Roman',serif;max-width:760px;margin:0 auto;padding:48px 28px;color:#1F2937;line-height:1.75;background:#fff}
-.radar{text-align:center;margin:24px 0 32px}
-.scores{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin:24px 0 32px}
-.si{text-align:center;padding:14px 24px;border-radius:8px;border:2px solid;min-width:120px}
-.si .n{font-size:28px;font-weight:bold}.si .l{font-size:13px;margin-top:2px}.si .p{font-size:12px;color:#6B7280}
-.sec{margin-bottom:24px}.sec h2{font-size:17px;margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid #E5E7EB}
-.sec p{color:#374151}
-.sh{margin-top:32px;padding:20px;border-radius:8px;border:2px solid}
-.sh h2{border:none;margin-bottom:4px}.sh .sub{font-weight:600;margin-bottom:8px}
-.ft{margin-top:48px;padding-top:20px;border-top:2px solid #E5E7EB;text-align:center;font-size:13px;color:#9CA3AF}
-@page{size:portrait;margin:12mm 14mm}@media print{body{padding:0;font-size:10.5pt;zoom:0.98;-webkit-print-color-adjust:exact;print-color-adjust:exact}body>div{break-inside:avoid!important;page-break-inside:avoid!important}body>table{break-inside:avoid!important;page-break-inside:avoid!important}h3{break-after:avoid!important;page-break-after:avoid!important}div[style*="border-radius:8px"]{break-inside:avoid!important;page-break-inside:avoid!important}}</style></head><body style="font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
-${greeting}
-<p style="font-size:11px;color:rgba(29,78,216,0.6);font-weight:600;letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;text-align:center;">Your Negotiation Archetype</p>
-<h1 style="font-size:30px;font-weight:bold;color:#1E40AF;margin-bottom:8px;text-align:center;">${a.name}</h1>
-<p style="font-size:16px;color:#6B7280;margin-bottom:16px;text-align:center;">${a.tagline}</p>
-<div style="display:flex;align-items:center;justify-content:center;gap:12px;">
-<span style="padding:4px 12px;border-radius:999px;font-size:12px;font-weight:bold;color:white;background-color:${styleMeta[p].color};">Primary: ${styleMeta[p].label}</span>
-<span style="padding:4px 12px;border-radius:999px;font-size:12px;font-weight:bold;color:white;background-color:${styleMeta[s].color};">Secondary: ${styleMeta[s].label}</span>
-</div>
-</div>
-<div class="radar">${svg}</div>
-<div style="padding:20px 0;">
-${['dominator','integrator','yielder','calculator'].map(k=>{
-  const colors={dominator:'#DC2626',integrator:'#9333EA',yielder:'#16A34A',calculator:'#2563EB'};
-  const labels={dominator:'Dominator',integrator:'Integrator',yielder:'Yielder',calculator:'Calculator'};
-  return `<div style="margin-bottom:12px;">
-    <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
-      <span style="font-weight:600;color:${colors[k]}">${labels[k]}</span>
-      <span style="font-weight:700;color:${colors[k]}">${pct(k)}%</span>
+  // Sort styles by score descending
+  const sortedStyles = ['dominator', 'integrator', 'yielder', 'calculator'].sort((a, b) => sc[b] - sc[a]);
+
+  const scoreRowsHTML = sortedStyles.map((style, i) => `
+    <div class="score-row">
+      <div class="score-label">${styleMeta[style].label}</div>
+      <div class="score-bar-bg"><div class="score-bar-fill" style="width:${pct(style)}%;opacity:${i === 0 ? '1' : i === 1 ? '0.7' : '0.4'}"></div></div>
+      <div><div class="score-percent">${pct(style)}%</div><div class="score-intensity">${getIntensity(style)}</div></div>
+    </div>`).join('');
+
+  // Shadow dots
+  const shadowDotsHTML = [1, 2, 3, 4, 5].map(i =>
+    `<div class="shadow-dot ${i <= r.shadow ? 'active' : ''}"></div>`
+  ).join('');
+
+  // Format text into paragraphs
+  const fmtParas = (text) => {
+    if (!text) return '';
+    return text.split(/\n\n/).filter(p => p.trim()).map(p =>
+      `<p class="body-text">${p.trim()}</p>`
+    ).join('');
+  };
+
+  // Extract first sentence as lead quote
+  const extractLead = (text) => {
+    if (!text) return { lead: '', rest: '' };
+    const dot = text.indexOf('.');
+    if (dot === -1) return { lead: '', rest: text };
+    return { lead: text.substring(0, dot + 1), rest: text.substring(dot + 1).trim() };
+  };
+
+  // Primary/secondary style formatting
+  const primaryParts = extractLead(stylePrimary[p]);
+  const secondaryParts = extractLead(styleSecondary[s]);
+
+  // Strengths/weaknesses as bullet items
+  const strengthItems = a.strengths.split('. ').filter(s => s.trim().length > 10).map(s =>
+    `<div class="bullet-item"><span class="bullet-icon">✓</span><p>${s.trim().replace(/\.$/, '')}.</p></div>`
+  ).join('');
+
+  const weaknessItems = a.weaknesses.split('. ').filter(s => s.trim().length > 10).map(s =>
+    `<div class="bullet-item"><span class="bullet-icon">✗</span><p>${s.trim().replace(/\.$/, '')}.</p></div>`
+  ).join('');
+
+  // Growth steps
+  const growthStepsHTML = a.growthSteps.map((step, i) =>
+    `<div class="growth-step"><div class="growth-num">${i + 1}</div><p>${step}</p></div>`
+  ).join('');
+
+// Style intensity section - split into two clean parts (2 cards each)
+const styleOrder = ['dominator', 'integrator', 'yielder', 'calculator'];
+
+const createIntensityCard = (style) => {
+  const score = sc[style];
+  const level = score <= 1 ? 'negligible' : score <= 3 ? 'low' : score <= 6 ? 'moderate' : score <= 9 ? 'high' : 'dominant';
+  const levelText = { negligible: 'Negligible', low: 'Low', moderate: 'Moderate', high: 'High', dominant: 'Dominant' }[level];
+  const pctVal = pct(style);
+  const desc = styleLevels[style][level];
+  return `<div class="intensity-card">
+    <div class="intensity-header">
+      <div class="intensity-name">${styleMeta[style].label}</div>
+      <div class="intensity-meta"><span class="intensity-level">${levelText}</span><span class="intensity-pct">${pctVal}%</span></div>
     </div>
-    <div style="background:#E5E7EB;border-radius:999px;height:10px;overflow:hidden;">
-      <div style="width:${pct(k)}%;height:100%;background:${colors[k]};border-radius:999px;"></div>
-    </div>
+    <div class="bar-bg"><div class="bar-fill" style="width:${pctVal}%"></div></div>
+    <p class="intensity-brief">${styleMeta[style].brief}</p>
+    <p class="intensity-desc">${desc}</p>
   </div>`;
-}).join('')}
+};
+
+const intensityPart1 = styleOrder.slice(0, 2).map(createIntensityCard).join('');
+const intensityPart2 = styleOrder.slice(2, 4).map(createIntensityCard).join('');
+
+  // Spotting guide - NO COLOURS
+  const spotStyles = ['dominator', 'integrator', 'yielder', 'calculator'];
+  const spotGridHTML = spotStyles.map(style => {
+    const sg = spottingGuide[style];
+    const lab = styleMeta[style].label;
+    return `<div class="spot-card">
+      <div class="spot-title">${lab}</div>
+      <table class="spot-table">
+        <tr><td class="spot-key">Pace:</td><td>${sg.pace}</td></tr>
+        <tr><td class="spot-key">Tone:</td><td>${sg.tone}</td></tr>
+        <tr><td class="spot-key">Focus:</td><td>${sg.focus}</td></tr>
+      </table>
+      <p class="spot-subhead">You will hear:</p>
+      <div class="spot-phrases">${sg.phrases.map(ph => `<span class="spot-phrase">"${ph}"</span>`).join('')}</div>
+      <p class="spot-subhead">They will:</p>
+      ${sg.behaviours.map(b => `<p class="spot-behaviour">• ${b}</p>`).join('')}
+    </div>`;
+  }).join('');
+
+  // Matchup cards - NO COLOURS
+  const opponents = spotStyles.filter(st => st !== p);
+  const matchupCardsHTML = opponents.map(opp => {
+    const key = p + '-' + opp;
+    const m = matchupAdvice[key];
+    const oppLab = styleMeta[opp].label;
+    const myLab = styleMeta[p].label;
+    return `<div class="matchup-card">
+      <div class="matchup-header">
+        <span class="matchup-you">You (${myLab})</span>
+        <span class="matchup-vs">vs</span>
+        <span class="matchup-them">${oppLab}</span>
+      </div>
+      <div class="matchup-body">
+        <div class="matchup-section-label">Their Tells</div>
+        ${m.tells.map(t => `<p class="matchup-item">• ${t}</p>`).join('')}
+        <div class="matchup-columns">
+          <div>
+            <div class="matchup-section-label">Your Advantages</div>
+            ${m.advantages.map(av => `<p class="matchup-item">✓ ${av}</p>`).join('')}
+          </div>
+          <div>
+            <div class="matchup-section-label">Your Risks</div>
+            ${m.risks.map(ri => `<p class="matchup-item">✗ ${ri}</p>`).join('')}
+          </div>
+        </div>
+        <div class="matchup-section-label">Your Playbook</div>
+        ${m.playbook.map((step, i) => `<p class="matchup-item"><strong>${i + 1}.</strong> ${step}</p>`).join('')}
+        <div class="matchup-warning">
+          <div class="matchup-warning-label">⚠ Watch For The Fake Style</div>
+          <p>${m.fakeWarning}</p>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Negotiation Profile Report – ${displayName}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+ <style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy: #1B2A4A;
+    --navy-light: #2C3E5A;
+    --gold: #B8860B;
+    --gold-light: #D4A843;
+    --charcoal: #3A3A3A;
+    --grey-light: #F7F8FA;
+    --grey-mid: #E2E4E8;
+    --grey-text: #6B7280;
+    --white: #FFFFFF;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: var(--charcoal);
+    background: var(--white);
+    font-size: 15px;
+    line-height: 1.7;
+    font-weight: 300;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0 auto;
+    padding: 50px 60px 90px 60px;   /* top | right | bottom | left  ← more bottom space for footer */
+    position: relative;
+    page-break-after: always;
+    page-break-inside: avoid;
+  }
+
+  .page:last-child { page-break-after: auto; }
+
+  /* === COVER === */
+  .cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: var(--navy);
+    color: var(--white);
+    padding: 70px 60px;
+  }
+
+  .cover-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .cover-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    font-weight: 500;
+  }
+
+  .cover-confidential {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 6px 14px;
+  }
+
+  .cover-middle {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .cover-middle h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.15;
+  }
+
+  .cover-middle .subtitle {
+    font-size: 17px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 36px;
+  }
+
+  .cover-divider {
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
+    margin-bottom: 36px;
+  }
+
+  .cover-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .cover-detail-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 4px;
+  }
+
+  .cover-detail-value {
+    font-size: 15px;
+    font-weight: 400;
+  }
+
+  .cover-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .cover-brand {
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* === PAGE HEADER === */
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 36px;          /* breathing room under header */
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--grey-mid);
+  }
+
+  .page-header-brand,
+  .page-header-section {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--grey-text);
+  }
+
+  /* === PAGE FOOTER (improved) === */
+  .page-footer {
+    position: absolute;
+    bottom: 28px;
+    left: 60px;
+    right: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 12px;
+    border-top: 1px solid var(--grey-mid);
+    font-size: 10px;
+    color: var(--grey-text);
+  }
+
+  /* === SECTION LABELS === */
+  .section-number {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+
+  .section-subtitle {
+    font-size: 15px;
+    color: var(--grey-text);
+    font-weight: 300;
+    margin-bottom: 28px;
+  }
+
+  /* === BADGES === */
+  .archetype-badges {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .archetype-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--grey-light);
+    border: 1px solid var(--grey-mid);
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .archetype-badge .label {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--grey-text);
+  }
+
+  .archetype-badge .value {
+    color: var(--navy);
+    font-weight: 600;
+  }
+
+  /* === SCORES === */
+  .scores { margin-top: 32px; }
+
+  .score-row {
+    display: grid;
+    grid-template-columns: 120px 1fr 70px;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .score-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--navy);
+  }
+
+  .score-bar-bg {
+    height: 6px;
+    background: var(--grey-light);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .score-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--navy);
+  }
+
+  .score-percent {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+    text-align: right;
+  }
+
+  .score-intensity {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--grey-text);
+    text-align: right;
+  }
+
+  /* === ARCHETYPE DESC === */
+  .archetype-desc {
+    margin-top: 32px;
+    padding: 28px;
+    background: var(--grey-light);
+    border-left: 3px solid var(--gold);
+  }
+
+  .archetype-desc p {
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--charcoal);
+    margin-bottom: 12px;
+  }
+
+  .archetype-desc p:last-child { margin-bottom: 0; }
+
+  /* === BODY TEXT === */
+  .style-lead {
+    font-size: 16px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--navy);
+    padding-left: 18px;
+    border-left: 3px solid var(--gold);
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+
+  .body-text {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--charcoal);
+    margin-bottom: 16px;
+  }
+
+  .body-text:last-child { margin-bottom: 0; }
+
+  /* === HIGHLIGHT BOX === */
+  .highlight-box {
+    padding: 24px 28px;
+    background: var(--grey-light);
+    border-left: 3px solid var(--gold);
+    margin-bottom: 22px;
+  }
+
+  .highlight-box h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+
+  .highlight-box p {
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: var(--charcoal);
+    margin-bottom: 10px;
+  }
+
+  .highlight-box p:last-child { margin-bottom: 0; }
+
+  /* === BULLET ITEMS === */
+  .bullet-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: flex-start;
+  }
+
+  .bullet-icon {
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    color: var(--navy);
+  }
+
+  .bullet-item p {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--charcoal);
+  }
+
+  /* === TWO COLUMN === */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-bottom: 24px;
+  }
+
+  .col-box {
+    padding: 22px;
+    background: var(--grey-light);
+    border-left: 3px solid var(--navy);
+  }
+
+  .col-box h4 {
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--navy);
+  }
+
+  /* === GROWTH STEPS === */
+  .growth-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  .growth-num {
+    min-width: 26px;
+    height: 26px;
+    background: var(--navy);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+
+  .growth-step p {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--charcoal);
+    padding-top: 3px;
+  }
+
+  /* === SHADOW === */
+  .shadow-meter {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 28px;
+    padding: 20px 28px;
+    background: var(--navy);
+    border-radius: 4px;
+  }
+
+  .shadow-meter-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .shadow-dots {
+    display: flex;
+    gap: 8px;
+  }
+
+  .shadow-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.3);
+    background: transparent;
+  }
+
+  .shadow-dot.active {
+    background: var(--gold);
+    border-color: var(--gold);
+  }
+
+  .shadow-score-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gold-light);
+  }
+
+  /* === INTENSITY CARDS === */
+  .intensity-card {
+    border: 1px solid var(--grey-mid);
+    padding: 18px 22px;
+    margin-bottom: 14px;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .intensity-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .intensity-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--navy);
+  }
+
+  .intensity-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .intensity-level {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    background: var(--grey-light);
+    color: var(--grey-text);
+  }
+
+  .intensity-pct {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--navy);
+  }
+
+  .bar-bg {
+    height: 6px;
+    background: var(--grey-light);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--navy);
+  }
+
+  .intensity-brief {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+
+  .intensity-desc {
+    font-size: 13px;
+    color: var(--grey-text);
+    line-height: 1.65;
+  }
+
+  /* === SPOTTING GUIDE === */
+  .spot-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .spot-card {
+    border: 1px solid var(--grey-mid);
+    padding: 16px;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .spot-title {
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--navy);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--gold);
+  }
+
+  .spot-table {
+    border-collapse: collapse;
+    margin-bottom: 10px;
+    font-size: 12px;
+  }
+
+  .spot-table td {
+    padding: 2px 8px 2px 0;
+    font-size: 12px;
+  }
+
+  .spot-key {
+    color: var(--grey-text);
+    font-weight: 600;
+  }
+
+  .spot-subhead {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--grey-text);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 8px;
+    margin-bottom: 4px;
+  }
+
+  .spot-phrases {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 6px;
+  }
+
+  .spot-phrase {
+    display: inline-block;
+    background: var(--grey-light);
+    border: 1px solid var(--grey-mid);
+    padding: 2px 7px;
+    font-size: 11px;
+  }
+
+  .spot-behaviour {
+    font-size: 12px;
+    color: var(--charcoal);
+    line-height: 1.5;
+    margin-left: 2px;
+  }
+
+  /* === MATCHUP CARDS === */
+  .matchup-card {
+    border: 1px solid var(--grey-mid);
+    margin-bottom: 18px;
+    overflow: hidden;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .matchup-header {
+    padding: 12px 20px;
+    background: var(--grey-light);
+    border-bottom: 1px solid var(--grey-mid);
+    font-size: 13px;
+  }
+
+  .matchup-you { font-weight: 600; color: var(--navy); }
+  .matchup-vs { color: var(--grey-text); margin: 0 8px; font-style: italic; }
+  .matchup-them { font-weight: 600; color: var(--navy); }
+
+  .matchup-body {
+    padding: 18px 20px;
+  }
+
+  .matchup-section-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--grey-text);
+    margin-bottom: 6px;
+    margin-top: 14px;
+  }
+
+  .matchup-section-label:first-child { margin-top: 0; }
+
+  .matchup-item {
+    font-size: 12px;
+    color: var(--charcoal);
+    margin-bottom: 4px;
+    line-height: 1.55;
+  }
+
+  .matchup-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+
+  .matchup-warning {
+    margin-top: 14px;
+    padding: 14px 16px;
+    background: var(--navy);
+    border-left: 3px solid var(--gold);
+  }
+
+  .matchup-warning-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 5px;
+  }
+
+  .matchup-warning p {
+    font-size: 12px;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.55;
+  }
+
+  /* === IMPORTANT RULE BOX === */
+  .rule-box {
+    margin-top: 20px;
+    padding: 20px 24px;
+    background: var(--navy);
+  }
+
+  .rule-box h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gold-light);
+    margin-bottom: 8px;
+  }
+
+  .rule-box p {
+    font-size: 12px;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.65;
+  }
+
+  /* === CLOSING === */
+  .closing-box {
+    padding: 28px;
+    background: var(--grey-light);
+    border: 1px solid var(--grey-mid);
+    margin-top: 28px;
+  }
+
+  .closing-box h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+
+  .closing-box p {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--grey-text);
+    margin-bottom: 6px;
+  }
+
+  .closing-box p:last-child { margin-bottom: 0; }
+
+  /* === PRINT === */
+  @media print {
+    body { background: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+    .page {
+      margin: 0;
+      padding: 45px 55px 85px 55px;   /* slightly tighter but still protected bottom */
+      page-break-after: always;
+      page-break-inside: avoid;
+      height: 297mm;                  /* force exact page height */
+      max-height: 297mm;
+      overflow: hidden;               /* prevent spill for now */
+    }
+
+    .page:last-child { page-break-after: auto; }
+
+    .cover { padding: 60px 55px; }
+  }
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- PAGE 1: COVER -->
+<div class="page cover">
+  <div class="cover-top">
+    <div class="cover-label">The Buckingham Academy</div>
+    <div class="cover-confidential">Confidential</div>
+  </div>
+  <div class="cover-middle">
+    <div class="cover-divider"></div>
+    <h1>Negotiate Smarter<br>Profile Report</h1>
+    <p class="subtitle">A comprehensive assessment of your negotiation style,<br>strengths, and solid strategic development recommendations.</p>
+    <div class="cover-details">
+      <div>
+        <div class="cover-detail-label">Prepared for</div>
+        <div class="cover-detail-value">${displayName}</div>
+      </div>
+      <div>
+        <div class="cover-detail-label">Date</div>
+        <div class="cover-detail-value">${today}</div>
+      </div>
+      <div>
+        <div class="cover-detail-label">Archetype</div>
+        <div class="cover-detail-value">${a.name}</div>
+      </div>
+      <div>
+        <div class="cover-detail-label">Assessment ID</div>
+        <div class="cover-detail-value">${assessmentId}</div>
+      </div>
+    </div>
+  </div>
+  <div class="cover-bottom">
+    <div class="cover-brand">&copy; 2026 The Buckingham Academy Limited. All rights reserved.</div>
+  </div>
 </div>
 
-<div style="background:white;border:1px solid #E5E7EB;border-radius:12px;padding:24px;margin-bottom:24px;">
-<h3 style="font-size:11px;font-weight:600;color:rgba(30,58,138,0.6);text-transform:uppercase;letter-spacing:3px;text-align:center;margin-bottom:4px;">${a.emoji} Your Archetype</h3>
-<p style="font-size:22px;font-weight:bold;color:#1E40AF;text-align:center;margin-bottom:16px;">${a.name}</p>
-<p style="font-size:13px;color:#4B5563;line-height:1.8;">${nl(a.narrative)}</p>
-</div>
-<div style="background:white;border:1px solid #E5E7EB;border-radius:12px;padding:24px;margin-bottom:24px;">
-<h3 style="font-size:11px;font-weight:600;color:rgba(30,58,138,0.6);text-transform:uppercase;letter-spacing:3px;text-align:center;margin-bottom:4px;">Your Primary Style</h3>
-<p style="font-size:22px;font-weight:bold;color:${styleMeta[p].color};text-align:center;margin-bottom:16px;">${styleMeta[p].label}</p>
-${fmtSec(stylePrimary[p], styleMeta[p].color)}
-</div>
-<div style="background:white;border:1px solid #E5E7EB;border-radius:12px;padding:24px;margin-bottom:24px;">
-<h3 style="font-size:11px;font-weight:600;color:rgba(30,58,138,0.6);text-transform:uppercase;letter-spacing:3px;text-align:center;margin-bottom:4px;">Your Secondary Influence</h3>
-<p style="font-size:22px;font-weight:bold;color:${styleMeta[s].color};text-align:center;margin-bottom:16px;">${styleMeta[s].label}</p>
-${fmtSec(styleSecondary[s], styleMeta[s].color)}
-</div>
-<div style="background:#EFF6FF;border:1px solid #BFDBFE;border-left:4px solid #1E40AF;border-radius:12px;padding:24px;margin-bottom:24px;">
-<h3 style="font-size:16px;font-weight:700;color:#1E40AF;margin-bottom:16px;">👥 How Others Experience You</h3>${fmtSec(a.howOthersSeeYou, '#1E40AF')}
-</div>
-<table style="width:100%;border-collapse:separate;border-spacing:16px 0;margin-bottom:24px;"><tr>
-<td style="width:50%;vertical-align:top;background:#F0FDF4;border:1px solid #BBF7D0;border-left:4px solid #16A34A;border-radius:12px;padding:20px;">
-<h3 style="font-size:14px;font-weight:700;color:#16A34A;margin-bottom:16px;">💪 Your Strengths</h3>
-${a.strengths.split('. ').filter(s=>s.trim().length>10).map(s=>
-'<div style="display:flex;gap:8px;margin-bottom:10px;"><span style="color:#16A34A;font-weight:700;flex-shrink:0;">✓</span><p style="font-size:12px;color:#4B5563;line-height:1.6;margin:0;">'+s.trim().replace(/\.$/,'')+'.</p></div>'
-).join('')}
-</td>
-<td style="width:50%;vertical-align:top;background:#FEF2F2;border:1px solid #FECACA;border-left:4px solid #DC2626;border-radius:12px;padding:20px;">
-<h3 style="font-size:14px;font-weight:700;color:#DC2626;margin-bottom:16px;">⚡ Your Weaknesses</h3>
-${a.weaknesses.split('. ').filter(s=>s.trim().length>10).map(s=>
-'<div style="display:flex;gap:8px;margin-bottom:10px;"><span style="color:#DC2626;font-weight:700;flex-shrink:0;">✗</span><p style="font-size:12px;color:#4B5563;line-height:1.6;margin:0;">'+s.trim().replace(/\.$/,'')+'.</p></div>'
-).join('')}
-</td>
-</tr></table>
-<div style="background:#FAF5FF;border:1px solid #E9D5FF;border-left:4px solid #9333EA;border-radius:12px;padding:24px;margin-bottom:24px;">
-<h3 style="font-size:16px;font-weight:700;color:#9333EA;margin-bottom:16px;">🔍 Your Blind Spots</h3>
-${fmtSec(a.blindSpots, '#9333EA')}
-</div>
-<div style="background:#FFF7ED;border:1px solid #FED7AA;border-left:4px solid #D97706;border-radius:12px;padding:24px;margin-bottom:24px;">
-<h3 style="font-size:16px;font-weight:700;color:#D97706;margin-bottom:16px;">🔥 Under Pressure</h3>${fmtSec(a.underPressure, '#D97706')}
-</div>
-<div style="background:#FEF2F2;border:1px solid #FECACA;border-left:4px solid #DC2626;border-radius:12px;padding:24px;margin-bottom:24px;">
-<h3 style="font-size:16px;font-weight:700;color:#DC2626;margin-bottom:16px;">⚠️ Watch Out</h3>
-${fmtSec(a.watchOut, '#DC2626')}
-</div>
-<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-left:4px solid #16A34A;border-radius:12px;padding:24px;margin-bottom:24px;">
-<h3 style="font-size:16px;font-weight:700;color:#16A34A;margin-bottom:16px;">🌱 Your Growth Edge</h3>
-${fmtSec(a.growthEdge, '#16A34A')}
-${a.growthSteps.map((step,i)=>`
-<div style="display:flex;align-items:flex-start;margin:12px 0;">
-<div style="min-width:28px;height:28px;background:#16A34A;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;margin-right:12px;">${i+1}</div>
-<p style="font-size:13px;color:#4B5563;line-height:1.6;margin:0;padding-top:4px;">${step}</p>
-</div>
-`).join('')}
+<!-- PAGE 2: ARCHETYPE OVERVIEW -->
+<div class="page">
+  <div class="page-header">
+    <div class="page-header-brand">The Buckingham Academy</div>
+    <div class="page-header-section">Negotiate Smarter Profile Report</div>
+  </div>
+  <div class="section-number">01 &mdash; Your Negotiation Archetype</div>
+  <div class="section-title">${a.name}</div>
+  <div class="section-subtitle">${a.tagline}</div>
+  <div class="archetype-badges">
+    <span class="archetype-badge"><span class="label">Primary</span><span class="value">${styleMeta[p].label}</span></span>
+    <span class="archetype-badge"><span class="label">Secondary</span><span class="value">${styleMeta[s].label}</span></span>
+  </div>
+  <div class="scores">${scoreRowsHTML}</div>
+  <div class="archetype-desc">
+    <p>${a.narrative.replace(/\n\n/g, '</p><p>')}</p>
+  </div>
+  <div class="page-footer">
+    <div>Prepared exclusively for ${displayName}</div>
+    <div>Confidential</div>
+    <div>02</div>
+  </div>
 </div>
 
-<div style="background:white;border:1px solid #E5E7EB;border-radius:12px;padding:24px;margin-bottom:24px;">
-<h3 style="font-size:11px;font-weight:600;color:rgba(30,58,138,0.6);text-transform:uppercase;letter-spacing:3px;text-align:center;margin-bottom:4px;">Style Intensity Profile</h3>
-<p style="font-size:12px;color:#6B7280;text-align:center;margin-bottom:24px;">This shows how strongly each negotiation style influences your behaviour at the table based upon your responses.</p>
-${['dominator','integrator','yielder','calculator'].map(style=>{
-  const score=sc[style];
-  const level=score<=1?'negligible':score<=3?'low':score<=6?'moderate':score<=9?'high':'dominant';
-  const levelText={negligible:'Negligible',low:'Low',moderate:'Moderate',high:'High',dominant:'Dominant'}[level];
-  const levelBg={negligible:'#F3F4F6',low:'#E5E7EB',moderate:'#DBEAFE',high:'#FEF3C7',dominant:'#FEE2E2'}[level];
-  const levelCol={negligible:'#94A3B8',low:'#64748B',moderate:'#3B82F6',high:'#F59E0B',dominant:'#EF4444'}[level];
-  const col=styleMeta[style].color;
-  const pctVal=pct(style);
-  const desc=styleLevels[style][level];
-  return `<div style="border:1px solid #F3F4F6;border-radius:8px;padding:16px;margin-bottom:16px;">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-<div style="display:flex;align-items:center;gap:8px;">
-<div style="width:12px;height:12px;border-radius:50%;background-color:${col};"></div>
-<span style="font-weight:bold;font-size:14px;color:${col};">${styleMeta[style].label}</span>
+<!-- PAGE 3: PRIMARY STYLE -->
+<div class="page">
+  <div class="page-header">
+    <div class="page-header-brand">The Buckingham Academy</div>
+    <div class="page-header-section">Negotiate Smarter Profile Report</div>
+  </div>
+  <div class="section-number">02 &mdash; Your Primary Style</div>
+  <div class="section-title">${styleMeta[p].label}</div>
+  <div class="section-subtitle">Your dominant negotiation approach &mdash; the pattern you default to under pressure.</div>
+  ${primaryParts.lead ? `<div class="style-lead">${primaryParts.lead}</div>` : ''}
+  ${fmtParas(primaryParts.rest || stylePrimary[p])}
+  <div class="page-footer">
+    <div>Prepared exclusively for ${displayName}</div>
+    <div>Confidential</div>
+    <div>03</div>
+  </div>
 </div>
-<div style="display:flex;align-items:center;gap:12px;">
-<span style="padding:2px 8px;border-radius:4px;font-size:12px;font-weight:bold;background:${levelBg};color:${levelCol};">${levelText}</span>
-<span style="font-size:14px;font-weight:bold;color:#6B7280;">${pctVal}%</span>
+
+<!-- PAGE 4: SECONDARY STYLE -->
+<div class="page">
+  <div class="page-header">
+    <div class="page-header-brand">The Buckingham Academy</div>
+    <div class="page-header-section">Negotiate Smarter Profile Report</div>
+  </div>
+  <div class="section-number">03 &mdash; Your Secondary Influence</div>
+  <div class="section-title">${styleMeta[s].label}</div>
+  <div class="section-subtitle">The supporting style that shapes how your primary approach is expressed.</div>
+  ${secondaryParts.lead ? `<div class="style-lead">${secondaryParts.lead}</div>` : ''}
+  ${fmtParas(secondaryParts.rest || styleSecondary[s])}
+  <div class="page-footer">
+    <div>Prepared exclusively for ${displayName}</div>
+    <div>Confidential</div>
+    <div>04</div>
+  </div>
 </div>
+
+<!-- PAGE 5: HOW OTHERS SEE YOU -->
+<div class="page">
+  <div class="page-header">
+    <div class="page-header-brand">The Buckingham Academy</div>
+    <div class="page-header-section">Negotiate Smarter Profile Report</div>
+  </div>
+  <div class="section-number">04 &mdash; How Others Experience You</div>
+  <div class="section-title">Your Negotiation Presence</div>
+  <div class="section-subtitle">What counterparts perceive when they sit across the table from you.</div>
+  ${fmtParas(a.howOthersSeeYou)}
+  <div class="page-footer">
+    <div>Prepared exclusively for ${displayName}</div>
+    <div>Confidential</div>
+    <div>05</div>
+  </div>
 </div>
-<div style="height:10px;background:#F3F4F6;border-radius:99px;overflow:hidden;margin-bottom:12px;">
-<div style="height:100%;width:${pctVal}%;background:${col};border-radius:99px;"></div>
+
+<!-- PAGE 6: STRENGTHS & WEAKNESSES -->
+<div class="page">
+  <div class="page-header">
+    <div class="page-header-brand">The Buckingham Academy</div>
+    <div class="page-header-section">Negotiate Smarter Profile Report</div>
+  </div>
+  <div class="two-col" style="margin-top:0;">
+    <div class="col-box">
+      <h4>Strengths</h4>
+      ${strengthItems}
+    </div>
+    <div class="col-box">
+      <h4>Weaknesses</h4>
+      ${weaknessItems}
+    </div>
+  </div>
+  <div class="page-footer">
+    <div>Prepared exclusively for ${displayName}</div>
+    <div>Confidential</div>
+    <div>06</div>
+  </div>
 </div>
-<p style="font-size:13px;font-weight:600;color:#1F2937;margin-bottom:6px;">${styleMeta[style].brief}</p>
-<p style="font-size:13px;color:#4B5563;line-height:1.7;">${desc}</p>
+
+<!-- PAGE 7: BLIND SPOTS & UNDER PRESSURE -->
+<div class="page">
+  <div class="page-header">
+    <div class="page-header-brand">The Buckingham Academy</div>
+    <div class="page-header-section">Negotiate Smarter Profile Report</div>
+  </div>
+  <div class="section-number">05 &mdash; Vulnerabilities</div>
+  <div class="section-title">Blind Spots &amp; Pressure Points</div>
+  <div class="section-subtitle">Where your natural patterns may work against you.</div>
+
+  <div class="highlight-box">
+    <h3>Your Blind Spots</h3>
+    <p>${a.blindSpots.replace(/\n\n/g, '</p><p>')}</p>
+  </div>
+
+  <div class="highlight-box">
+    <h3>Under Pressure</h3>
+    <p>${a.underPressure.replace(/\n\n/g, '</p><p>')}</p>
+  </div>
+
+  <div class="page-footer">
+    <div>Prepared exclusively for ${displayName}</div>
+    <div>Confidential</div>
+    <div>07</div>
+  </div>
+</div>
+
+<!-- PAGE 8: WATCH OUT + GROWTH -->
+<div class="page">
+  <div class="page-header">
+    <div class="page-header-brand">The Buckingham Academy</div>
+    <div class="page-header-section">Negotiate Smarter Profile Report</div>
+  </div>
+  <div class="section-number">06 &mdash; Development</div>
+  <div class="section-title">Growth Edge</div>
+  <div class="section-subtitle">Your path to becoming a more complete negotiator.</div>
+
+  <div class="highlight-box">
+    <h3>⚠ Watch Out</h3>
+    <p>${a.watchOut.replace(/\n\n/g, '</p><p>')}</p>
+  </div>
+
+  <div class="highlight-box">
+    <h3>Your Growth Edge</h3>
+    <p>${a.growthEdge.replace(/\n\n/g, '</p><p>')}</p>
+  </div>
+
+  <div style="margin-top:28px;">
+    ${growthStepsHTML}
+  </div>
+
+  <div class="page-footer">
+    <div>Prepared exclusively for ${displayName}</div>
+    <div>Confidential</div>
+    <div>08</div>
+  </div>
+</div>
+
+<!-- PAGE 9: STYLE INTENSITY (Part 1 of 2) -->
+<div class="page">
+  <div class="page-header">
+    <div class="page-header-brand">The Buckingham Academy</div>
+    <div class="page-header-section">Negotiate Smarter Profile Report</div>
+  </div>
+  <div class="section-number">07 &mdash; Style Intensity Profile</div>
+  <div class="section-title">Detailed Breakdown</div>
+  <div class="section-subtitle">How strongly each negotiation style influences your behaviour at the table.</div>
+  
+  ${intensityPart1}
+  
+  <div class="page-footer">
+    <div>Prepared exclusively for ${displayName}</div>
+    <div>Confidential</div>
+    <div>09</div>
+  </div>
+</div>
+
+<!-- PAGE 10: STYLE INTENSITY (Part 2 of 2) -->
+<div class="page">
+  <div class="page-header">
+    <div class="page-header-brand">The Buckingham Academy</div>
+    <div class="page-header-section">Negotiate Smarter Profile Report</div>
+  </div>
+  
+  ${intensityPart2}
+  
+  <div class="page-footer">
+    <div>Prepared exclusively for ${displayName}</div>
+    <div>Confidential</div>
+    <div>10</div>
+  </div>
+</div>
+
+<!-- PAGE 11: READING THE ROOM - SPOTTING -->
+<div class="page">
+  <div class="page-header">
+    <div class="page-header-brand">The Buckingham Academy</div>
+    <div class="page-header-section">Negotiate Smarter Profile Report</div>
+  </div>
+  <div class="section-number">08 &mdash; Reading The Room</div>
+  <div class="section-title">Spot Their Style</div>
+  <div class="section-subtitle">Identify your counterpart's negotiation approach within the first few minutes through their speech and behaviours.</div>
+  <div class="spot-grid">
+    ${spotGridHTML}
+  </div>
+  <div class="page-footer">
+    <div>Prepared exclusively for ${displayName}</div>
+    <div>Confidential</div>
+    <div>11</div>
+  </div>
+</div>
+
+<!-- TACTICAL PLAYBOOK - One matchup per page (improved spacing) -->
+${opponents.map((opp, index) => {
+  const key = p + '-' + opp;
+  const m = matchupAdvice[key];
+  const oppLab = styleMeta[opp].label;
+  const myLab = styleMeta[p].label;
+  const pageNum = 12 + index;          // 12, 13, 14
+
+  return `
+<div class="page">
+  <div class="page-header">
+    <div class="page-header-brand">The Buckingham Academy</div>
+    <div class="page-header-section">Negotiate Smarter Profile Report</div>
+  </div>
+
+  ${index === 0 ? `
+    <div class="section-number">09 &mdash; Your Tactical Playbook</div>
+    <div class="section-title">Style Matchups</div>
+    <div class="section-subtitle">This section helps you prepare and engage with different counterparty negotiation styles.</div>
+  ` : `
+    <div class="section-number">09 &mdash; Your Tactical Playbook (continued)</div>
+    <div class="section-title" style="font-size:24px; margin-bottom:6px;">You (${myLab}) vs ${oppLab}</div>
+    <div style="height:12px;"></div>
+  `}
+
+  <div class="matchup-card">
+    <div class="matchup-header">
+      <span class="matchup-you">You (${myLab})</span>
+      <span class="matchup-vs">vs</span>
+      <span class="matchup-them">${oppLab}</span>
+    </div>
+
+    <div class="matchup-body">
+
+      <!-- THEIR TELLS -->
+      <div class="matchup-section-label">Their Tells</div>
+      <div style="height:6px;"></div>
+      ${m.tells.map(t => `<p class="matchup-item">• ${t}</p>`).join('')}
+
+      <div style="height:22px;"></div>
+
+      <!-- YOUR ADVANTAGES -->
+      <div class="matchup-section-label">Your Advantages</div>
+      <div style="height:6px;"></div>
+      ${m.advantages.map(av => `<p class="matchup-item">✓ ${av}</p>`).join('')}
+
+      <div style="height:22px;"></div>
+
+      <!-- YOUR RISKS (now stacked underneath) -->
+      <div class="matchup-section-label">Your Risks</div>
+      <div style="height:6px;"></div>
+      ${m.risks.map(ri => `<p class="matchup-item">✗ ${ri}</p>`).join('')}
+
+      <div style="height:22px;"></div>
+
+      <!-- YOUR PLAYBOOK -->
+      <div class="matchup-section-label">Your Playbook</div>
+      <div style="height:6px;"></div>
+      ${m.playbook.map((step, i) => `<p class="matchup-item"><strong>${i + 1}.</strong> ${step}</p>`).join('')}
+
+      <div style="height:20px;"></div>
+
+      <!-- WARNING BOX -->
+      <div class="matchup-warning">
+        <div class="matchup-warning-label">⚠ Watch For The Fake Style</div>
+        <p>${m.fakeWarning}</p>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="page-footer">
+    <div>Prepared exclusively for ${displayName}</div>
+    <div>Confidential</div>
+    <div>${pageNum}</div>
+  </div>
 </div>`;
 }).join('')}
+
+<!-- PAGE 15: SHADOW ASSESSMENT -->
+<div class="page">
+  <div class="page-header">
+    <div class="page-header-brand">The Buckingham Academy</div>
+    <div class="page-header-section">Negotiate Smarter Profile Report</div>
+  </div>
+
+  <div class="section-number">10 &mdash; Shadow Assessment</div>
+  <div class="section-title">${sl.title}</div>
+  <div class="section-subtitle">${sl.sub}</div>
+
+  <div class="shadow-meter">
+    <div class="shadow-meter-label">Shadow Score</div>
+    <div class="shadow-dots">${shadowDotsHTML}</div>
+    <div class="shadow-score-text">${r.shadow} / 5</div>
+  </div>
+
+  ${fmtParas(sl.msg)}
+
+  <!-- Spacer to push the box down -->
+  <div style="height: 40px;"></div>
+
+  <!-- Remember box at the bottom of page 15 -->
+  <div class="rule-box">
+    <h4>Remember</h4>
+    <p>The most dangerous negotiator is not the one who is aggressive. It is the one who is pretending to be something they are not. If someone's words say collaboration but their proposals say competition, trust the proposals. Behaviour reveals intention far more reliably than language ever will.</p>
+  </div>
+
+  <div class="page-footer">
+    <div>Prepared exclusively for ${displayName}</div>
+    <div>Confidential</div>
+    <div>15</div>
+  </div>
 </div>
 
-${readingRoom}
+<!-- PAGE 16: CLOSING -->
+<div class="page">
+  <div class="page-header">
+    <div class="page-header-brand">The Buckingham Academy</div>
+    <div class="page-header-section">Negotiate Smarter Profile Report</div>
+  </div>
 
-<div style="height:0;page-break-after:always;"></div><div class="sh" style="background:${shBg};border:2px solid ${shBd};border-radius:12px;padding:28px;margin-bottom:24px;"><h2 style="color:${shTx};font-size:22px;font-weight:800;margin-bottom:8px;border:none;">Shadow Assessment: ${sl.title}</h2><div class="sub" style="color:${shTx};font-weight:600;font-size:15px;margin-bottom:12px;">${sl.sub} : Shadow Score: ${r.shadow}/5</div><p style="color:#E5E7EB;font-size:14px;line-height:1.7;">${nl(sl.msg)}</p></div>
-<div class="ft"><p style="font-weight:600;color:#374151;margin-bottom:4px;">© 2026 The Buckingham Academy Limited. All rights reserved.</p><p>To hear about our negotiation coaching email us: admin@bucademy.com</p></div>
-</body></html>`;
+  <div class="section-number">11 &mdash; What Comes Next</div>
+  <div class="section-title">Using This Report</div>
+  <div class="section-subtitle">Your profile is a starting point, not a label.</div>
+
+  <p class="body-text">This report maps your current negotiation tendencies based on how you responded under simulated pressure. It reflects your defaults &mdash; the patterns you fall into when you have not consciously chosen a different approach. Defaults are not destiny. They are simply what happens when you are not paying attention.</p>
+  <p class="body-text">The most effective negotiators are not locked into one style. They understand their natural inclinations, recognise when those inclinations serve them, and develop the ability to shift when circumstances demand something different.</p>
+  <p class="body-text">Review your strengths to understand where you already operate effectively. Study your blind spots to identify where you may be leaving value on the table. Use the tactical playbook to prepare for specific counterpart styles. And pay attention to your shadow score &mdash; it tells you something important about the gap between who you present yourself as and how you actually operate.</p>
+
+  <div class="closing-box">
+    <h3>The Buckingham Academy</h3>
+    <p>We coach teams to close deals. If you want to deepen your negotiation capability &mdash; whether through one-to-one coaching, team workshops, or advanced scenario training &mdash; we would be glad to hear from you.</p>
+    <p><strong>Email:</strong> admin@bucademy.com</p>
+    <p><strong>Web:</strong> www.buckingham.academy</p>
+  </div>
+
+  <div class="page-footer">
+    <div>Prepared exclusively for ${displayName}</div>
+    <div>Confidential</div>
+    <div>16</div>
+  </div>
+</div>
+
+</body>
+</html>`;
 }
 
 const PetalChart = ({ scores }) => {
@@ -1863,444 +2924,438 @@ if (phase === 'intro') return (
 </div>
 );
 
-  if(phase==='quiz'){
-    const q=questions[qi];
-    const pct=((qi)/questions.length)*100;
-    return(
-      <div className="min-h-screen bg-white text-gray-900 flex flex-col p-4">
-        <div className="max-w-2xl w-full mx-auto flex-1 flex flex-col">
-          <div className="mb-6">
-  <div className="flex justify-between text-sm text-gray-500 mb-2">
-    <span>Question {qi+1} of {questions.length}</span>
-    <span>{Math.round(pct)}%</span>
-  </div>
-  <div className="h-4 bg-gray-200 rounded-full overflow-hidden">
-    <motion.div className="h-full bg-blue-700 rounded-full" initial={{width:0}} animate={{width:`${pct}%`}} transition={{duration:0.3}}/>
-  </div>
-<p className="text-sm text-gray-600 mt-3 text-center leading-relaxed">
-  Pick the answer closest to how you would actually behave.<br/>
-  <span className="font-bold text-gray-900">NOT</span> how you think you should.
-</p>
-</div>
-          <div className="flex-1 flex flex-col justify-center">
-            <AnimatePresence mode="wait">
-              <motion.div key={qi} initial={{opacity:0,x:30}} animate={{opacity:1,x:0}} exit={{opacity:0,x:-30}} transition={{duration:0.2}}>
-                <h2 className="text-lg sm:text-xl font-semibold mb-6 text-gray-900 leading-relaxed">{q.text}</h2>
-                <div className="space-y-3">
-                  {q.options.map((o,i)=>(
-                    <button key={i} onClick={()=>setSel(i)}
-  className={`w-full text-left p-3 sm:p-4 rounded-lg border-2 transition-all duration-150 flex items-start gap-3 ${
-    sel===i?'border-blue-700 bg-blue-50 text-blue-900':'border-gray-200 bg-white hover:border-gray-400 text-gray-700 hover:text-gray-900'
-  }`}>
-  <span className={`shrink-0 inline-flex items-center justify-center w-7 h-7 rounded-full text-sm font-bold ${
-    sel===i?'bg-blue-700 text-white':'bg-gray-200 text-gray-500'
-  }`}>{String.fromCharCode(65+i)}</span>
-  <span className="text-sm sm:text-base">{o.text}</span>
-</button>
-                  ))}
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-          <div className="flex justify-between mt-8 pb-4">
-            <button onClick={back} disabled={qi===0}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${qi===0?'text-gray-300 cursor-not-allowed':'text-gray-500 hover:text-gray-800'}`}>
-              <ChevronLeft className="w-4 h-4"/>Back
-            </button>
-            <button onClick={next} disabled={sel===null}
-              className={`flex items-center gap-2 px-6 py-2 rounded-lg font-semibold transition-colors ${
-                sel===null?'bg-gray-200 text-gray-400 cursor-not-allowed':'bg-blue-700 hover:bg-blue-800 text-white'
-              }`}>
-              {qi===questions.length-1?'See Results':'Next'}<ChevronRight className="w-4 h-4"/>
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-if(phase==='tiebreak'&&tieData) return(
-  <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6">
-    <h2 className="text-2xl font-bold text-gray-900 mb-2">One more question</h2>
-    <p className="text-gray-500 mb-8">Your results are evenly split. Which description fits you best?</p>
-    <div className="space-y-3 max-w-lg w-full">
-      {tieData.tied.map(style=>(
-        <button key={style} onClick={()=>{
-          const sorted=Object.entries(tieData.scores).sort((a,b)=>
-            b[1]-a[1] || (a[0]===style?-1:b[0]===style?1:0)
-          );
-          const p=sorted[0][0], s=sorted[1][0];
-          const r={scores:tieData.scores,shadow:tieData.shadow,primary:p,secondary:s,archetype:archetypes[p+'-'+s]};
-          setResults(r);
-          setPhase('results');
-        }}
-          className="w-full text-left p-5 rounded-lg border-2 border-gray-200 hover:border-blue-700 hover:bg-blue-50 transition-all">
-          <span className="font-bold" style={{color:styleMeta[style].color}}>{styleMeta[style].label}</span>
-          <span className="text-gray-500 text-sm ml-2">
-            {style==='dominator'&&'— I negotiate with directness to win the best deal possible'}
-            {style==='integrator'&&'— I focus on collaboration and creative problem-solving'}
-            {style==='yielder'&&'— I focus on empathasing with the other party and relationship-building'}
-            {style==='calculator'&&'— I negotiate using thorough preparation and analysis'}
-          </span>
-        </button>
-      ))}
-    </div>
-  </div>
-);
-
-  if(phase==='results'&&results){
+if(phase==='results'&&results){
     const{scores:sc,shadow:sh,primary:p,secondary:s,archetype:arch}=results;
     const sl=shadowLevels[sh];
 
-  
+    const navy='#1E2A3E';
+    const gold='#C9A84C';
 
-// eslint-disable-next-line no-unused-vars
-    const shColors={green:'border-green-600 bg-green-50',yellow:'border-yellow-500 bg-yellow-50',amber:'border-amber-500 bg-amber-50',red:'border-red-600 bg-red-50'};
-    const shTextColors={green:'text-green-700',yellow:'text-yellow-700',amber:'text-amber-700',red:'text-red-700'};
-  // const shC=shColors[sl.color]||shColors.green;
-// const shT=shTextColors[sl.color]||shTextColors.green;
+    const renderParagraphs=(text)=>text.split('\n\n').map((para,i)=><p key={i} className={`text-gray-600 leading-relaxed text-sm ${i>0?'mt-4':''}`}>{para}</p>);
 
-const renderParagraphs=(text)=>text.split('\n\n').map((para,i)=><p key={i} className={`text-gray-700 leading-relaxed ${i>0?'mt-3':''}`}>{para}</p>);
+    const SectionLabel=({number,text})=>(
+      <p className="text-xs font-semibold uppercase tracking-widest mb-4" style={{color:gold}}>
+        {number && <>{number} &mdash; </>}{text}
+      </p>
+    );
 
-const renderWithQuote=(text)=>{
-  const paragraphs=text.split('\n\n');
-  const firstSentence=paragraphs[0].split('. ')[0]+'.';
-  const restOfFirst=paragraphs[0].slice(firstSentence.length).trim();
-  const allRemaining=[restOfFirst,...paragraphs.slice(1)].filter(p=>p.length>0).join(' ');
-  const sentences=allRemaining.split('. ').filter(s=>s.trim().length>0);
-  const mid=Math.ceil(sentences.length/2);
-  const firstHalf=sentences.slice(0,mid).join('. ')+(sentences.length>1?'.':'');
-  const secondHalf=sentences.slice(mid).join('. ')+(sentences.length>mid?'.':'');
-  return(
-    <>
-      <p className="text-lg font-medium text-gray-900 border-l-4 border-blue-300 pl-4 mb-4 leading-relaxed italic">{firstSentence}</p>
-      {firstHalf && <p className="text-gray-700 leading-relaxed">{firstHalf}</p>}
-      {secondHalf && <p className="text-gray-700 leading-relaxed mt-4">{secondHalf}</p>}
-    </>
-  );
-};
+    const SectionTitle=({children})=>(
+      <h2 className="font-serif text-2xl sm:text-3xl font-bold mb-4" style={{color:navy}}>{children}</h2>
+    );
 
+    const Divider=()=>(
+      <div className="border-t border-gray-200 my-8"></div>
+    );
 
     return(
-   <div id="report" className="min-h-screen bg-gray-50 text-gray-900 p-4 overflow-y-auto">
-        <div className="max-w-2xl mx-auto py-8">
-         <motion.div initial={{opacity:0,scale:0.9}} animate={{opacity:1,scale:1}} transition={{duration:0.5,type:'spring'}} className="text-center mb-8 bg-white rounded-xl border-2 border-blue-700 p-8 pdf-avoid-break">
-  {userName && <p className="text-gray-500 mb-2">Prepared for: <span className="font-bold text-gray-900">{userName}</span></p>}
-  <p className="text-xs text-blue-700/60 font-semibold tracking-widest uppercase mb-4 text-center">Your Negotiation Archetype</p>
-  <h1 className="text-3xl font-bold text-blue-800 mb-2">{arch.name}</h1>
-  <p className="text-base text-gray-500 mb-4">{arch.tagline}</p>
-  <div className="flex items-center justify-center gap-3">
-    <span className="px-3 py-1 rounded-full text-xs font-bold text-white" style={{backgroundColor:styleMeta[p].color}}>Primary: {styleMeta[p].label}</span>
-    <span className="px-3 py-1 rounded-full text-xs font-bold text-white" style={{backgroundColor:styleMeta[s].color}}>Secondary: {styleMeta[s].label}</span>
-  </div>
-</motion.div>
+     <div id="report" className="min-h-screen bg-white text-gray-900 overflow-y-auto">
+<style>{`
+#report .bg-gray-800 {
+  background-color: transparent !important;
+  background-image: linear-gradient(to right, #1f2937, #d1d5db) !important;
+}
+    #report .text-sm { font-size: 1rem; line-height: 1.75; }
+    #report .text-xs { font-size: 0.875rem; line-height: 1.5; }
+    #report .text-base { font-size: 1.125rem; line-height: 1.75; }
+    #report .text-2xl { font-size: 1.875rem; }
+    #report .text-3xl { font-size: 2.25rem; }
+`}</style>
+  <div className="max-w-3xl mx-auto">
 
-          <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.2}} className="pdf-avoid-break bg-white border border-gray-200 rounded-xl p-6 mb-6">
-<h3 className="text-xs font-semibold text-blue-700/60 uppercase tracking-widest mb-4 text-center">Style Distribution</h3>
-  <div style={{width:'100%',maxWidth:400,margin:'0 auto',aspectRatio:'1'}}>
-    <PetalChart scores={sc}/>
-  </div>
-</motion.div>
-
-<motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.3}} className="pdf-avoid-break bg-white border border-gray-200 rounded-xl p-6 mb-6">
-  <div className="space-y-4">
-    {[
-      {k:'dominator',label:'Dominator',color:'#DC2626',bg:'bg-red-600'},
-      {k:'integrator',label:'Integrator',color:'#9333EA',bg:'bg-purple-600'},
-      {k:'yielder',label:'Yielder',color:'#16A34A',bg:'bg-green-600'},
-      {k:'calculator',label:'Calculator',color:'#2563EB',bg:'bg-blue-600'},
-    ].map(a=>{
-      const percent=Math.round((sc[a.k]/16)*100);
-      return(
-        <div key={a.k}>
-          <div className="flex justify-between items-center mb-1">
-            <span className="text-sm font-bold" style={{color:a.color}}>{a.label}</span>
-            <span className="text-sm font-bold" style={{color:a.color}}>{percent}%</span>
-          </div>
-          <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
-            <motion.div
-              className={`h-full rounded-full ${a.bg}`}
-              initial={{width:0}}
-              animate={{width:`${percent}%`}}
-              transition={{duration:0.8,delay:0.5}}
-            />
-          </div>
-        </div>
-      );
-    })}
-  </div>
-</motion.div>
-
-
-{/* Archetype Narrative */}
-<motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.3}}
-  className="bg-gradient-to-r from-blue-50/50 to-white border border-blue-100 rounded-xl p-6 mb-4 border-l-4 border-l-blue-700 pdf-avoid-break">
-  <h3 className="font-bold text-lg mb-3 text-blue-800">{arch.emoji} Your Archetype: {arch.name}</h3>
-  {renderWithQuote(arch.narrative)}
-</motion.div>
-
-{/* Primary and Secondary side by side on desktop */}
-<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 pdf-avoid-break">
-  <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.38}}
-    className="bg-white rounded-xl p-5 border-l-4" style={{borderLeftColor:styleMeta[p].color}}>
-    <h3 className="font-bold text-base mb-2" style={{color:styleMeta[p].color}}>🎯 Primary: {styleMeta[p].label}</h3>
-    <div className="text-sm text-gray-700 leading-relaxed">{renderParagraphs(stylePrimary[p])}</div>
-  </motion.div>
-  <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.42}}
-    className="bg-white rounded-xl p-5 border-l-4" style={{borderLeftColor:styleMeta[s].color}}>
-    <h3 className="font-bold text-base mb-2" style={{color:styleMeta[s].color}}>🔀 Secondary: {styleMeta[s].label}</h3>
-    <div className="text-sm text-gray-700 leading-relaxed">{renderParagraphs(styleSecondary[s])}</div>
-  </motion.div>
-</div>
-
-{/* How Others See You */}
-<motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.46}}
-  className="bg-white border-l-4 border-l-blue-700 rounded-xl p-6 mb-4 pdf-avoid-break">
-  <h3 className="font-bold text-lg mb-3 text-blue-800">👥 How Others Experience You</h3>
-  {renderWithQuote(arch.howOthersSeeYou)}
-</motion.div>
-
-{/* Strengths and Weaknesses side by side as bullets */}
-<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 pdf-avoid-break">
-  <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.5}}
-    className="bg-green-50/50 border border-green-100 rounded-xl p-5 border-l-4 border-l-green-600">
-    <h3 className="font-bold text-base mb-4 text-green-700">💪 Your Strengths</h3>
-    <div className="space-y-3">
-      {arch.strengths.split('. ').filter(s=>s.trim().length>10).map((s,i)=>(
-        <div key={i} className="flex gap-2 items-start">
-          <span className="shrink-0 text-green-600 mt-0.5">✓</span>
-          <p className="text-sm text-gray-700 leading-relaxed">{s.trim().replace(/\.$/,'')}.</p>
-        </div>
-      ))}
-    </div>
-  </motion.div>
-  <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.54}}
-    className="bg-red-50/30 border border-red-100 rounded-xl p-5 border-l-4 border-l-red-600">
-    <h3 className="font-bold text-base mb-4 text-red-700">⚡ Your Weaknesses</h3>
-    <div className="space-y-3">
-      {arch.weaknesses.split('. ').filter(s=>s.trim().length>10).map((s,i)=>(
-        <div key={i} className="flex gap-2 items-start">
-          <span className="shrink-0 text-red-600 mt-0.5">✗</span>
-          <p className="text-sm text-gray-700 leading-relaxed">{s.trim().replace(/\.$/,'')}.</p>
-        </div>
-      ))}
-    </div>
-  </motion.div>
-</div>
-
-{/* Blind Spots - distinct visual treatment */}
-<motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.58}}
-  className="bg-purple-50/30 border border-purple-100 rounded-xl p-6 mb-4 border-l-4 border-l-purple-600 pdf-avoid-break">
-  <h3 className="font-bold text-lg mb-3 text-purple-700">🔍 Your Blind Spots</h3>
-  {renderWithQuote(arch.blindSpots)}
-</motion.div>
-
-{/* Under Pressure - warning style */}
-<motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.62}}
-  className="bg-amber-50/30 border border-amber-100 rounded-xl p-6 mb-4 border-l-4 border-l-amber-500 pdf-avoid-break">
-  <h3 className="font-bold text-lg mb-3 text-amber-700">🌡️ Under Pressure</h3>
-  {renderWithQuote(arch.underPressure)}
-</motion.div>
-
-{/* Watch Out - alert style */}
-<motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.66}}
-  className="bg-red-50/30 border border-red-100 rounded-xl p-6 mb-4 border-l-4 border-l-red-600 pdf-avoid-break">
-  <h3 className="font-bold text-lg mb-3 text-red-700">⚠️ Watch Out</h3>
-  {renderWithQuote(arch.watchOut)}
-</motion.div>
-
-{/* Growth Edge - action steps */}
-<div className="pdf-break-before" style={{height:1}}></div>
-<motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.7}}
-  className="pdf-avoid-break bg-gradient-to-r from-green-50/50 to-emerald-50/30 border border-green-100 rounded-xl p-6 mb-4 border-l-4 border-l-green-600">
-  <h3 className="font-bold text-lg mb-3 text-green-700">🌱 Your Growth Edge</h3>
-  <p className="text-lg font-medium text-gray-900 border-l-4 border-green-300 pl-4 mb-5 leading-relaxed italic">
-    {arch.growthEdge.split('. ')[0]}.
-  </p>
-  <div className="space-y-4">
-    {arch.growthSteps.map((step,i)=>(
-      <div key={i} className="flex gap-4 items-start">
-        <div className="shrink-0 w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center font-bold text-sm">{i+1}</div>
-        <p className="text-gray-700 leading-relaxed pt-1">{step}</p>
-      </div>
-    ))}
-  </div>
-  <div className="mt-5 pt-4 border-t border-green-200">
-    <p className="text-sm text-gray-600 leading-relaxed">{arch.growthEdge.split('. ').slice(1).join('. ')}</p>
-  </div>
-</motion.div>
-
-{/* Style Intensity Profile */}
-<motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.25}}
-  className="pdf-break-before bg-white border border-gray-200 rounded-xl p-6 mb-4">
-  <h3 className="text-xs font-semibold text-blue-900/60 uppercase tracking-widest mb-1 text-center">Style Intensity Profile</h3>
-  <p className="text-xs text-gray-500 text-center mb-6">This shows how strongly each negotiation style influences your behaviour at the table based upon your responses.</p>
-  <div className="space-y-6">
-    {['dominator','integrator','yielder','calculator'].map(style=>{
-      const score=sc[style];
-      const level=getStyleLevel(score);
-      const meta=styleMeta[style];
-      const lbl=levelLabels[level];
-      const pct=Math.round((score/16)*100);
-      return(
-        <div key={style} className="border border-gray-100 rounded-lg p-4 pdf-avoid-break">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full" style={{backgroundColor:meta.color}}/>
-              <span className="font-bold text-sm" style={{color:meta.color}}>{meta.label}</span>
+          <motion.div initial={{opacity:0}} animate={{opacity:1}} transition={{duration:0.6}}
+            className="px-6 py-12 sm:py-16" style={{backgroundColor:navy}}>
+            <div className="flex items-center justify-between mb-8">
+              <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">The Buckingham Academy</p>
+              <p className="text-xs font-medium text-gray-500 border border-gray-600 px-2 py-0.5">Confidential</p>
             </div>
-            <div className="flex items-center gap-3">
-              <span className={`px-2 py-0.5 rounded text-xs font-bold ${lbl.bg}`} style={{color:lbl.color}}>{lbl.text}</span>
-              <span className="text-sm font-bold text-gray-500">{pct}%</span>
+            <div className="w-10 h-0.5 mb-8" style={{backgroundColor:gold}}></div>
+            {userName && <p className="text-gray-400 text-sm mb-1">Prepared for</p>}
+            {userName && <p className="text-white font-medium mb-6">{userName}</p>}
+            <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{color:gold}}>Your Negotiation Archetype</p>
+            <h1 className="font-serif text-3xl sm:text-4xl font-bold text-white mb-3">{arch.name}</h1>
+            <p className="text-gray-300 text-base italic">{arch.tagline}</p>
+            <div className="flex items-center gap-3 mt-6">
+              <div className="px-3 py-1 border border-gray-500 rounded text-xs text-gray-300">
+                <span className="text-gray-500 mr-1">Primary</span> <span className="font-bold text-white">{styleMeta[p].label}</span>
+              </div>
+              <div className="px-3 py-1 border border-gray-500 rounded text-xs text-gray-300">
+                <span className="text-gray-500 mr-1">Secondary</span> <span className="font-bold text-white">{styleMeta[s].label}</span>
+              </div>
             </div>
-          </div>
-          <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden mb-3">
-            <motion.div
-              className="h-full rounded-full"
-              style={{backgroundColor:meta.color}}
-              initial={{width:0}}
-              animate={{width:`${pct}%`}}
-              transition={{duration:0.8,delay:0.4}}
-            />
-          </div>
-         <p className="text-sm font-medium text-gray-800 mb-2">{meta.brief}</p>
-         <p className="text-sm text-gray-600 leading-relaxed">{styleLevels[style][level]}</p>
-        </div>
-      );
-    })}
-  </div>
+          </motion.div>
+
+          <div className="px-6 py-10">
+            {/* Top Download Button */}
+<motion.div 
+  initial={{opacity:0, y:10}} 
+  animate={{opacity:1, y:0}} 
+  transition={{delay:0.15}} 
+  className="flex flex-col items-center mb-10 mt-2"
+>
+  <button 
+    onClick={download} 
+    className="flex items-center gap-2 text-white font-semibold px-8 py-3.5 rounded text-base transition-all hover:opacity-90 shadow-md"
+    style={{backgroundColor: navy}}
+  >
+    <Download className="w-4 h-4"/>
+    Download Report
+  </button>
+  <p className="text-xs text-gray-400 mt-2">PDF • Instant download</p>
 </motion.div>
 
-{/* Reading The Room */}
-          <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:1.0}}
-            className="pdf-break-before bg-white border border-gray-200 rounded-xl p-6 mb-4">
-            <h3 className="font-bold text-lg mb-2 text-blue-800">Reading The Room</h3>
-            <p className="text-gray-500 text-sm mb-6">This section gives you your elite edge. Knowing yourself is a great start. But spotting others' negotiation style and adapting your approach is the skill of a master.</p>
-           
-            {/* 2x2 Spotting Grid */}
-            <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Spot Their Style</h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
-              {['dominator','integrator','yielder','calculator'].map(style=>{
-                const sg=spottingGuide[style];
-                const sm=styleMeta[style];
-                return(
-                  <div key={style} className="border rounded-lg p-4 pdf-avoid-break" style={{borderColor:sm.color+'40',backgroundColor:sm.color+'08'}}>
-                    <div className="font-bold text-sm mb-3" style={{color:sm.color}}>{sm.label}</div>
-                    <div className="space-y-2 text-xs text-gray-700">
-                      <div className="flex gap-2"><span className="font-semibold text-gray-500 w-12 shrink-0">Pace:</span><span>{sg.pace}</span></div>
-                      <div className="flex gap-2"><span className="font-semibold text-gray-500 w-12 shrink-0">Tone:</span><span>{sg.tone}</span></div>
-                      <div className="flex gap-2"><span className="font-semibold text-gray-500 w-12 shrink-0">Focus:</span><span>{sg.focus}</span></div>
-                      <div className="mt-2">
-                        <span className="font-semibold text-gray-500">You will hear:</span>
-                        <div className="mt-1 flex flex-wrap gap-1">
-                          {sg.phrases.map((ph,i)=><span key={i} className="px-2 py-0.5 rounded text-xs font-medium" style={{backgroundColor:sm.color+'15',color:sm.color}}>{ph}</span>)}
+            <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.2}} className="pdf-avoid-break">
+              <SectionLabel number="01" text="YOUR NEGOTIATION ARCHETYPE"/>
+              <SectionTitle>{arch.name}</SectionTitle>
+              <p className="text-base italic text-gray-500 mb-6">{arch.tagline}</p>
+
+              <div className="space-y-3 mb-6">
+                {[
+                  {k:'integrator',label:'Integrator'},
+                  {k:'calculator',label:'Calculator'},
+                  {k:'dominator',label:'Dominator'},
+                  {k:'yielder',label:'Yielder'},
+                ].sort((a,b)=>sc[b.k]-sc[a.k]).map((a)=>{
+                  const percent=Math.round((sc[a.k]/16)*100);
+                  const level=getStyleLevel(sc[a.k]);
+                  const lbl=levelLabels[level];
+                  return(
+                    <div key={a.k}>
+                      <div className="flex justify-between items-baseline mb-1">
+                        <span className="text-sm font-medium text-gray-800">{a.label}</span>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-bold" style={{color:navy}}>{percent}%</span>
+                          <span className="text-xs text-gray-400 uppercase">{lbl.text}</span>
                         </div>
                       </div>
-                      <div>
-                        <span className="font-semibold text-gray-500">They will:</span>
-                        <div className="mt-1">{sg.behaviours.map((b,i)=><div key={i}>• {b}</div>)}</div>
+                      <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                        <motion.div
+                          className="h-full rounded-full"
+                          style={{backgroundColor:navy}}
+                          initial={{width:0}}
+                          animate={{width:percent+'%'}}
+                          transition={{duration:0.8,delay:0.4}}
+                        />
                       </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
 
-            {/* Matchup Cards */}
-<h4 className="pdf-break-before text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 pt-4">Your Tactical Playbook</h4>
-            <div className="space-y-4">
-              {['dominator','integrator','yielder','calculator']
-                .filter(style=>style!==p)
-                .map((opponent,i)=>{
-                  const key=p+'-'+opponent;
-                  const m=matchupAdvice[key];
-                  const oppMeta=styleMeta[opponent];
-                  const myMeta=styleMeta[p];
-                  return(
-                    <div key={key} className={`${i>0?'pdf-break-before':''} border border-gray-200 rounded-lg overflow-hidden pdf-avoid-break`}>
-                      <div className="px-5 py-3 flex items-center gap-3" style={{backgroundColor:myMeta.color+'10'}}>
-                        <span className="font-bold text-sm" style={{color:myMeta.color}}>You ({myMeta.label})</span>
-                        <span className="text-gray-400 text-sm">vs</span>
-                        <span className="font-bold text-sm" style={{color:oppMeta.color}}>{oppMeta.label}</span>
+              <div className="bg-gray-50 border-l-2 p-5 mt-6" style={{borderLeftColor:navy}}>
+                {renderParagraphs(arch.narrative)}
+              </div>
+            </motion.div>
+
+            <Divider/>
+
+
+
+            <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.3}} className="pdf-avoid-break">
+              <SectionLabel number="02" text="YOUR PRIMARY STYLE"/>
+              <SectionTitle>{styleMeta[p].label}</SectionTitle>
+              <p className="text-sm text-gray-500 mb-4">Your dominant negotiation approach &mdash; the pattern you default to under pressure.</p>
+              <div className="border-l-2 pl-4 mb-5" style={{borderLeftColor:navy}}>
+                <p className="text-base font-medium text-gray-800 italic leading-relaxed">
+                  {stylePrimary[p].split('. ')[0]}.
+                </p>
+              </div>
+              <div className="text-sm text-gray-600 leading-relaxed space-y-4">
+                {stylePrimary[p].split('\n\n').map((para,i)=><p key={i}>{para}</p>)}
+              </div>
+            </motion.div>
+
+            <Divider/>
+
+            <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.35}} className="pdf-avoid-break">
+              <SectionLabel number="03" text="YOUR SECONDARY INFLUENCE"/>
+              <SectionTitle>{styleMeta[s].label}</SectionTitle>
+              <p className="text-sm text-gray-500 mb-4">The supporting style that shapes how your primary approach is expressed.</p>
+              <div className="border-l-2 pl-4 mb-5" style={{borderLeftColor:gold}}>
+                <p className="text-base font-medium text-gray-800 italic leading-relaxed">
+                  {styleSecondary[s].split('. ')[0]}.
+                </p>
+              </div>
+              {renderParagraphs(styleSecondary[s])}
+            </motion.div>
+
+            <Divider/>
+
+            <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.4}} className="pdf-avoid-break">
+              <SectionLabel number="04" text="HOW OTHERS EXPERIENCE YOU"/>
+              <SectionTitle>Your Negotiation Presence</SectionTitle>
+              <p className="text-sm text-gray-500 mb-6">What counterparts perceive when they sit across the table from you.</p>
+              {renderParagraphs(arch.howOthersSeeYou)}
+            </motion.div>
+
+            <Divider/>
+
+            <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.45}} className="pdf-avoid-break">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-widest text-gray-800 mb-4 pb-2 border-b border-gray-200">Strengths</h4>
+                  <div className="space-y-3">
+                    {arch.strengths.split('. ').filter((str)=>str.trim().length>10).map((str,i)=>(
+                      <div key={i} className="flex gap-2 items-start">
+                        <span className="shrink-0 text-gray-800 mt-0.5 font-bold">&#10003;</span>
+                        <p className="text-sm text-gray-600 leading-relaxed">{str.trim().replace(/\.$/,'')}.</p>
                       </div>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-widest text-gray-800 mb-4 pb-2 border-b border-gray-200">Weaknesses</h4>
+                  <div className="space-y-3">
+                    {arch.weaknesses.split('. ').filter((str)=>str.trim().length>10).map((str,i)=>(
+                      <div key={i} className="flex gap-2 items-start">
+                        <span className="shrink-0 text-gray-800 mt-0.5 font-bold">&#10007;</span>
+                        <p className="text-sm text-gray-600 leading-relaxed">{str.trim().replace(/\.$/,'')}.</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
 
-                      <div className="p-5 space-y-4">
-                        <div>
-                          <h5 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Their Tells</h5>
-                          <div className="space-y-1">{m.tells.map((t,i)=><div key={i} className="text-sm text-gray-700 flex gap-2"><span className="text-gray-300">•</span><span>{t}</span></div>)}</div>
+            <Divider/>
+
+            <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.5}} className="pdf-avoid-break">
+              <SectionLabel number="05" text="VULNERABILITIES"/>
+              <SectionTitle>Blind Spots &amp; Pressure Points</SectionTitle>
+              <p className="text-sm text-gray-500 mb-6">Where your natural patterns may work against you.</p>
+
+              <div className="bg-gray-50 rounded p-5 mb-5">
+                <h4 className="text-sm font-bold text-gray-800 mb-3">Your Blind Spots</h4>
+                {renderParagraphs(arch.blindSpots)}
+              </div>
+
+              <div className="bg-gray-50 rounded p-5">
+                <h4 className="text-sm font-bold text-gray-800 mb-3">Under Pressure</h4>
+                {renderParagraphs(arch.underPressure)}
+              </div>
+            </motion.div>
+
+            <Divider/>
+
+            <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.55}} className="pdf-avoid-break">
+              <SectionLabel number="06" text="DEVELOPMENT"/>
+              <SectionTitle>Growth Edge</SectionTitle>
+              <p className="text-sm text-gray-500 mb-6">Your path to becoming a more complete negotiator.</p>
+
+              <div className="bg-gray-50 rounded p-5 mb-5">
+                <h4 className="text-sm font-bold text-gray-800 mb-3">Watch Out</h4>
+                {renderParagraphs(arch.watchOut)}
+              </div>
+
+              <div className="bg-gray-50 rounded p-5 mb-5">
+                <h4 className="text-sm font-bold text-gray-800 mb-3">Your Growth Edge</h4>
+                {renderParagraphs(arch.growthEdge)}
+              </div>
+
+              <div className="space-y-3 mt-6">
+                {arch.growthSteps.map((step,i)=>(
+                  <div key={i} className="flex gap-4 items-start">
+                    <div className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs text-white" style={{backgroundColor:navy}}>{i+1}</div>
+                    <p className="text-sm text-gray-700 leading-relaxed pt-1">{step}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            <Divider/>
+
+            <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.6}} className="pdf-break-before pdf-avoid-break">
+              <SectionLabel number="07" text="STYLE INTENSITY PROFILE"/>
+              <SectionTitle>Detailed Breakdown</SectionTitle>
+              <p className="text-sm text-gray-500 mb-6">How strongly each negotiation style influences your behaviour at the table.</p>
+
+              <div className="space-y-6">
+                {['dominator','integrator','yielder','calculator'].map((style)=>{
+                  const score=sc[style];
+                  const level=getStyleLevel(score);
+                  const meta=styleMeta[style];
+                  const lbl=levelLabels[level];
+                  const pct=Math.round((score/16)*100);
+                  return(
+                    <div key={style} className="border border-gray-200 rounded p-5 pdf-avoid-break">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="font-bold text-sm text-gray-900">{meta.label}</span>
+                        <div className="flex items-center gap-3">
+                          <span className="text-xs text-gray-500">{lbl.text}</span>
+                          <span className="text-sm font-bold text-gray-900">{pct}%</span>
                         </div>
+                      </div>
+                      <div className="h-2 bg-gray-100 rounded-full overflow-hidden mb-4">
+                        <motion.div
+                          className="h-full rounded-full"
+                          style={{backgroundColor:navy}}
+                          initial={{width:0}}
+                          animate={{width:pct+'%'}}
+                          transition={{duration:0.8,delay:0.4}}
+                        />
+                      </div>
+                      <p className="text-sm font-medium text-gray-800 mb-2">{meta.brief}</p>
+                      <p className="text-sm text-gray-600 leading-relaxed">{styleLevels[style][level]}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            </motion.div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          <div>
-                            <h5 className="text-xs font-bold text-green-600 uppercase tracking-wider mb-2">Your Advantages</h5>
-                            <div className="space-y-1">{m.advantages.map((a,i)=><div key={i} className="text-sm text-gray-700 flex gap-2"><span className="text-green-500">✓</span><span>{a}</span></div>)}</div>
+            <Divider/>
+
+            <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.65}} className="pdf-break-before">
+              <SectionLabel number="08" text="READING THE ROOM"/>
+              <SectionTitle>Spot Their Style</SectionTitle>
+              <p className="text-sm text-gray-500 mb-6">Identify your counterpart&apos;s negotiation approach. Look for behaviour trends over time rather than just first impressions as people often play different characters at the beginning of an engagement. You might find the warm, smiley individual you just met is actually disguising their true tough intentions.</p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                {['dominator','integrator','yielder','calculator'].map((style)=>{
+                  const sg=spottingGuide[style];
+                  const sm=styleMeta[style];
+                  return(
+                    <div key={style} className="border border-gray-200 rounded p-4 pdf-avoid-break">
+                      <div className="font-bold text-sm mb-3 pb-2 border-b border-gray-100" style={{color:navy}}>{sm.label}</div>
+                      <div className="space-y-2 text-xs text-gray-700">
+                        <div className="flex gap-2"><span className="font-semibold text-gray-500 w-12 shrink-0">Pace:</span><span>{sg.pace}</span></div>
+                        <div className="flex gap-2"><span className="font-semibold text-gray-500 w-12 shrink-0">Tone:</span><span>{sg.tone}</span></div>
+                        <div className="flex gap-2"><span className="font-semibold text-gray-500 w-12 shrink-0">Focus:</span><span>{sg.focus}</span></div>
+                        <div className="mt-3">
+                          <span className="font-semibold text-gray-500 uppercase text-xs tracking-wide">You will hear:</span>
+                          <div className="mt-1 flex flex-wrap gap-1">
+                            {sg.phrases.map((ph,i)=><span key={i} className="px-2 py-0.5 rounded border border-gray-200 text-xs font-medium text-gray-700 bg-gray-50">{ph}</span>)}
                           </div>
-                          <div>
-                            <h5 className="text-xs font-bold text-red-600 uppercase tracking-wider mb-2">Your Risks</h5>
-                            <div className="space-y-1">{m.risks.map((r,i)=><div key={i} className="text-sm text-gray-700 flex gap-2"><span className="text-red-500">✗</span><span>{r}</span></div>)}</div>
-                          </div>
                         </div>
-
-                        <div>
-                          <h5 className="text-xs font-bold text-blue-700 uppercase tracking-wider mb-2">Your Playbook</h5>
-                          <div className="space-y-1">{m.playbook.map((step,i)=><div key={i} className="text-sm text-gray-700 flex gap-2"><span className="font-bold text-blue-700">{i+1}.</span><span>{step}</span></div>)}</div>
-                        </div>
-
-                       <div className="bg-gray-900 border border-red-600 rounded-lg p-4">
-                          <h5 className="text-xs font-bold text-red-500 uppercase tracking-wider mb-1">⚠️ Watch For The Fake Style</h5>
-                          <p className="text-sm" style={{color:'#d1d5db'}}>{m.fakeWarning}</p>
+                        <div className="mt-2">
+                          <span className="font-semibold text-gray-500 uppercase text-xs tracking-wide">They will:</span>
+                          <div className="mt-1">{sg.behaviours.map((b,i)=><div key={i} className="text-gray-600">&bull; {b}</div>)}</div>
                         </div>
                       </div>
                     </div>
                   );
                 })}
+              </div>
+            </motion.div>
+
+            <Divider/>
+
+            <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.7}} className="pdf-break-before">
+              <SectionLabel number="09" text="YOUR TACTICAL PLAYBOOK"/>
+              <SectionTitle>Style Matchups</SectionTitle>
+              <p className="text-sm text-gray-500 mb-6">How to adapt your approach when facing each opposing style.</p>
+
+              <div className="space-y-6">
+                {['dominator','integrator','yielder','calculator']
+                  .filter((style)=>style!==p)
+                  .map((opponent,i)=>{
+                    const key=p+'-'+opponent;
+                    const m=matchupAdvice[key];
+                    const oppMeta=styleMeta[opponent];
+                    const myMeta=styleMeta[p];
+                    return(
+                      <div key={key} className={`${i>0?'pdf-break-before':''} border border-gray-200 rounded overflow-hidden pdf-avoid-break`}>
+                        <div className="px-5 py-3 bg-gray-50 border-b border-gray-200">
+                          <span className="font-bold text-sm" style={{color:navy}}>You ({myMeta.label})</span>
+                          <span className="text-gray-400 text-sm mx-2 italic">vs</span>
+                          <span className="font-bold text-sm" style={{color:navy}}>{oppMeta.label}</span>
+                        </div>
+
+                        <div className="p-5 space-y-5">
+                          <div>
+                            <h5 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Their Tells</h5>
+                            <div className="space-y-1">{m.tells.map((t,idx)=><div key={idx} className="text-sm text-gray-700 flex gap-2"><span className="text-gray-300">&bull;</span><span>{t}</span></div>)}</div>
+                          </div>
+
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                              <h5 className="text-xs font-bold uppercase tracking-wider mb-2" style={{color:navy}}>Your Advantages</h5>
+                              <div className="space-y-1">{m.advantages.map((a,idx)=><div key={idx} className="text-sm text-gray-700 flex gap-2"><span className="text-gray-800 font-bold">&#10003;</span><span>{a}</span></div>)}</div>
+                            </div>
+                            <div>
+                              <h5 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Your Risks</h5>
+                              <div className="space-y-1">{m.risks.map((r,idx)=><div key={idx} className="text-sm text-gray-700 flex gap-2"><span className="text-gray-800 font-bold">&#10007;</span><span>{r}</span></div>)}</div>
+                            </div>
+                          </div>
+
+                          <div>
+                            <h5 className="text-xs font-bold uppercase tracking-wider mb-2" style={{color:gold}}>Your Playbook</h5>
+                            <div className="space-y-1">{m.playbook.map((step,idx)=><div key={idx} className="text-sm text-gray-700 flex gap-2"><span className="font-bold" style={{color:navy}}>{idx+1}.</span><span>{step}</span></div>)}</div>
+                          </div>
+
+                          <div className="bg-gray-50 border border-gray-200 rounded p-4">
+                            <h5 className="text-xs font-bold uppercase tracking-wider mb-1" style={{color:gold}}>Watch For The Fake Style</h5>
+                            <p className="text-sm text-gray-600 leading-relaxed">{m.fakeWarning}</p>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
+
+              <div className="mt-6 p-5 rounded" style={{backgroundColor:navy}}>
+                <h5 className="font-bold text-sm mb-2 text-white">The Most Important Rule</h5>
+                <p className="text-sm leading-relaxed text-gray-300">The most dangerous negotiator is not the one who is aggressive. It is the one who is pretending to be something they are not. If someone&apos;s words say collaboration but their proposals say competition, trust the proposals. If their warmth appeared suddenly and conveniently, question what it is designed to achieve. Behaviour reveals intention far more reliably than language ever will.</p>
+              </div>
+            </motion.div>
+
+            <Divider/>
+
+            <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.75}} className="pdf-break-before pdf-avoid-break">
+              <SectionLabel number="10" text="SHADOW ASSESSMENT"/>
+              <SectionTitle>{sl.title}</SectionTitle>
+              <p className="text-sm text-gray-500 mb-4">{sl.sub}</p>
+
+              <div className="flex items-center gap-2 mb-6">
+                <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide mr-2">Shadow Score</span>
+                {[0,1,2,3,4].map((i)=>(
+                  <div key={i} className="w-5 h-5 rounded-full" style={{backgroundColor:i<sh?gold:'#E5E7EB'}}></div>
+                ))}
+                <span className="text-sm font-bold ml-2" style={{color:navy}}>{sh} / 5</span>
+              </div>
+
+              {renderParagraphs(sl.msg)}
+            </motion.div>
+
+            <Divider/>
+
+            <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.8}} className="pdf-avoid-break">
+              <SectionLabel number="11" text="WHAT COMES NEXT"/>
+              <SectionTitle>Using This Report</SectionTitle>
+              <p className="text-sm text-gray-500 mb-4">Your profile is a starting point, not a label.</p>
+              <p className="text-sm text-gray-600 leading-relaxed mb-4">This report maps your current negotiation tendencies based on how you responded under simulated pressure. It reflects your defaults &mdash; the patterns you fall into when you have not consciously chosen a different approach. Defaults are not destiny. They are simply what happens when you are not paying attention.</p>
+              <p className="text-sm text-gray-600 leading-relaxed">The most effective negotiators are not locked into one style. They understand their natural inclinations, recognise when those inclinations serve them, and develop the ability to shift when circumstances demand something different.</p>
+            </motion.div>
+
+            {emailStatus==='sending' && (
+              <p className="text-sm text-gray-500 animate-pulse mt-8 text-center">Sending report to {userEmail}...</p>
+            )}
+            {emailStatus==='sent' && (
+              <p className="text-sm text-green-700 mt-8 text-center">Report sent to {userEmail}</p>
+            )}
+            {emailStatus==='failed' && (
+              <div className="no-pdf text-center mt-8">
+                <p className="text-sm text-red-500">Failed to send email. Use the download button instead.</p>
+                <button onClick={sendReportEmail} className="text-sm underline mt-1" style={{color:navy}}>Try again</button>
+              </div>
+            )}
+
+            <motion.div initial={{opacity:0}} animate={{opacity:1}} transition={{delay:0.9}} className="flex flex-col items-center gap-3 mt-10 mb-6">
+              <button onClick={download} className="flex items-center gap-2 text-white font-semibold px-8 py-3 rounded text-base transition-all hover:opacity-90 shadow-sm" style={{backgroundColor:navy}}>
+                <Download className="w-4 h-4"/>Download Report
+              </button>
+            </motion.div>
+
+            <div className="text-center text-xs text-gray-400 mt-10 pt-6 border-t border-gray-200 pb-8">
+              <p className="font-bold mb-1" style={{color:navy}}>The Buckingham Academy</p>
+              <p className="text-gray-500 mb-1">We coach teams to close deals.</p>
+              <p>admin@bucademy.com</p>
+              <p className="mt-3">&copy; 2026 The Buckingham Academy Limited. All rights reserved.</p>
             </div>
 
-          {/* General Shadow Warning */}
-            <div className="break-inside-avoid mt-6 bg-gray-900 text-white rounded-lg p-5">
-              <h5 className="font-bold text-base mb-2 text-white">The Most Important Rule</h5>
-              <p className="text-sm leading-relaxed" style={{color:'#ffffff'}}>The most dangerous negotiator is not the one who is aggressive. It is the one who is pretending to be something they are not. If someone's words say collaboration but their proposals say competition, trust the proposals. If their warmth appeared suddenly and conveniently, question what it is designed to achieve. Behaviour reveals intention far more reliably than language ever will.</p> 
-            </div>
-          </motion.div>
-
-<div className="pdf-break-before pdf-avoid-break">
-  <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:1.2}}
-    className="shadow-assessment-card mb-6">
-    <h3 className="shadow-title font-bold text-lg mb-1">Shadow Assessment: {sl.title}</h3>
-    <p className="shadow-subtitle font-semibold text-sm mb-3">{sl.sub} : Shadow Score: {sh}/5</p>
-    {renderParagraphs(sl.msg)}
-  </motion.div>
-</div>
-
-<motion.div initial={{opacity:0}} animate={{opacity:1}} transition={{delay:1.4}} className="flex flex-col items-center gap-3 mt-8 mb-4">
-            
-            {emailStatus === 'sending' && (
-              <p className="text-sm text-blue-600 animate-pulse mb-4">📧 Sending report to {userEmail}...</p>
-            )}
-            {emailStatus === 'sent' && (
-              <p className="text-sm text-green-600 mb-4">✅ Report sent to {userEmail}</p>
-            )}
-            {emailStatus === 'failed' && (
-              <div className="no-pdf">
-  {emailStatus === 'error' && (
-    <div className="text-center mb-4">
-      <p className="text-sm text-red-500">❌ Failed to send email. Use the download button instead.</p>
-      <button onClick={sendReportEmail} className="text-sm text-blue-600 underline mt-1">Try again</button>
-    </div>
-  )}
-</div>
-            )}
-<button onClick={download} className="flex items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white font-bold px-8 py-3 rounded-lg text-lg transition-colors shadow-lg">
-              <Download className="w-5 h-5"/>Download as PDF
-            </button>
-          </motion.div>
-
-          <div className="text-center text-xs text-gray-400 mt-8 pt-6 border-t border-gray-200">
-            <p className="font-semibold">&copy; 2026 The Buckingham Academy Limited. All rights reserved.</p>
-            <p className="mt-1">We coach teams to close deals. Email us: admin@bucademy.com</p>
           </div>
         </div>
       </div>
     );
   }
+
   return null;
 }
