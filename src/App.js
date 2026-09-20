@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, ChevronLeft, Download } from 'lucide-react';
-import { supabase } from './supabaseClient'
 import WhatsAppButton from './components/WhatsAppButton';
 
 const questions = [
@@ -2308,18 +2307,7 @@ const download = () => {
 
 useEffect(() => {
   if (phase === 'results' && results && !saved) {
-    const saveResult = async () => {
-      const { error } = await supabase
-        .from('results')
-        .insert([{
-          archetype: results.archetype.name,
-          style: results.primary,
-          name: userName || 'Anonymous'
-        }])
-      if (error) console.error('Save failed:', error)
-      else setSaved(true)
-    }
-    saveResult()
+    setSaved(true);
   }
 }, [phase, results, userName, saved])
 
