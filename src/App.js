@@ -2826,7 +2826,7 @@ if (phase === 'intro') return (
       Built on established research
     </h2>
     <p className="text-slate-300 text-center max-w-3xl mx-auto mb-10">
-      The Negotiate Smarter is a research-informed assessment integrating
+      Negotiate Smarter is a research-informed assessment integrating
       <strong className="text-white"> negotiation psychology</strong>,
       <strong className="text-white"> conflict management theory</strong>,
       <strong className="text-white"> emotional dynamics in negotiation</strong>, and
