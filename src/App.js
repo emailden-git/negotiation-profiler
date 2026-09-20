@@ -2924,6 +2924,92 @@ if (phase === 'intro') return (
 </div>
 );
 
+if(phase==='quiz'){
+    const q=questions[qi];
+    const pct=((qi)/questions.length)*100;
+    return(
+      <div className="min-h-screen bg-white text-gray-900 flex flex-col p-4">
+        <div className="max-w-2xl w-full mx-auto flex-1 flex flex-col">
+          <div className="mb-6">
+  <div className="flex justify-between text-sm text-gray-500 mb-2">
+    <span>Question {qi+1} of {questions.length}</span>
+    <span>{Math.round(pct)}%</span>
+  </div>
+  <div className="h-4 bg-gray-200 rounded-full overflow-hidden">
+    <motion.div className="h-full bg-blue-700 rounded-full" initial={{width:0}} animate={{width:`${pct}%`}} transition={{duration:0.3}}/>
+  </div>
+<p className="text-sm text-gray-600 mt-3 text-center leading-relaxed">
+  Pick the answer closest to how you would actually behave.<br/>
+  <span className="font-bold text-gray-900">NOT</span> how you think you should.
+</p>
+</div>
+          <div className="flex-1 flex flex-col justify-center">
+            <AnimatePresence mode="wait">
+              <motion.div key={qi} initial={{opacity:0,x:30}} animate={{opacity:1,x:0}} exit={{opacity:0,x:-30}} transition={{duration:0.2}}>
+                <h2 className="text-lg sm:text-xl font-semibold mb-6 text-gray-900 leading-relaxed">{q.text}</h2>
+                <div className="space-y-3">
+                  {q.options.map((o,i)=>(
+                    <button key={i} onClick={()=>setSel(i)}
+  className={`w-full text-left p-3 sm:p-4 rounded-lg border-2 transition-all duration-150 flex items-start gap-3 ${
+    sel===i?'border-blue-700 bg-blue-50 text-blue-900':'border-gray-200 bg-white hover:border-gray-400 text-gray-700 hover:text-gray-900'
+  }`}>
+  <span className={`shrink-0 inline-flex items-center justify-center w-7 h-7 rounded-full text-sm font-bold ${
+    sel===i?'bg-blue-700 text-white':'bg-gray-200 text-gray-500'
+  }`}>{String.fromCharCode(65+i)}</span>
+  <span className="text-sm sm:text-base">{o.text}</span>
+</button>
+                  ))}
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+          <div className="flex justify-between mt-8 pb-4">
+            <button onClick={back} disabled={qi===0}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${qi===0?'text-gray-300 cursor-not-allowed':'text-gray-500 hover:text-gray-800'}`}>
+              <ChevronLeft className="w-4 h-4"/>Back
+            </button>
+            <button onClick={next} disabled={sel===null}
+              className={`flex items-center gap-2 px-6 py-2 rounded-lg font-semibold transition-colors ${
+                sel===null?'bg-gray-200 text-gray-400 cursor-not-allowed':'bg-blue-700 hover:bg-blue-800 text-white'
+              }`}>
+              {qi===questions.length-1?'See Results':'Next'}<ChevronRight className="w-4 h-4"/>
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+if(phase==='tiebreak'&&tieData) return(
+  <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6">
+    <h2 className="text-2xl font-bold text-gray-900 mb-2">One more question</h2>
+    <p className="text-gray-500 mb-8">Your results are evenly split. Which description fits you best?</p>
+    <div className="space-y-3 max-w-lg w-full">
+      {tieData.tied.map(style=>(
+        <button key={style} onClick={()=>{
+          const sorted=Object.entries(tieData.scores).sort((a,b)=>
+            b[1]-a[1] || (a[0]===style?-1:b[0]===style?1:0)
+          );
+          const p=sorted[0][0], s=sorted[1][0];
+          const r={scores:tieData.scores,shadow:tieData.shadow,primary:p,secondary:s,archetype:archetypes[p+'-'+s]};
+          setResults(r);
+          setPhase('results');
+        }}
+          className="w-full text-left p-5 rounded-lg border-2 border-gray-200 hover:border-blue-700 hover:bg-blue-50 transition-all">
+          <span className="font-bold" style={{color:styleMeta[style].color}}>{styleMeta[style].label}</span>
+          <span className="text-gray-500 text-sm ml-2">
+            {style==='dominator'&&'— I negotiate with directness to win the best deal possible'}
+            {style==='integrator'&&'— I focus on collaboration and creative problem-solving'}
+            {style==='yielder'&&'— I focus on empathasing with the other party and relationship-building'}
+            {style==='calculator'&&'— I negotiate using thorough preparation and analysis'}
+          </span>
+        </button>
+      ))}
+    </div>
+  </div>
+);
+
+
 if(phase==='results'&&results){
     const{scores:sc,shadow:sh,primary:p,secondary:s,archetype:arch}=results;
     const sl=shadowLevels[sh];
