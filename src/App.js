@@ -2717,66 +2717,244 @@ if (phase === 'intro') return (
       </motion.div>
     </div>
 
-    {/* ═══ RESULTS PREVIEW / TEASER ═══ */}
-    <div className="bg-gradient-to-b from-slate-900 to-slate-950 px-6 py-24">
+{/* ═══ RESULTS PREVIEW / TEASER ═══ */}
+    <div className="bg-gradient-to-b from-slate-900 to-slate-950 px-6 py-24 overflow-hidden">
+      <style>{`
+        @keyframes pdfScroll {
+          0%, 12% { transform: translateY(0); }
+          22%, 34% { transform: translateY(-580px); }
+          44%, 56% { transform: translateY(-1160px); }
+          66%, 78% { transform: translateY(-1740px); }
+          88%, 100% { transform: translateY(0); }
+        }
+      `}</style>
       <motion.div 
         initial={{opacity:0, y:30}} 
         whileInView={{opacity:1, y:0}} 
         viewport={{once:true, margin:'-100px'}} 
         transition={{duration:0.8}} 
-        className="max-w-2xl mx-auto text-center"
+        className="max-w-3xl mx-auto text-center"
       >
         <p className="text-blue-400 text-xs font-semibold tracking-widest uppercase mb-6">What You'll Receive</p>
-        <h2 className="text-3xl sm:text-4xl font-bold mb-12 leading-tight text-white">
-          A Profile Built Around You
+        <h2 className="text-3xl sm:text-4xl font-bold mb-4 leading-tight text-white">
+          Your 16-Page Profile Report
         </h2>
+        <p className="text-slate-400 text-sm sm:text-base mb-12 max-w-lg mx-auto">
+          A personalised deep-dive into your negotiation style, strengths, blind spots, and tactical playbook.
+        </p>
 
-        <div className="bg-slate-800/70 border border-slate-700/60 rounded-2xl p-8 relative overflow-hidden">
-          <div className="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-slate-900 via-slate-900/95 to-transparent z-10 flex items-end justify-center pb-8">
-            <button 
-              onClick={() => document.getElementById('start')?.scrollIntoView({behavior:'smooth'})}
-              className="text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors"
-            >
-              Complete the assessment to unlock your full profile →
-            </button>
-          </div>
+        {/* 3D PDF Preview */}
+        <div style={{perspective:'1200px'}} className="flex justify-center mb-14">
+          <div 
+            className="relative overflow-hidden rounded-lg"
+            style={{
+              width:'100%',
+              maxWidth:'460px',
+              height:'580px',
+              transform:'rotateY(-4deg) rotateX(2deg)',
+              boxShadow:'0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05)',
+            }}
+          >
+            {/* Scrolling pages */}
+            <div style={{animation:'pdfScroll 28s ease-in-out infinite'}}>
 
-          <div className="text-left space-y-5 relative z-0">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="bg-gradient-to-r from-red-600 to-red-700 w-12 h-12 rounded-xl flex items-center justify-center text-xl shadow-lg">
-                ⚡
+              {/* ── COVER PAGE ── */}
+              <div style={{
+                height:'580px',
+                background:'linear-gradient(180deg, #1e293b 0%, #0f172a 100%)',
+                padding:'32px',
+                display:'flex',
+                flexDirection:'column',
+              }}>
+                <div style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+                  <span style={{color:'#c8a45e', fontSize:'8px', fontWeight:700, letterSpacing:'2.5px'}}>THE BUCKINGHAM ACADEMY</span>
+                  <span style={{color:'#64748b', fontSize:'7px', border:'1px solid #475569', padding:'3px 8px', letterSpacing:'1.5px'}}>CONFIDENTIAL</span>
+                </div>
+                <div style={{marginTop:'auto', marginBottom:'auto'}}>
+                  <div style={{width:'40px', height:'3px', background:'#c8a45e', marginBottom:'28px'}}/>
+                  <h3 style={{fontFamily:'Georgia, "Times New Roman", serif', fontSize:'32px', color:'white', fontWeight:'bold', lineHeight:1.15, marginBottom:'12px', textAlign:'left'}}>
+                    Negotiate Smarter<br/>Profile Report
+                  </h3>
+                  <p style={{color:'#94a3b8', fontSize:'11px', textAlign:'left', lineHeight:1.7, marginBottom:'36px'}}>
+                    A comprehensive assessment of your negotiation style,<br/>strengths, and solid strategic development recommendations.
+                  </p>
+                  <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'18px', textAlign:'left'}}>
+                    {[
+                      {label:'PREPARED FOR', value:'Your Name', color:'#fff'},
+                      {label:'DATE', value:'21 September 2026', color:'#fff'},
+                      {label:'ARCHETYPE', value:'Unique To You', color:'#60a5fa'},
+                      {label:'ASSESSMENT ID', value:'NP-2026-XXXXX', color:'#fff'},
+                    ].map(m=>(
+                      <div key={m.label}>
+                        <p style={{color:'#c8a45e', fontSize:'7px', letterSpacing:'2px', marginBottom:'4px'}}>{m.label}</p>
+                        <p style={{color:m.color, fontSize:'12px'}}>{m.value}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <p style={{color:'#475569', fontSize:'8px', marginTop:'auto'}}>© 2026 The Buckingham Academy Limited. All rights reserved.</p>
               </div>
-              <div>
-                <p className="text-white font-bold text-lg">Primary: Dominator</p>
-                <p className="text-slate-400 text-xs">Secondary: Calculator • Archetype: The Strategist</p>
+
+  {/* ── PAGE 2 — ARCHETYPE ── */}
+              <div style={{height:'580px', background:'white', padding:'28px 32px', display:'flex', flexDirection:'column'}}>
+                <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', paddingBottom:'12px', borderBottom:'1px solid #e2e8f0', marginBottom:'20px'}}>
+                  <span style={{color:'#64748b', fontSize:'7px', letterSpacing:'2px'}}>THE BUCKINGHAM ACADEMY</span>
+                  <span style={{color:'#94a3b8', fontSize:'7px', letterSpacing:'1.5px'}}>NEGOTIATE SMARTER PROFILE REPORT</span>
+                </div>
+                <p style={{color:'#c8a45e', fontSize:'9px', fontWeight:700, letterSpacing:'2px', marginBottom:'6px'}}>01 — YOUR NEGOTIATION ARCHETYPE</p>
+                <h3 style={{fontFamily:'Georgia, "Times New Roman", serif', fontSize:'28px', color:'#1e293b', fontWeight:'bold', marginBottom:'6px', textAlign:'left'}}>The Oracle</h3>
+                <p style={{color:'#64748b', fontSize:'11px', textAlign:'left', marginBottom:'16px', fontStyle:'italic'}}>You see everything. Now act on it.</p>
+                <div style={{display:'flex', gap:'8px', marginBottom:'18px'}}>
+                  <span style={{border:'1px solid #e2e8f0', padding:'5px 12px', fontSize:'10px', color:'#1e293b'}}><span style={{color:'#94a3b8'}}>PRIMARY </span><strong>Calculator</strong></span>
+                  <span style={{border:'1px solid #e2e8f0', padding:'5px 12px', fontSize:'10px', color:'#1e293b'}}><span style={{color:'#94a3b8'}}>SECONDARY </span><strong>Yielder</strong></span>
+                </div>
+                {[
+                  {label:'Calculator', pct:38, lvl:'HIGH'},
+                  {label:'Yielder', pct:31, lvl:'MODERATE'},
+                  {label:'Integrator', pct:19, lvl:'LOW'},
+                  {label:'Dominator', pct:13, lvl:'LOW'},
+                ].map(bar=>(
+                  <div key={bar.label} style={{marginBottom:'14px'}}>
+                    <div style={{display:'flex', justifyContent:'space-between', alignItems:'baseline', marginBottom:'5px'}}>
+                      <span style={{color:'#1e293b', fontSize:'11px', fontWeight:600}}>{bar.label}</span>
+                      <div style={{textAlign:'right'}}>
+                        <span style={{color:'#1e293b', fontSize:'14px', fontWeight:700}}>{bar.pct}%</span>
+                        <span style={{color:'#94a3b8', fontSize:'8px', letterSpacing:'1px', marginLeft:'6px'}}>{bar.lvl}</span>
+                      </div>
+                    </div>
+                    <div style={{width:'100%', background:'#f1f5f9', borderRadius:'2px', height:'5px'}}>
+                      <div style={{width:`${bar.pct}%`, background:'#334155', borderRadius:'2px', height:'5px'}}/>
+                    </div>
+                  </div>
+                ))}
+                <div style={{borderLeft:'3px solid #c8a45e', paddingLeft:'16px', marginTop:'12px'}}>
+                  <p style={{color:'#475569', fontSize:'10px', lineHeight:1.7, textAlign:'left'}}>
+                    The Oracle has the deepest insight of any profile. You combine the Calculator's analytical power with the Yielder's emotional intelligence, giving you a complete understanding of both the data and the people involved...
+                  </p>
+                </div>
+                <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:'auto', paddingTop:'12px', borderTop:'1px solid #f1f5f9'}}>
+                  <span style={{color:'#94a3b8', fontSize:'8px', fontStyle:'italic'}}>Prepared exclusively for Your Name</span>
+                  <span style={{color:'#94a3b8', fontSize:'8px'}}>02</span>
+                </div>
               </div>
+
+              {/* ── PAGE 3 — STRENGTHS & WEAKNESSES ── */}
+              <div style={{height:'580px', background:'white', padding:'28px 32px', display:'flex', flexDirection:'column'}}>
+                <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', paddingBottom:'12px', borderBottom:'1px solid #e2e8f0', marginBottom:'20px'}}>
+                  <span style={{color:'#64748b', fontSize:'7px', letterSpacing:'2px'}}>THE BUCKINGHAM ACADEMY</span>
+                  <span style={{color:'#94a3b8', fontSize:'7px', letterSpacing:'1.5px'}}>NEGOTIATE SMARTER PROFILE REPORT</span>
+                </div>
+                <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'24px', flex:1}}>
+                  <div>
+                    <p style={{color:'#1e293b', fontSize:'10px', fontWeight:700, letterSpacing:'2px', marginBottom:'16px'}}>STRENGTHS</p>
+                    {[
+                      'Deeply perceptive in ways that consistently reveal things others miss entirely.',
+                      'You understand people and situations at a level most negotiators never reach.',
+                      'Your combination of analytical and emotional intelligence means you see the complete picture.',
+                      'Your insight is genuinely rare, and when you share it, it changes how people think about the problem.',
+                      'You are the advisor everyone needs and few know to ask for.',
+                    ].map((s,i)=>(
+                      <div key={i} style={{display:'flex', gap:'6px', marginBottom:'10px', alignItems:'flex-start'}}>
+                        <span style={{color:'#475569', fontSize:'11px', marginTop:'1px'}}>✓</span>
+                        <p style={{color:'#475569', fontSize:'9px', lineHeight:1.65, textAlign:'left'}}>{s}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div>
+                    <p style={{color:'#1e293b', fontSize:'10px', fontWeight:700, letterSpacing:'2px', marginBottom:'16px'}}>WEAKNESSES</p>
+                    {[
+                      'You observe and advise but struggle to lead, preferring to support rather than take the reins.',
+                      'Your exceptional insight often goes unused or gets filtered through less capable people.',
+                      'You have all the information needed to be outstanding but cannot bring yourself to sit at the head of it.',
+                      'This is not humility, despite how it might feel from the inside.',
+                      'It is a limitation that costs you influence and outcomes.',
+                    ].map((s,i)=>(
+                      <div key={i} style={{display:'flex', gap:'6px', marginBottom:'10px', alignItems:'flex-start'}}>
+                        <span style={{color:'#94a3b8', fontSize:'11px', marginTop:'1px'}}>✗</span>
+                        <p style={{color:'#475569', fontSize:'9px', lineHeight:1.65, textAlign:'left'}}>{s}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', paddingTop:'12px', borderTop:'1px solid #f1f5f9'}}>
+                  <span style={{color:'#94a3b8', fontSize:'8px', fontStyle:'italic'}}>Prepared exclusively for Your Name</span>
+                  <span style={{color:'#94a3b8', fontSize:'8px'}}>06</span>
+                </div>
+              </div>
+
+              {/* ── PAGE 4 — TACTICAL PLAYBOOK ── */}
+              <div style={{height:'580px', background:'white', padding:'28px 32px', display:'flex', flexDirection:'column'}}>
+                <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', paddingBottom:'12px', borderBottom:'1px solid #e2e8f0', marginBottom:'20px'}}>
+                  <span style={{color:'#64748b', fontSize:'7px', letterSpacing:'2px'}}>THE BUCKINGHAM ACADEMY</span>
+                  <span style={{color:'#94a3b8', fontSize:'7px', letterSpacing:'1.5px'}}>NEGOTIATE SMARTER PROFILE REPORT</span>
+                </div>
+                <p style={{color:'#c8a45e', fontSize:'9px', fontWeight:700, letterSpacing:'2px', marginBottom:'6px'}}>09 — YOUR TACTICAL PLAYBOOK</p>
+                <h3 style={{fontFamily:'Georgia, "Times New Roman", serif', fontSize:'24px', color:'#1e293b', fontWeight:'bold', marginBottom:'6px', textAlign:'left'}}>Style Matchups</h3>
+                <p style={{color:'#64748b', fontSize:'10px', textAlign:'left', marginBottom:'16px'}}>How to prepare for and engage with different counterpart negotiation styles.</p>
+                <div style={{border:'1px solid #e2e8f0', borderRadius:'8px', padding:'18px', marginBottom:'14px'}}>
+                <p style={{color:'#1e293b', fontSize:'11px', marginBottom:'14px'}}><strong>You (Calculator)</strong> <span style={{color:'#94a3b8', fontStyle:'italic', margin:'0 4px'}}>vs</span> <strong>Dominator</strong></p>                  <p style={{color:'#94a3b8', fontSize:'8px', letterSpacing:'1.5px', marginBottom:'8px'}}>YOUR PLAYBOOK</p>
+                  {[
+                    'Present your strongest data point early to establish credibility and earn their respect',
+                    'Match their decisiveness with confident positions backed by solid evidence',
+                    'When they apply pressure, respond with facts not emotions. They respect substance over style',
+                  ].map((s,i)=>(
+                    <p key={i} style={{color:'#475569', fontSize:'9px', lineHeight:1.6, textAlign:'left', marginBottom:'5px'}}>
+                      <strong style={{color:'#1e293b'}}>{i+1}.</strong> {s}
+                    </p>
+                  ))}
+                  <div style={{background:'#fffbeb', borderRadius:'6px', padding:'12px', marginTop:'14px'}}>
+                    <p style={{color:'#92400e', fontSize:'8px', fontWeight:700, letterSpacing:'1.5px', marginBottom:'4px'}}>⚠ WATCH FOR THE FAKE STYLE</p>
+                    <p style={{color:'#78716c', fontSize:'9px', lineHeight:1.6, textAlign:'left'}}>
+                      If their aggression spikes after you present strong evidence, they are likely bluffing because your data has weakened their position. Hold firm and let the silence work.
+                    </p>
+                  </div>
+                </div>
+                <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:'auto', paddingTop:'12px', borderTop:'1px solid #f1f5f9'}}>
+                  <span style={{color:'#94a3b8', fontSize:'8px', fontStyle:'italic'}}>Prepared exclusively for Your Name</span>
+                  <span style={{color:'#94a3b8', fontSize:'8px'}}>12</span>
+                </div>
+              </div>
+
             </div>
 
-            {[
-              {label:'Dominator', pct:82, color:'bg-red-500'},
-              {label:'Calculator', pct:64, color:'bg-blue-500'},
-              {label:'Integrator', pct:41, color:'bg-purple-500'},
-              {label:'Yielder', pct:23, color:'bg-emerald-500'},
-            ].map((bar)=>(
-              <div key={bar.label}>
-                <div className="flex justify-between text-xs mb-1.5">
-                  <span className="text-slate-300">{bar.label}</span>
-                  <span className="text-slate-400">{bar.pct}%</span>
-                </div>
-                <div className="w-full bg-slate-700/60 rounded-full h-2">
-                  <div className={`${bar.color} h-2 rounded-full`} style={{width:`${bar.pct}%`}}/>
-                </div>
-              </div>
-            ))}
-
-            <div className="pt-4">
-              <p className="text-white font-semibold text-sm mb-2">Your Natural Edge</p>
-              <p className="text-slate-400 text-sm leading-relaxed">
-                You bring decisiveness and momentum to negotiations that others often lack. Your instinct to...
-              </p>
+            {/* Gradient overlay + CTA */}
+            <div 
+              className="absolute bottom-0 left-0 right-0 z-10 flex items-end justify-center pb-8"
+              style={{height:'40%', background:'linear-gradient(to top, #020617 0%, #020617ee 40%, transparent 100%)'}}
+            >
+              <button 
+                onClick={() => document.getElementById('start')?.scrollIntoView({behavior:'smooth'})}
+                className="bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold px-8 py-3 rounded-lg transition-colors shadow-lg shadow-blue-600/25"
+              >
+                Take the Assessment →
+              </button>
             </div>
           </div>
         </div>
+
+        {/* What's inside - section list */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-8 gap-y-3 max-w-md mx-auto">
+          {[
+            {n:'01', label:'Your Archetype'},
+            {n:'02', label:'Primary Style'},
+            {n:'03', label:'Secondary Influence'},
+            {n:'04', label:'How Others See You'},
+            {n:'05', label:'Blind Spots & Pressure'},
+            {n:'06', label:'Growth Edge'},
+            {n:'07', label:'Style Intensity Profile'},
+            {n:'08', label:'Spot Their Style'},
+            {n:'09', label:'Tactical Playbook'},
+            {n:'10', label:'Shadow Assessment'},
+            {n:'11', label:'What Comes Next'},
+            {n:'📄', label:'16 Pages Total'},
+          ].map(item=>(
+            <div key={item.n} className="flex items-center gap-2 text-left">
+              <span className="text-amber-500/70 text-[10px] font-bold tracking-wider min-w-[18px]">{item.n}</span>
+              <span className="text-slate-400 text-xs">{item.label}</span>
+            </div>
+          ))}
+        </div>
+
       </motion.div>
     </div>
 
