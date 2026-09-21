@@ -2311,12 +2311,13 @@ useEffect(() => {
     fetch('/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({
-        'form-name': 'completions',
-        'name': userName || 'Anonymous',
-        'archetype': results.archetype.name,
-        'style': results.primary
-      }).toString()
+  body: new URLSearchParams({
+  'form-name': 'completions',
+  'name': userName || 'Anonymous',
+  'email': userEmail || '',
+  'archetype': results.archetype.name,
+  'style': results.primary
+}).toString()
     }).catch(err => console.error('Form submit failed:', err));
   }
 }, [phase, results, userName, saved]);
