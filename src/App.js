@@ -2308,15 +2308,18 @@ const download = () => {
 useEffect(() => {
   if (phase === 'results' && results && !saved) {
     setSaved(true);
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        'form-name': 'completions',
+        'name': userName || 'Anonymous',
+        'archetype': results.archetype.name,
+        'style': results.primary
+      }).toString()
+    }).catch(err => console.error('Form submit failed:', err));
   }
-}, [phase, results, userName, saved])
-
-useEffect(() => {
-  if (phase === 'results' && results && userEmail && emailStatus === 'idle') {
-    sendReportEmail();
-  }
-}, [phase, results]); // eslint-disable-line react-hooks/exhaustive-deps
-
+}, [phase, results, userName, saved]);
 
 
 const sendReportEmail = async () => {
