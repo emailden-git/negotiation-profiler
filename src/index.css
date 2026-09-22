@@ -2,6 +2,50 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Floating Orbs ── */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.4;
+}
+.orb-1 {
+  width: 500px; height: 500px; background: #3b82f6;
+  top: -150px; left: -100px;
+  animation: float1 18s ease-in-out infinite;
+}
+.orb-2 {
+  width: 400px; height: 400px; background: #320ed3;
+  bottom: -100px; right: -80px;
+  animation: float2 22s ease-in-out infinite;
+}
+.orb-3 {
+  width: 350px; height: 350px; background: #0669d4;
+  top: 40%; left: 45%;
+  animation: float3 20s ease-in-out infinite;
+}
+.orb-4 {
+  width: 250px; height: 250px; background: #46c5e2;
+  top: 20%; right: 10%; opacity: 0.25;
+  animation: float1 25s ease-in-out infinite reverse;
+}
+
+@keyframes float1 {
+  0%,100% { transform: translate(0,0) scale(1) }
+  33% { transform: translate(60px,-50px) scale(1.1) }
+  66% { transform: translate(-30px,40px) scale(0.95) }
+}
+@keyframes float2 {
+  0%,100% { transform: translate(0,0) scale(1) }
+  33% { transform: translate(-50px,30px) scale(1.05) }
+  66% { transform: translate(40px,-60px) scale(0.9) }
+}
+@keyframes float3 {
+  0%,100% { transform: translate(0,0) scale(1) }
+  50% { transform: translate(-40px,-30px) scale(1.15) }
+}
+
+/* ── Report PDF styles ── */
 #report {
   font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
   font-size: 13px;
@@ -52,7 +96,7 @@
 .shadow-assessment-card div { color: #d1d5db !important; }
 .shadow-assessment-card .shadow-subtitle { color: #f87171 !important; font-weight: 600 !important; }
 
-/* ── PDF page break classes (outside @media print so html2pdf css mode picks them up) ── */
+/* ── PDF page break classes ── */
 .pdf-break-before {
   break-before: page !important;
   page-break-before: always !important;
@@ -70,9 +114,6 @@
     print-color-adjust: exact;
   }
 
-  /* ═══ THIS IS THE FIX ═══
-     Flex and grid containers silently swallow page-break rules in Chrome/Puppeteer.
-     Force #report and ALL ancestors/descendants to block layout so breaks work. */
   #report,
   #report > *,
   #report > * > *,
@@ -84,23 +125,19 @@
     flex-wrap: unset !important;
   }
 
-  /* Re-enable grid ONLY where you specifically need it (e.g. 2-column cards) */
   #report .grid {
     display: grid !important;
   }
 
-  /* Kill framer-motion inline transforms */
   [style*="transform"] { transform: none !important; }
   [style*="opacity"]   { opacity: 1 !important; }
 
-  /* Force page break before shadow assessment */
   .pdf-break-before {
     break-before: page !important;
     page-break-before: always !important;
     display: block !important;
   }
 
-  /* Selective break avoidance — only small/medium cards */
   .pdf-avoid-break,
   .shadow-assessment-card,
   #report .border-2,
