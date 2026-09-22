@@ -3247,20 +3247,71 @@ if(phase==='results'&&results){
           <div className="px-6 py-10">
             {/* Top Download Button */}
 <motion.div 
-  initial={{opacity:0, y:10}} 
-  animate={{opacity:1, y:0}} 
-  transition={{delay:0.15}} 
-  className="flex flex-col items-center mb-10 mt-2"
+  initial={{opacity:0, scale:0.9}} 
+  animate={{opacity:1, scale:1}} 
+  transition={{duration:0.5, ease:"easeOut"}} 
+  className="fixed inset-0 z-50 flex items-center justify-center p-6"
+  style={{background: "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)"}}
 >
-  <button 
-    onClick={download} 
-    className="flex items-center gap-2 text-white font-semibold px-8 py-3.5 rounded text-base transition-all hover:opacity-90 shadow-md"
-    style={{backgroundColor: navy}}
-  >
-    <Download className="w-4 h-4"/>
-    Download Report
-  </button>
-  <p className="text-xs text-gray-400 mt-2">PDF • Instant download</p>
+  <div className="bg-white rounded-2xl p-12 max-w-md w-full text-center shadow-2xl">
+    
+    {/* Brand */}
+    <p className="text-xs font-semibold tracking-widest uppercase mb-3" style={{color: navy}}>
+      THE BUCKINGHAM ACADEMY
+    </p>
+    <div className="w-12 h-0.5 mx-auto mb-8 rounded" style={{background: "#c9a84c"}}></div>
+
+    {/* Checkmark */}
+    <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse" 
+         style={{background: "#fdf9ef"}}>
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+        <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+    </div>
+
+    {/* Headline */}
+    <h1 className="text-3xl font-bold mb-2" style={{color: navy}}>
+      Your Report is Ready!
+    </h1>
+    <p className="text-gray-500 mb-10">
+      Your personalized negotiation profile has been generated.
+    </p>
+
+    {/* Giant Pulsing Download Button */}
+    <style>{`
+      @keyframes btnPulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(243, 135, 53, 0.45); }
+        50% { box-shadow: 0 0 0 14px rgba(201,168,76,0); }
+      }
+    `}</style>
+    <button 
+      onClick={download} 
+      className="flex items-center justify-center gap-3 text-white font-bold px-12 py-5 rounded-xl text-xl mx-auto transition-all hover:-translate-y-1 cursor-pointer"
+      style={{
+        backgroundColor: navy,
+        animation: "btnPulse 2s ease-in-out infinite"
+      }}
+    >
+      <Download className="w-6 h-6"/>
+      Download Report
+    </button>
+    <p className="text-sm text-gray-400 mt-3">PDF • Instant download</p>
+
+    {/* Warning */}
+    <div className="flex items-center gap-3 text-left mt-8 p-4 rounded-xl border" 
+         style={{background: "#fdf9ef", borderColor: "#e8d8a8", color: "#7a6523"}}>
+      <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+        <line x1="12" y1="9" x2="12" y2="13"/>
+        <line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+      <span className="text-sm">
+        <strong>Download now:</strong> your results cannot be retrieved after leaving this page.
+      </span>
+    </div>
+
+  </div>
 </motion.div>
 
             <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.2}} className="pdf-avoid-break">
