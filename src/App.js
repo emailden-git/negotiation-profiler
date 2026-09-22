@@ -2260,21 +2260,22 @@ export default function NegotiationAssessment(){
   const[sel,setSel]=useState(null);
   const[results,setResults]=useState(null);
   const[userName,setUserName]=useState('');
-const[tieData,setTieData]=useState(null); 
-const[saved,setSaved]=useState(false);
-const [userEmail, setUserEmail] = useState('');
-const [emailError, setEmailError] = useState('');
-const [emailStatus, setEmailStatus] = useState('idle');
-const [accessCode, setAccessCode] = useState('');
-const [accessError, setAccessError] = useState('');
-const [showRequestForm, setShowRequestForm] = useState(false);
-const [requestSubmitted, setRequestSubmitted] = useState(false);
-const back = () => {
-  if (qi > 0) {
-    setQi(qi - 1);
-    setSel(answers[qi - 1] ?? null);
-  }
-};
+  const[tieData,setTieData]=useState(null); 
+  const[saved,setSaved]=useState(false);
+  const [userEmail, setUserEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [emailStatus, setEmailStatus] = useState('idle');
+  const [accessCode, setAccessCode] = useState('');
+  const [accessError, setAccessError] = useState('');
+  const [codeSource, setCodeSource] = useState('');    // ← ADD THIS LINE
+  const [showRequestForm, setShowRequestForm] = useState(false);
+  const [requestSubmitted, setRequestSubmitted] = useState(false);
+  const back = () => {
+    if (qi > 0) {
+      setQi(qi - 1);
+      setSel(answers[qi - 1] ?? null);
+    }
+  };
 
 const next = () => {
   if (sel === null) return;
@@ -2312,15 +2313,16 @@ useEffect(() => {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
   body: new URLSearchParams({
-  'form-name': 'completions',
-  'name': userName || 'Anonymous',
-  'email': userEmail || '',
-  'archetype': results.archetype.name,
-  'style': results.primary
+'form-name': 'completions',
+'name': userName || 'Anonymous',
+'email': userEmail || '',
+'archetype': results.archetype.name,
+'style': results.primary,
+'codeSource': codeSource          // ← ADD THIS
 }).toString()
     }).catch(err => console.error('Form submit failed:', err));
   }
-}, [phase, results, userName, saved]);
+}, [phase, results, userName, saved, codeSource]);  // ← ADD codeSource here too
 
 
 const sendReportEmail = async () => {
@@ -2467,14 +2469,23 @@ if (phase === 'intro') return (
         </button>
       </p>
 
-      <button
-        onClick={() => {
-          if (!userName.trim()) { setEmailError('Please enter your first name'); return; }
-          const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userEmail.trim());
-          if (!valid) { setEmailError('Please enter a valid email address'); return; }
-          if (accessCode.trim().toUpperCase() !== 'NEGOTIATOR2026') { setAccessError('Invalid access code'); return; }
-          setPhase('quiz');
-        }}
+<button
+  onClick={() => {
+    if (!userName.trim()) { setEmailError('Please enter your first name'); return; }
+    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userEmail.trim());
+    if (!valid) { setEmailError('Please enter a valid email address'); return; }
+
+    const code = accessCode.trim().toUpperCase();
+    const validCodes = {
+      'NEGOTIATOR2026': 'Denis',      // Your personal code
+      'NEGOTIATE2027':  'Terence',   // Sales team code
+    };
+
+    if (!validCodes[code]) { setAccessError('Invalid access code'); return; }
+
+    setCodeSource(validCodes[code]);  // Store which channel they came from
+    setPhase('quiz');
+  }}
         className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold px-8 py-4 rounded-xl text-lg transition-all shadow-lg hover:shadow-xl"
       >
         Begin Assessment
